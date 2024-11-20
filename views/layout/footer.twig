@@ -1,0 +1,145 @@
+{% set channel = getFunction('getCurrentChannel') %}
+{% set companyTax = getFunction('getCompanyTax') %}
+{% set company = channel['getCompanyAddress'] %}
+
+<footer class="footer">
+    <div class="footer-main">
+        <div class="container">
+            <div class="">
+                <div class="col-md-4 footer-item">
+                    <h2 class="footer-title"><span> {{ ('admin::app.front.support_team'|trans) }}</span></h2>
+                    <div class="store-contact">
+                        {% if company.whatsapp %}
+                        <a href="https://wa.me/{{ company.whatsapp|replace({'~[^+0-9]~': ''}) }}" rel="nofollow" style="direction:ltr" target="_blank">
+                            <i class="icon-whatsapp2"></i>
+                            {{ ('admin::app.customers.customers.whatsapp'|trans) }}
+                        </a>&nbsp;
+                        {% endif %}
+                        {% if company.phone_visibility == 0 %}
+                        <a href="tel:{{ company.phone ?? '' }}">
+                            <i class="icon-phone"></i>
+                            {{ ('admin::app.customers.customers.phone'|trans) }}
+                        </a>&nbsp;
+                        {% endif %}
+                        {% if company.email %}
+                        <a href="mailto:{{ company.email ?? '' }}">
+                            <i class="icon-mail"></i>
+                            {{ ('admin::app.customers.customers.email'|trans) }}
+                        </a>&nbsp;
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-4 footer-item">
+                    {% if channel.getCmsPages|length > 0 or channel.getBlogs|length > 0 %}
+                    <h2 class="footer-title"><span> {{ ('admin::app.admin.store_data.other_links'|trans) }}</span></h2>
+                    <ul class="footer-links">
+                        {% if channel.getBlogs|length > 0 %}
+                        <li><a href="/blogs/{{company.company_id }}">{{ ('admin::app.admin.blog.blogs'|trans) }}</a></li>
+                        {% endif %}
+                        {% for page in channel.getCmsPages %}
+                        {% if page.status == 1 %}
+                        <li><a href="/page/{{ (page.url_key ?? page.translate('ar').url_key) }}">
+                                {{ page.page_title ?? page.translate('ar').page_title }} </a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 footer-item">
+                    <h2 class="footer-title"><span>{{ ('admin::app.front.contact_us'|trans) }}</span></h2>
+                    <ul class="social">
+                        {% if company.instagram %}
+                        <li class="social__item">
+                            <a href="https://www.instagram.com/{{ company.instagram }}" target="_blank">
+                                <i class="icon-instagram"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if company.twitter %}
+                        <li class="social__item">
+                            <a href="https://twitter.com/{{ company.twitter }}" target="_blank">
+                                <i class="icon-twitter"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if company.snapchat %}
+                        <li class="social__item">
+                            <a href="https://www.snapchat.com/add/{{ company.snapchat }}" target="_blank">
+                                <i class="icon-snapchat"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if company.tiktok %}
+                        <li class="social__item">
+                            <a href="https://www.tiktok.com/{{ company.tiktok }}/" target="_blank">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if company.youtube %}
+                        <li class="social__item">
+                            <a href="{{ company.youtube }}" target="_blank">
+                                <i class="icon-youtube"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-25">
+            <div class="col-md-6">
+                {% if getConfig('config.general.show-platform-message') == 0 %}
+                <p class="copyright">{{ ('admin::app.footer.right-reserved'|trans) }} {{ "now"|date("Y") }} | {{ channel.name }}</p>
+                {% else %}
+                <p class="copyright">{{ ('admin::app.footer.twsaa-reserved'|trans) }} {{ "now"|date("Y") }} | {{ ('admin::app.users.sessions.company'|trans) }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="icons">
+                    {% if companyTax and (companyTax.show_tax_no|default(0)) == 1 %}
+                    <div class="store-certificate">
+                        <span class="font-13">
+                            {{ ('admin::app.footer.tax_no'|trans) }}:
+                            <b class="d-inline-block text-plain v-align-middle">
+                                {{ companyTax.tax_no ?? '' }} 
+                            </b>
+                        </span>
+                    </div>
+                    {% endif %}
+                    <div>
+                        {% if getFunction('getDefaultPaymentMethod').getAdminPaymentMethod and getFunction('getDefaultPaymentMethod').getAdminPaymentMethod['active']|default(0) == 1 %}
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/visa.png" alt="visa">
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/mastercard.png" alt="mastercard">
+                        {% if getSuperConfig('store.current_country_code') != "OM" %}
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/mada.png" alt="mada">
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/applepay.png" alt="applepay">
+                        {% endif %}
+                        {% endif %}
+                        {% if getFunction('getInstallmentPaymentMethod').getAdminPaymentMethod and getFunction('getInstallmentPaymentMethod').getAdminPaymentMethod['active']|default(0) == 1 %}
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/cod.png" alt="cod">
+                        {% endif %}
+                        {% if (getFunction('getTabbyPaymentMethod') and getFunction('getTabbyPaymentMethod').active|default(0)) == 1 and (getFunction('getTabbyPaymentMethod').getAdminPaymentMethod['active']|default(0)) == 1 %}
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/tabby.webp" alt="tabby">
+                        {% endif %}
+                        {% if (getFunction('getTamaraPaymentMethod') and getFunction('getTamaraPaymentMethod').active|default(0)) == 1 and (getFunction('getTamaraPaymentMethod').getAdminPaymentMethod['active']|default(0)) == 1 %}
+                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/tamara.svg" alt="tamara">
+                        {% endif %}
+                        {% if company.certificate_id %}
+                            {% if getSuperConfig('store.current_country_code') == "OM" %}
+                            <a target="_blank" href="https://maroof.om/businesses?keyword={{ company.certificate_id }}" alt="{{ company.certificate_id }}">
+                                <img width="100%" height="100%" src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
+                            </a>
+                            {% else %}
+                            <a target="_blank" href="https://eauthenticate.saudibusiness.gov.sa/certificate-details/{{ company.certificate_id }}" alt="{{ company.certificate_id }}">
+                                <img width="100%" height="100%" src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
+                            </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

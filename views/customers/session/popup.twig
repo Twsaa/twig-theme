@@ -1,0 +1,138 @@
+<div class="modal modal-light fade" id="customerLoginModal" role="dialog" aria-labelledby="customerLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class="icon-cancel"></i>
+            </button>
+            <div class="s-modal-header-inner mt-25 text-center">
+                <span>
+                    <i class="icon-user xx-large"></i>
+                </span>
+            <div class="s-modal-header-content"><h2>{{ ('shop::app.customer.login-form.title'|trans) }}</h2></div></div>
+        </div>
+        <div class="modal-body mt-0">
+          <div class="auth-content mt-0 pt-0">
+              <form method="POST" id="loginForm">
+                {{ csrf_field() }}
+                <div class="login-form">
+
+                    {% set configEmail = getConfig('config.customers.enable-login-with-email') %}
+                    {% set configPhone = getConfig('config.customers.enable-login-with-phone') %}
+    
+                    <div class="control-group">
+                        {% if configEmail == 1 and configPhone == 1 %}
+                            <label for="phone" class="required">{{ 'shop::app.customer.login-form.phone-email'|trans }}</label>
+                        {% elseif configEmail == 1 and configPhone == 0 %}
+                            <label for="phone" class="required">{{ 'shop::app.customer.login-form.email'|trans }}</label>
+                        {% elseif configEmail == 0 and configPhone == 1 %}
+                            <label for="phone" class="required">{{ 'shop::app.customer.login-form.phone'|trans }}</label>
+                        {% else %}
+                            <label for="phone" class="required">{{ 'shop::app.customer.login-form.phone'|trans }}</label>
+                        {% endif %}
+                    
+                        <input type="hidden" id="email" name="email" value=""/>
+                        <input id="phone" 
+                            {% if configEmail == 1 and configPhone == 0 %}
+                                type="email"
+                            {% else %}
+                                type="text"
+                            {% endif %}
+                            class="control phone-fix" 
+                            name="phone" 
+                            required 
+                            value="{{('phone') }}" 
+                            data-phone="{{ configEmail ? 'true' : 'false' }}"
+                            >
+                        <span class="control-error" id="phoneError"></span>
+                    </div>
+                    
+    
+                    <div class="control-group d-none" id="otpDiv">
+                        <label for="otp" class="required">{{ ('shop::app.customer.login-form.otp'|trans) }}</label>
+                        <input id="otp" type="number" class="control" name="otp" value="{{('otp') }}" required>
+                        <span class="control-errors" id="otpError"></span>
+                    </div>
+    
+                    <button class="btn btn-primary btn-lg" id="loginSubmit" type="button">{{ ('shop::app.customer.login-form.button_title'|trans) }}</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{{ include('utils.vee-phone-validator') }}
+
+<script>
+    $(document).ready(function() {
+        $(document).on("input", "#phone", function() {
+            var currentValue = this.value;
+            const phonenum = isPhoneValid(this.value, "SA");
+            var checkPhone  = $(this).attr("data-phone");
+
+            if(checkPhone)
+            {
+                if (phonenum.valid) {
+                    $("#phone").val(phonenum.phone);
+                    $("#email").val('');
+                } else {
+                    $("#email").val(currentValue);    
+                }
+            }else{
+                $("#email").val(this.value);   
+            }
+        });
+
+    });    
+    $(document).on("click", "#loginSubmit", function(){ 
+        $('#loginSubmit').prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: "{{ route('customer.session.popup') }}",
+            data: $("#loginForm").serialize(),
+            success: function(resp) {
+                if(resp.data.success === true)
+                {
+                    $('#otpDiv').removeClass('d-none');
+                }else if(resp.data.success === false){
+                    $('#otpError').removeClass('d-none');
+                    $('#otpError').html(resp.data.error);
+                }
+                if(resp.data.redirect === true)
+                {
+                    window.location.reload(true)
+                }
+            },
+            error: function(resp) {
+                if(resp.responseJSON.data.phone)
+                {
+                    resp.responseJSON.data.phone.forEach(function(item) {
+                        $('#phoneError').html(item);
+                        toastr.error(item);
+                    });
+                }
+                if(resp.responseJSON.data.email)
+                {
+                    resp.responseJSON.data.email.forEach(function(item) {
+                        $('#phoneError').html(item);
+                        toastr.error(item);
+                    });
+                }
+            },
+            complete: function() {
+                $('#loginSubmit').prop('disabled', false);
+            },
+        });
+    });
+    $(document).on("click", "#otpSubmit", function(){
+        $.ajax({
+            type: "POST",
+            url: "{{ route('customer.session.popup') }}",
+            data: $("#otpForm").serialize(),
+            success: function(resp) {
+                console.log(resp);
+            },
+        });
+    });
+</script>

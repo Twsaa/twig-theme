@@ -1,0 +1,187 @@
+<div>
+    <div class="control-group {{ errors['phone']|length > 0 ? 'has-error' : '' }}">
+        <label for="phone" class="required">{{ ('shop::app.customer.account.address.create.phone'|trans) }}</label>
+
+        <input type="text" class="control phone-fix"
+            id="phone" name="phone" value="{{ authUser.phone }}"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.phone'|trans) }}'" />
+
+        <span class="control-error" >{{ errors['phone'][0] }}</span>
+    </div>
+
+    <div class="control-group {{ errors['country']|length > 0 ? 'has-error' : '' }}">
+        <label for="country" class="required">{{ ('shop::app.customer.account.address.create.country'|trans) }}</label>
+
+        <select type="text" class="control"
+            id="country" name="country"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.country'|trans) }}'">
+            {% for country in getFunction('countries') %}
+                <option data-dial-code="{{ country.dial_code }}" {{ country.code == defaultCountry ? 'selected' : '' }} value="{{ country.code }}">
+                    {{ country.name }}</option>                        
+            {% endfor %}
+        </select>
+
+        <span class="control-error" >{{ errors['country'][0] }}</span>
+    </div>
+
+    <div class="control-group {{ errors['state']|length > 0 ? 'has-error' : '' }}">
+        <label for="state" class="required">{{ ('shop::app.customer.account.address.create.state'|trans) }}</label>
+
+        <input type="text" class="d-none"
+            id="stateText" name="state" value="{{ address is defined ? address.state | default('') : ''  }}"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.state'|trans) }}'" />
+        <select class="control"
+            id="state" name="state"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.state'|trans) }}'">
+
+            <option value="">{{ ('shop::app.customer.account.address.create.select-state'|trans) }}</option>
+            {# <option v-for='(state, index) in states' :value="state.id" :id="state.id">{{ state.default_name }}</option> #}
+        </select>
+
+        <span class="control-error" >{{ errors['state'][0] }}</span>
+    </div>
+
+    <div class="control-group {{ errors['city']|length > 0 ? 'has-error' : '' }}">
+        <label for="city" class="required">{{ ('shop::app.customer.account.address.create.city'|trans) }}</label>
+
+        <input type="text" class="d-none"
+            id="cityText" name="city" value="{{ address is defined ? address.city | default('') : '' }}"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.city'|trans) }}'" />
+        <select class="control"
+            id="city" name="city"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.city'|trans) }}'">
+
+            <option value="">{{ ('shop::app.customer.account.address.create.select-city'|trans) }}</option>
+            {# <option v-for='(city, index) in cities' :value="city.id">{{ city.name }}</option> #}
+        </select>
+
+        <span class="control-error" >{{ errors['city'][0] }}</span>
+    </div>
+
+    <div class="control-group {{ errors['area']|length > 0 ? 'has-error' : '' }}">
+        <label for="area" class="required">{{ ('shop::app.customer.account.address.create.area'|trans) }}</label>
+
+        <input type="text" class="d-none"
+            id="areaText" name="area" value="{{ address is defined ? address.area | default('') : '' }}"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.area'|trans) }}'" />
+        <select class="control"
+            id="area" name="area"
+            data-vv-as="'{{ ('shop::app.customer.account.address.create.area'|trans) }}'">
+
+            <option value="">{{ ('shop::app.customer.account.address.create.select-area'|trans) }}</option>
+            {# <option v-for='(area, index) in areas' :value="area.id">{{ area.name }}</option> #}
+        </select>
+
+        <span class="control-error" >{{ errors['area'][0] }}</span>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var countryStates = {{ getFunction('groupedStatesByCountries')|json_encode|raw }};
+        var country = "{{ country is defined ? country : defaultCountry }}";
+        var state = "{{ stateCode }}";
+        var city = "{{ city }}";
+        var area = "{{ area }}";
+        var areasloading = true;
+
+        $(function() {
+            setStates(country);
+            setCities(state);
+            setAreas(city);
+        });
+
+        // Load states when the country changes
+        $(document).on('change', '#country', function() {
+            var country = $(this).val(); 
+            setStates(country);
+        });
+
+        // Load cities when the state changes
+        $(document).on('change', '#state', function() {
+            var state = $(this).val();
+            setCities(state);
+        });
+
+        // Load areas when the city changes
+        $(document).on('change', '#city', function() {
+            var city = $(this).val();
+            setAreas(city);
+        });
+
+        function setStates(country) {
+            $('#state').empty()
+            $('#city').empty()
+            $('#area').empty()
+            $('#state').removeClass('d-none').addClass('control')
+            $('#stateText').removeClass('control').addClass('d-none');
+            if (countryStates[country]) {
+                $.each(countryStates[country], function(index, stateData) {
+                    $('#state').append('<option ' +  (stateData.id == state ? 'selected' : '') + ' value="' + stateData.id + '">' + stateData.default_name + '</option>');
+                });
+            }else{
+                $('#state').removeClass('control').addClass('d-none');
+                $('#stateText').removeClass('d-none').addClass('control');
+            }
+        }
+
+        function setCities(state) {
+            $('#city').empty();
+            $('#city').removeClass('d-none').addClass('control')
+            $('#cityText').removeClass('control').addClass('d-none');
+
+            $.ajax({
+                url: '/customer/account/addresses/state/cities',
+                type: 'GET',
+                data: { id: state },
+                success: function(response) {
+                    if(response.data.length > 0)
+                    {
+                        $.each(response.data, function(index, cityData) {
+                            $('#city').append('<option '+  (cityData.id == city ? 'selected' : '') +'value="' + cityData.id + '">' + cityData.name + '</option>');
+                        });
+                    }else{
+                        $('#city').removeClass('control').addClass('d-none');
+                        $('#cityText').removeClass('d-none').addClass('control')
+                    }
+                },
+                error: function() {
+                    $('#city').empty();
+                }
+            });
+        }
+
+        function setAreas(city) {
+            $('#area').empty();
+            $('#area').removeClass('d-none').addClass('control')
+            $('#areaText').removeClass('control').addClass('d-none');
+            $.ajax({
+                url: '/customer/account/addresses/city/areas',
+                type: 'GET',
+                data: { id: city },
+                success: function(response) {
+                    console.log(response)
+                    if(response.data.length > 0)
+                    {
+                        $.each(response.data, function(index, areaData) {
+                            $('#area').append('<option '+  (areaData.id == city ? 'selected' : '') +' value="' + areaData.id + '">' + areaData.name + '</option>');
+                        });
+                    }else{
+                        $('#area').removeClass('control').addClass('d-none');
+                        $('#areaText').removeClass('d-none').addClass('control')
+                    }
+                },
+                error: function() {
+                    $('#area').empty();
+                }
+            });
+        }
+
+        // Phone validation handling
+        $('#phone').change(function() {
+            var newValue = $(this).val();
+            // Add your phone validation logic here
+            // Example: validatePhone(newValue);
+        });
+    });
+</script>

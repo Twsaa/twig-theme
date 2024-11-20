@@ -1,0 +1,45 @@
+{% for review in reviews %}
+    <div class="view-comment__comment">
+        <div class="comment-header">
+            <div class="d-flex">
+                <img class="loaded" src="{{ asset('admin-themes/mbotiq/assets/images/female.webp') }}" alt="" />
+                <div class="name-rating-wrapper">
+                    <div class="name">
+                        {% if review['customer']['id'] %}
+                            {{ review.name }}
+                        {% else %}
+                            Anonymous
+                        {% endif %}
+                        {{ review.comment|raw  }}
+                    </div>
+                    <twsaarating-stars size="small" value="5" class="hydrated">
+                        <div class="s-rating-stars-wrapper">
+                            <span class="stars">
+                                {% for i in 1..5 %}
+                                    {% if i <= review.rating %}
+                                        <span class="icon-star2"></span>
+                                    {% else %}
+                                        <span class="icon-star star-{{ i }}" style="color: silver"></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </twsaarating-stars>
+                    <span class="comment-date">{{ review.human_date }}</span>
+                    {% if review.reply %}
+                        <div class="view-comment__comment p-15">
+                            <div class="comment-header">
+                                <div class="d-flex">
+                                    <img class="loaded" src="{{ asset('admin-themes/mbotiq/assets/images/avatar_male.png') }}" alt="" />
+                                    <div class="name-rating-wrapper">
+                                        <div class="name">{{ review.reply|raw }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

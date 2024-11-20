@@ -1,0 +1,195 @@
+<div id="order_rating_modal" class="modal modal-light fade" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header modal-header--informative">
+                <span class="modal-title" id="order_rating_modal">
+                    {{ 'admin::app.sales.orders.view-title'|trans({'order_id': order.id}) }}
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                                
+                <div class="justify-content-center">
+                    <div class="img-wrapper">
+                        <img src="{{ storage_url ~ getFunction('getCurrentChannel').logo }}" alt="flat">
+                    </div> 
+                </div>
+                
+              </div>
+              <div class="modal-body">
+                <div class="rating-outer-form s-rating-modal-step-wrap {{ order.storeReview ? 'd-none' : '' }}"
+                    data-type="store">
+
+                    <h2 class="s-rating-modal-title">
+                        {{ 'shop::app.customer.account.order.view.store_experience'|trans }}
+                    </h2>
+                    <div class="s-rating-modal-stars-company">
+                        <twsaarating-stars class="hydrated">
+                            <div class="s-rating-stars-element">
+                                <input type="hidden" class="rating_hidden_input" name="rating" id="rating" value="">
+                                <div class="stars">
+                                    <span class="icon-star2 star-5 xx-large" for="star-5" onclick="calculateRating(1)" id="1"></span>
+                                    <span class="icon-star2 star-4 xx-large" for="star-4" onclick="calculateRating(2)" id="2"></span>
+                                    <span class="icon-star2 star-3 xx-large" for="star-3" onclick="calculateRating(3)" id="3"></span>
+                                    <span class="icon-star2 star-2 xx-large" for="star-2" onclick="calculateRating(4)" id="4"></span>
+                                    <span class="icon-star2 star-1 xx-large" for="star-1" onclick="calculateRating(5)" id="5"></span>
+                                </div>
+                            </div>
+                        </twsaarating-stars>
+                    </div>
+                    <textarea name="comment" class="form-control" placeholder="{{ 'shop::app.customer.account.order.view.store_opinion'|trans }}" id="comment"></textarea>
+                    <small class="s-rating-modal-validation-msg"></small>
+                </div>
+
+                <form id="productForm">
+                    {{ csrf_field() }}
+                    <section class="s-rating-modal-step {{ order.storeReview ? '' : 'd-none' }}" data-type="products">
+                        <div class="rating-outer-form s-rating-modal-product table-responsive" data-stars-error="">
+                            <table class="table">
+                                {% for item in order.uniqueItems %}
+                                <tr>
+                                    <td>
+                                        <div class="s-rating-modal-product-img-wrap text-center">
+                                            <img height="120" src="{{ item.product.base_image_url }}"
+                                                 alt="virtual" class="s-rating-modal-product-img">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="s-rating-modal-product-details">
+                                            <h3 class="s-rating-modal-product-title">
+                                                {{ item.product.name }}
+                                            </h3>
+                                            <div class="s-rating-modal-stars-product">
+                                                <twsaarating-stars class="hydrated">
+                                                    <div class="s-rating-stars-element">
+                                                        <input type="hidden" class="rating_hidden_input" name="rating[{{ item.product_id }}]" id="rating[{{ item.id }}]" value="">
+                                                        <div class="stars">
+                                                            <span class="icon-star2 star-5 xx-large" for="star-5" onclick="calculateProductRating(1, {{ item.id }})" id="product_{{ item.id }}_1"></span>
+                                                            <span class="icon-star2 star-4 xx-large" for="star-4" onclick="calculateProductRating(2, {{ item.id }})" id="product_{{ item.id }}_2"></span>
+                                                            <span class="icon-star2 star-3 xx-large" for="star-3" onclick="calculateProductRating(3, {{ item.id }})" id="product_{{ item.id }}_3"></span>
+                                                            <span class="icon-star2 star-2 xx-large" for="star-2" onclick="calculateProductRating(4, {{ item.id }})" id="product_{{ item.id }}_4"></span>
+                                                            <span class="icon-star2 star-1 xx-large" for="star-1" onclick="calculateProductRating(5, {{ item.id }})" id="product_{{ item.id }}_5"></span>
+                                                        </div>
+                                                    </div>
+                                                </twsaarating-stars>
+                                            </div>
+                                            <input type="hidden" name="type" value="product-rating">
+                                            <textarea placeholder="{{ 'shop::app.customer.account.order.view.product_opinion'|trans }}" name="comment[{{ item.product_id }}]" class="form-control"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </section>
+                </form>
+                
+                <div class="s-rating-modal-thanks {{ (order.productReview|length > 0 and order.storeReview) ? '' : 'd-none' }} text-center">
+                    <span class="s-rating-modal-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                            <title>check-circle2</title>
+                            <path d="M29.333 14.133c-0.8 0-1.333 0.533-1.333 1.333v1.2c0 6.667-5.333 12-12 12 0 0 0 0 0 0-6.667 0-12-5.333-12-12s5.333-12 12-12c0 0 0 0 0 0 1.733 0 3.333 0.4 4.933 1.067 0.667 0.267 1.467 0 1.733-0.667s0-1.467-0.667-1.733c-1.867-0.8-3.867-1.333-6-1.333 0 0 0 0 0 0-8.133 0-14.667 6.533-14.667 14.667s6.533 14.667 14.667 14.667c0 0 0 0 0 0 8.133 0 14.667-6.533 14.667-14.667v-1.2c0-0.8-0.533-1.333-1.333-1.333zM12.933 14.4c-0.533-0.533-1.333-0.533-1.867 0s-0.533 1.333 0 1.867l4 4c0.267 0.267 0.533 0.4 0.933 0.4s0.667-0.133 0.933-0.4l13.333-13.333c0.533-0.533 0.533-1.333 0-1.867s-1.333-0.533-1.867 0l-12.4 12.4-3.067-3.067z"></path>
+                        </svg>
+                    </span>
+                    <h3 class="s-rating-modal-thanks-title">
+                        {{ 'shop::app.customer.account.order.view.thank_you_rating'|trans }}
+                    </h3>
+                </div>
+                
+                <div class="modal-footer">
+                    <twsaa-button loader-position="center" class="{{ order.storeReview ? 'd-none' : '' }}" shape="btn" color="primary" fill="solid" size="medium" width="normal" type="button" id="saveStoreRating">
+                        <button loader-position="center" type="button" class="undefined s-button-element s-button-btn s-button-solid s-button-primary s-button-loader-center">
+                            <span class="s-button-text">
+                                {{ 'shop::app.customer.account.order.view.store_evaluation'|trans }}
+                            </span>
+                        </button>
+                    </twsaa-button>
+                    <twsaa-button loader-position="center" class="{{ order.storeReview ? '' : 'd-none' }}" shape="btn" color="primary" fill="solid" size="medium" width="normal" type="button" id="saveProductRating">
+                        <button loader-position="center" type="button" class="undefined s-button-element s-button-btn s-button-solid s-button-primary s-button-loader-center">
+                            <span class="s-button-text">
+                                {{ 'shop::app.customer.account.order.view.product_evaluation'|trans }}
+                            </span>
+                        </button>
+                    </twsaa-button>
+                </div>                
+        </div>
+    </div>
+</div>
+<script>
+    function calculateRating(id) {
+        document.getElementById("rating").value = id;
+
+        for (let i = 1; i <= 5; i++) {
+            if (id >= i) {
+                document.getElementById(i).style.color = "#FFD700";
+            } else {
+                document.getElementById(i).style.color = "#d4d4d4";
+            }
+        }
+    }
+    function calculateProductRating(id, product_id) {
+        document.getElementById("rating["+product_id+"]").value = id;
+
+        for (let i = 1; i <= 5; i++) {
+            if (id >= i) {
+                document.getElementById('product_'+product_id+'_'+i).style.color = "#FFD700";
+            } else {
+                document.getElementById('product_'+product_id+'_'+i).style.color = "#d4d4d4";
+            }
+        }
+    }
+    $(document).on('click', '#saveStoreRating', function() {
+        var rating =  $('#rating').val();
+        var comment =  $('#comment').val();
+        $.ajax({
+            url: "{{ route('shop.reviews.order', order.id) }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                locale: "{{ getFunction('locale') }}",
+                rating:rating,
+                comment:comment,
+                type: 'store-rating'
+            },
+            cache: false,
+            success: function(resp) {
+                if(resp.success == true)
+                {
+                    $('.s-rating-modal-step-wrap').addClass('d-none');
+                    $('#saveStoreRating').hide();
+                    $('.s-rating-modal-step').removeClass('d-none');
+                    $('#saveProductRating').show();
+                }
+            },error: function(resp) {
+                for (var element in resp.responseJSON.data) {
+                    for (var error in resp.responseJSON.data[element]) {
+                        toastr.error(resp.responseJSON.data[element][error]);
+                    }
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '#saveProductRating', function() {
+        $.ajax({
+            url: "{{ route('shop.reviews.order', order.id) }}",
+            type: "POST",
+            data: $('#productForm').serialize(),
+            cache: false,
+            success: function(resp) {
+                if(resp.success == true)
+                {
+                    $('.s-rating-modal-step').addClass('d-none');
+                    $('.s-rating-modal-thanks').removeClass('d-none');
+                    $('#saveProductRating').hide();
+                }
+            },error: function(resp) {
+                for (var element in resp.responseJSON.data) {
+                    for (var error in resp.responseJSON.data[element]) {
+                        toastr.error(resp.responseJSON.data[element][error]);
+                    }
+                }
+            }
+        });
+    });
+</script>

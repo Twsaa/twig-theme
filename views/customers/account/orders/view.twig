@@ -1,0 +1,285 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+
+<div class="account-content">
+    {% include 'customers/account/partials/sidemenu.twig' %}
+
+    <div class="account-layout">
+
+
+        <div class="sale-container">
+
+            <tabs>
+                <tab name="{{ ('shop::app.customer.account.order.view.info'|trans) }}" :selected="true">
+
+                    <div class="sale-section">
+                        <div class="section-content">
+                            <div class="row">
+                                <span class="title">
+                                    {{ 'admin::app.sales.orders.order-status' | trans }}
+                                </span>
+                    
+                                <span class="value">
+                                    {{ order.status_label }}
+                                </span>
+                            </div>
+                            <div class="row">
+                                <span class="title">
+                                    {{ 'shop::app.customer.account.order.view.placed-on' | trans }}
+                                </span>
+                    
+                                <span class="value">
+                                    {{ order.human_date }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if (order.rating == 0 and order.productReview|length == 0) or (not order.storeReview) %}
+                        <div class="rating-header gradient-bg center-between">
+                            <div>
+                                <h2 class="font-bold mb-1">{{ 'shop::app.customer.account.order.view.order_evaluation' | trans }}</h2>
+                                <p>{{ 'shop::app.customer.account.order.view.evaluation_info' | trans }}</p>
+                            </div>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#order_rating_modal">
+                                {{ 'shop::app.customer.account.order.view.evaluation' | trans }}
+                            </button>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="sale-section">
+                        <div class="section-title">
+                            <span>{{ 'shop::app.customer.account.order.view.products-ordered' | trans }}</span>
+                        </div>
+                        
+
+                        <div class="section-content">
+                            <div class="table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>{{ 'shop::app.customer.account.order.view.SKU' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.product-name' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.price' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.subtotal' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.tax-percent' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.tax-amount' | trans }}</th>
+                                            <th>{{ 'shop::app.customer.account.order.view.grand-total' | trans }}</th>
+                                        </tr>
+                                    </thead>
+                            
+                                    <tbody>
+                                        {% for item in order.items %}
+                                        <tr>
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.SKU' | trans }}">
+                                                {{ item.sku }}
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.product-name' | trans }}">
+                                                {{ item.name }}
+
+                                                {% if item['additional']['attributes'] %}
+                                                <div class="item-options">
+                                                    {% for attribute in item.additional['attributes'] %}
+                                                    <b>{{ attribute['attribute_name'] }} :</b> {{ attribute['option_label'] }}
+                                                    {% if attribute['attribute_name'] == 'Downloads' %}
+                                                        {% set downloadable = getDownloadableLinkItem(item.order_id,item.id,attribute['option_id']) %}
+                                                        {% if downloadable['status'] != 'pending' and downloadable['status'] != 'expired' %}
+                                                            <a href="/customer/account/downloadable-products/download/ {{ downloadable['id'] }}" target="_blank"><i class="icon-download"></i></a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <br>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.price' | trans }}">
+                                                {{ formatPrice(item.price, order.order_currency_code) }}
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.subtotal' | trans }}">
+                                                {{ formatPrice(item.total, order.order_currency_code) }}
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.tax-percent' | trans }}">
+                                                {{ item.tax_percent | number_format(2) }}%
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.tax-amount' | trans }}">
+                                                {{ formatPrice(item.tax_amount, order.order_currency_code) }}
+                                            </td>
+                            
+                                            <td data-value="{{ 'shop::app.customer.account.order.view.grand-total' | trans }}">
+                                                {{ formatPrice(item.total + item.tax_amount - item.discount_amount, order.order_currency_code) }}
+                                            </td>
+                                        </tr>
+                            
+                                        {% if item.type == 'configurable' %}
+                                            {% for attributesArray in item.child.product.child_product_array %}
+                                            <tr>
+                                                <td colspan="7">
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="text-muted">{{ attributesArray['text'] }}:</span>
+                                                        {% if attributesArray['text'] == 'images' %}
+                                                            <img src="{{ attributesArray['url'] }}" width="50px">
+                                                        {% else %}
+                                                            <span>{{ attributesArray['value'] }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                            
+                                        {% if item.type == 'customizable' %}
+                                            {% for key, options in item.additional.options %}
+                                            <tr>
+                                                <td colspan="7">
+                                                    {% for optionKey, option in options %}
+                                                    {% if option is iterable %}
+                                                        {{ item.additional.option_labels[key][optionKey] }}: 
+                                                        {% for opt in option %}
+                                                            {{ item.additional.option_label_values[key][optionKey][opt] ?? '' }} &nbsp;
+                                                        {% endfor %}
+                                                    {% elseif option starts with 'cartImage/' %}
+                                                        {{ item.additional.option_labels[key][optionKey] }}: 
+                                                        <a href="{{ storage_url ~ (option) }}">
+                                                            {{ storage_url ~ (option) }} 
+                                                        </a> 
+                                                    {% else %}
+                                                        {{ item.additional.option_labels[key][optionKey] }}: {{ option }}
+                                                    {% endif %}
+                                                    <br>
+                                                    {% endfor %}
+                                                    {{ 'shop::app.customer.account.order.view.qty' | trans }}: {{ item.additional.quantities[key] }}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="totals">
+                                <table class="sale-summary">
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ 'shop::app.customer.account.order.view.subtotal' | trans }}</td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.sub_total, order.order_currency_code) }}</td>
+                                        </tr>
+
+                                         {% if order.have_stockable_items %}
+                                        <tr>
+                                            <td>{{ 'shop::app.customer.account.order.view.shipping-handling' | trans }}</td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.shipping_amount, order.order_currency_code) }}</td>
+                                        </tr>
+                                        {% endif %} 
+
+                                        {% if order.base_cod_amount > 0 %}
+                                        <tr>
+                                            <td>{{ 'shop::app.customer.account.order.view.discount' | trans }}</td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.cod_amount, order.order_currency_code) }}</td>
+                                        </tr>
+                                        {% endif %}
+
+                                        {% if order.base_discount_amount > 0 %}
+                                        <tr>
+                                            <td>{{ 'shop::app.customer.account.order.view.discount' | trans }}
+                                                {% if order.coupon_code %}
+                                                ({{ order.coupon_code }})
+                                                {% endif %}
+                                            </td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.discount_amount, order.order_currency_code) }}</td>
+                                        </tr>
+                                        {% endif %}
+
+                                        <tr class="border">
+                                            <td>{{ 'shop::app.customer.account.order.view.tax' | trans }}</td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.tax_amount, order.order_currency_code) }}</td>
+                                        </tr>
+
+                                        <tr class="bold">
+                                            <td>{{ 'shop::app.customer.account.order.view.grand-total' | trans }}</td>
+                                            <td>-</td>
+                                            <td>{{ formatPrice(order.grand_total, order.order_currency_code) }}</td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+
+            </tabs>
+
+            <div class="sale-section">
+                <div class="section-content" style="border-bottom: 0">
+                    <div class="order-box-container">
+                        <div class="box">
+                            <div class="box-title">
+                                {{ 'shop::app.customer.account.order.view.billing-address' | trans }}
+                            </div>
+            
+                            <div class="box-content">
+                                {% include 'customers/account/orders/address.twig' with {'address': order.billing_address} %}
+                            </div>
+                        </div>
+            
+                        {% if order.shipping_address %}
+                        <div class="box">
+                            <div class="box-title">
+                                {{ 'shop::app.customer.account.order.view.shipping-address' | trans }}
+                            </div>
+            
+                            <div class="box-content">
+                                {% include 'customers/account/orders/address.twig' with {'address': order.shipping_address} %}
+                            </div>
+                        </div>
+            
+                        <div class="box">
+                            <div class="box-title">
+                                {{ 'shop::app.customer.account.order.view.shipping-method' | trans }}
+                            </div>
+            
+                            <div class="box-content">
+                                {{ order.shipping_title }}
+                            </div>
+                        </div>
+                        {% endif %}
+            
+                        <div class="box">
+                            <div class="box-title">
+                                {{ 'shop::app.customer.account.order.view.payment-method' | trans }}
+                            </div>
+            
+                            <div class="box-content">
+                                {{ order.payment_method_name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</div>
+  
+<div id="div_ajax">
+    {% include 'customers/account/orders/rating.twig' %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,653 @@
+{% extends "layout/main.twig" %}
+{% block title %} main {% endblock %}
+{% block head %} 
+<link rel="stylesheet"
+    href="https://twsaa.com/admin-themes/mbotiq/assets/js/plugins/owlcarousel/assets/owl.carousel.min.css" />
+<link rel="stylesheet"
+    href="https://twsaa.com/admin-themes/mbotiq/assets/js/plugins/owlcarousel/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" href="https://twsaa.com/admin-themes/mbotiq/assets/js/plugins/toastr/toastr.min.css" />
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+<style>
+    .owl-nav {
+        display: none;
+    }
+
+    .owl-carousel,
+    .owl-carousel .owl-item {
+        position: initial;
+    }
+</style>
+{% endblock %}
+{% block main_content %}
+<section class="cart">
+    {% if cart %}
+        <div class="cart-content">
+
+            <form action="{{ route('shop.checkout.cart.update') }}" method="POST" submit.prevent="onSubmit" enctype="multipart/form-data">
+    
+                <div class="cart-item-list" style="margin-top: 0">
+                    {{ csrf_field() }}
+    
+                    {% for key, item in cart.items %}
+                        {% set url_key = '' %}
+                        {% if item.product.url_key is null %}
+                            {% if item.product.parent is not null %}
+                                {% set url_key = item.product.parent.url_key %}
+                            {% endif %}
+                        {% else %}
+                            {% set url_key = item.product.url_key %}
+                        {% endif %}
+                        {% set quantityCounter = 0 %}
+
+    
+                        {% for optionKey, optionValue in 
+                            (item['additional']['options']|length > 0 ? 
+                            item['additional']['options'] : 
+                            [item]) %}
+
+                            <div class="item">
+                                <div class="item-image">
+                                    <a href="{{ route('shop.productOrCategory.index',  url_key) }}">
+                                        <img src="{{ item.product.base_image_url }}" />
+                                    </a>
+                                </div>
+                                
+                                <div class="item-details">
+                                
+                                    <div class="item-title">
+                                        <a href="{{ route('shop.productOrCategory.index', url_key) }}">
+                                            {{ item.name }}
+                                        </a>
+                                    </div>
+                                    <div class="price">{{ item.formated_price }}</div>
+                                
+                                    {% if item.additional['selected_configurable_option'] | length > 0 %}
+                                        <div class="item-options">
+                                            {{ item.child.product.child_product_string }}
+                                        </div>
+                                    {% endif %}
+                                
+                                    {% if item.additional['attributes'] | length > 0 %}
+                                        <div class="item-options">
+                                            {% for attribute in item.additional['attributes'] %}
+                                                <b>{{ attribute['attribute_name'] }} :</b> {{ attribute['option_label'] }}<br/>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                
+                                    <div class="misc">
+                                        <div class="quantity control-group" class="" >
+                                            <label class="required">{{ ('shop::app.products.quantity'|trans) }}</label>
+
+                                            <button type="button" class="decrease">-</button>    
+                                            {% if item.show_quantity_box == true and item.type != 'customizable' and not item.child%}
+                                                <input
+                                                    class="control qtyBox"
+                                                    name="qty[{{ item.id }}]"
+                                                    data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
+                                                    value="{{ item.quantity }}"
+                                                    max="{{ item.product.total_product_quantity }}"
+                                                />
+                                            {% elseif item.child %}
+                                                <input
+                                                    class="control qtyBox"
+                                                    name="qty[{{ item.id }}]"
+                                                    data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
+                                                    value="{{ item.quantity }}"
+                                                    max="{{ item.child.product.total_product_quantity }}"
+                                                />
+                                            {% elseif item.show_quantity_box == true and item.type == 'customizable' %}
+                                                <input
+                                                    class="control qtyBox"
+                                                    name="qty[{{ item.id }}][{{ optionKey }}]"
+                                                    data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
+                                                    value="{{ item.additional['quantities'][quantityCounter] | length > 0 ? item.additional['quantities'][quantityCounter] : 1 }}"
+                                                    max="{{ item.product.total_product_quantity }}"
+                                                />
+
+                                                <quantity-changer :control-name="'qty[{{ item.id }}][{{ optionKey }}]'" 
+                                                quantity="{{ item.additional['quantities'][quantityCounter] | length > 0 ? item.additional['quantities'][quantityCounter] : 1 }}"></quantity-changer>
+                                                {% set quantityCounter = quantityCounter + 1 %}
+                                            {% endif %}
+    
+                                            <button type="button" class="increase">+</button>
+                                            <span class="control-error"></span>        
+                                        </div>
+                                    
+                                        <span class="remove">
+                                            <a href="{{ route('shop.checkout.cart.remove', { 'id': item.id, 'option': optionKey }) }}" onclick="removeLink(event)">
+                                                <span class="icon-close-mini"><i class="fa fa-times"></i></span>
+                                            </a>
+                                        </span>
+                                    
+                                        {% if authUser %}
+                                            <span class="towishlist">
+                                                {% if item.parent_id | length == 0 %}
+                                                    <a href="{{ route('shop.movetowishlist', item.id ) }}" onclick="removeLink(event)">
+                                                        <span class="icon-close-mini"><i class="far fa-heart"></i></span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ route('shop.movetowishlist', item.child.id ) }}" onclick="removeLink(event)">
+                                                        <span class="icon-heart-outline icon-close-mini"></span>
+                                                    </a>
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    
+                
+                                    {% if item.item_have_qty == false %}
+                                        <div class="error-message mt-15">
+                                            * {{ 'shop::app.checkout.cart.quantity-error' | trans }}
+                                        </div>
+                                    {% endif %}
+                                
+            
+                                    {% if item.type == 'customizable' %}
+                                        <div class="hydrated mt-20">
+                                            {% for itemOption in item.product.customizable %}
+                                                <div class="s-product-options-option-container" data-option-id="{{ itemOption.id }}">
+                                                    <div class="s-product-options-option" data-option-type="{{ itemOption.type }}" data-option-required="true">
+                                                        <label for="options[{{ itemOption.id }}]" class="s-product-options-option-label">
+                                                            <b> {{ itemOption.option_name }}
+                                                                {% if itemOption.required == 'on' %}
+                                                                    <span> * </span>
+                                                                {% endif %}
+                                                            </b>
+                                                        </label>
+                                                        <div class="s-product-options-option-content">
+                                                            <div class="s-product-options-{{ itemOption.type }}">
+                                                                {% if itemOption.type == 'text' or itemOption.type == 'number' %}
+                                                                    <input type="{{ itemOption.type }}" class="s-form-control" 
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        placeholder="" value="{{ optionValue[itemOption.id] |length > 0 ? optionValue[itemOption.id] : '' }}">
+                                                                {% elseif itemOption.type == 'textarea' %}
+                                                                    <textarea rows="4" class="s-form-control"
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        id="options[{{ itemOption.id }}]" 
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        placeholder="">{{ optionValue[itemOption.id] |length > 0 ? optionValue[itemOption.id] : '' }}</textarea>
+                                                                {% elseif itemOption.type == 'radio' %}
+                                                                    <select name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}][]" class="s-form-control"
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}>
+                                                                        <option value="">{{ 'admin::app.catalog.products.choose' | trans }}</option>
+                                                                        {% for option in itemOption.productOptions %}
+                                                                            <option value="{{ option.id }}" 
+                                                                                {% if option.id in (optionValue[itemOption.id]) %} selected {% endif %}>
+                                                                                {{ option.option_details_name }}  {{ cart.cart_currency_code }}  {{ option.details_price }}
+                                                                            </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                {% elseif itemOption.type == 'checkbox' %}
+                                                                    <div class="s-product-options-multiple-options-wrapper required">
+                                                                        {% for option in itemOption.productOptions %}
+                                                                            <div>
+                                                                                <input type="checkbox" value="{{ option.id }}" 
+                                                                                    name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}][]" 
+                                                                                    id="field-{{ itemOption.id }}-{{ option.id }}" 
+                                                                                    aria-describedby="options[{{ itemOption.id }}]-description"
+                                                                                    {% if itemOption.required == 'on' %} required {% endif %}
+                                                                                    {% if option.id in (optionValue[itemOption.id]) %} checked {% endif %}>
+                                                                                <label for="field-{{ itemOption.id }}-{{ option.id }}">
+                                                                                    {{ option.option_details_name }} {{ cart.cart_currency_code }} {{option.details_price}}
+                                                                                </label>
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                {% elseif itemOption.type == 'image' %}
+                                                                    <div>
+                                                                        {% if optionValue[itemOption.id] |length > 0 and optionValue[itemOption.id] %}
+                                                                            <div class="row">
+                                                                                <div class="form-group program-edited">
+                                                                                    <img class="program-edited-image" width="250px"
+                                                                                        src="{{ storage_url ~ optionValue[itemOption.id] }}">
+                                                                                    <input type="hidden" name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]"
+                                                                                        value="{{ optionValue[itemOption.id] }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                        <div class="s-product-options-image-input required s-file-upload hydrated 
+                                                                            {% if optionValue[itemOption.id] |length > 0 and optionValue[itemOption.id] %} d-none {% endif %}">
+                                                                            <input type="file" class="my-pond" id="filepond-image" 
+                                                                                name="hidden-options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]"
+                                                                                {% if itemOption.required == 'on' %} required {% endif %}>
+                                                                        </div>
+                                                                    </div>
+                                                                {% elseif itemOption.type == 'file' %}
+                                                                    <div>
+                                                                        {% if optionValue[itemOption.id] |length > 0 and optionValue[itemOption.id] %}
+                                                                            <div class="row">
+                                                                                <div class="form-group program-edited">
+                                                                                    <img class="program-edited-image" width="250px"
+                                                                                        src="{{ storage_url ~ optionValue[itemOption.id] }}">
+                                                                                    <input type="hidden" name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]"
+                                                                                        value="{{ optionValue[itemOption.id] }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                        <div class="s-product-options-image-input required s-file-upload hydrated 
+                                                                            {% if optionValue[itemOption.id] |length > 0 and optionValue[itemOption.id] %} d-none {% endif %}">
+                                                                            <input type="file" id="filepond-file" class="my-pond"
+                                                                                name="hidden-options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                                {% if itemOption.required == 'on' %} required {% endif %}>    
+                                                                        </div>
+                                                                    </div>
+                                                                {% elseif itemOption.type == 'color_picker' %}
+                                                                    <input type="color" class="form-control form-control-color" 
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        value="#ff2402">
+                                                                {% elseif itemOption.type == 'date' %}
+                                                                    <input type="date" class="form-control form-control-color" 
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        value="{{ optionValue[itemOption.id] |length > 0 ? optionValue[itemOption.id] : '' }}">
+                                                                {% elseif itemOption.type == 'time' %}
+                                                                    <input type="time" class="form-control form-control-color" 
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        value="{{ optionValue[itemOption.id] |length > 0 ? optionValue[itemOption.id] : '' }}">
+                                                                {% elseif itemOption.type == 'datetime' %}
+                                                                    <input type="datetime-local" class="form-control form-control-color" 
+                                                                        {% if itemOption.required == 'on' %} required {% endif %}
+                                                                        name="options[{{ item.id }}][{{ optionKey }}][{{ itemOption.id }}]" 
+                                                                        value="{{ optionValue[itemOption.id] |length > 0 ? optionValue[itemOption.id] : '' }}">
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+    
+    
+                <div class="misc-controls">
+    
+                    <div style="overflow:hidden;">
+                        {% if cart.products_with_quantity %}
+                            <button type="submit" class="btn btn-lg btn-primary pull-right" id="update_cart_button">
+                                {{ 'shop::app.checkout.cart.update-cart' | trans }}
+                            </button>
+                        {% endif %}                        
+                    </div>
+                </div>
+    
+            </form>
+    
+            {% set wallet = 0 %}
+            {% if authUser and authUser.adminCustomer.wallet %}
+                {% set wallet = authUser.adminCustomer.wallet %}
+            {% endif %}
+
+            {% if wallet > 0 %}
+                <form action="{{ route('shop.checkout.cart.use.wallet') }}" method="POST" id="walletForm">
+                    <div class="shadow-default mb-5 rounded-md p-3 xs:p-7 bg-white">
+                        <div class="s-list-tile-item-content">
+                            <div class="s-list-tile-item-title"></div>
+                            <div class="s-list-tile-item-subtitle">
+                                <div slot="subtitle">
+                                    {{ csrf_field() }}
+                                    <input type="checkbox" name="use_wallet" id="use_wallet"
+                                        {% if cart.use_wallet == 1 %} checked {% endif %}>
+                                    <span>{{ 'shop::app.checkout.redeem.wallet' | trans({'amount': formatPrice(wallet, cart.cart_currency_code)}) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+
+            {% if cart %}
+                <div class="coupon-container">
+                    <!-- Coupon Form -->
+                    <div class="discount-control">
+                        <form class="coupon-form" method="post" id="coupon-form">
+                            {{ csrf_field() }}
+                            <div class="control-group" id="coupon-error-container">
+                                <input type="text" class="control" id="coupon-code" name="code" placeholder="{{ ('shop::app.checkout.onepage.enter-coupon-code'|trans) }}">
+    
+                                <div class="control-error" id="error-message" style="display: none;"></div>
+                            </div>
+    
+                            <button type="submit" class="btn btn-black" id="apply-coupon-btn">{{ ('shop::app.checkout.onepage.apply-coupon'|trans) }}</button>
+                        </form>
+                    </div>
+
+                    <!-- Applied Coupon Details -->
+                    <div class="applied-coupon-details" 
+                        {% if not cart.getCartRule %}    
+                            style="display: none;"
+                        {% endif %}
+                        id="applied-coupon-details">
+                        <label>{{ ('shop::app.checkout.total.coupon-applied'|trans) }}</label>
+    
+                        <label class="right" style="display: inline-flex; align-items: center;">
+                            <b id="applied-coupon-name">{{ cart.coupon_code }}</b>
+    
+                            <span class="icon icon-menu-close-adj" title="{{ ('shop::app.checkout.total.remove-coupon'|trans) }}" id="remove-coupon-btn" style="cursor: pointer;"></span>
+                        </label>
+
+                        {% if cart.getCartRule and cart.getCartRule.show_maximum_discount == 1 and cart.getCartRule.action_type == 'by_percent' %}
+                            <label id="maximum-discount" style="display: {{ cart.getCartRule.maximum_amount ? 'block' : 'none' }};">
+                                <b style="color: red">{{ ('shop::app.checkout.total.maximum_discount'|trans) }} {{ formatPrice(cart.getCartRule.maximum_amount, cart.cart_currency_code) }}</b>
+                            </label>
+                        {% endif %}
+                    </div>
+                </div>                
+            {% endif %}
+
+            {% include 'checkout/total/summary.twig' with {'cart': cart} %}
+
+            {% if authUser %}
+                {% if getFunction('canPlaceOrders') %}
+                    {% if (authUser.is_verified ?? -1) == 1 %}
+                        {% if not cart.error %}
+                            <a href="{{ route('shop.checkout.onepage.index') }}" class="btn btn-lg btn-primary">
+                                {{ 'shop::app.checkout.cart.proceed-to-checkout' | trans }}
+                            </a>
+                        {% endif %}
+                    {% elseif (authUser.is_verified ?? -1) == 0 %}
+                        <a href="" data-toggle="modal" data-target="#completeProfileModal">
+                            <div style="margin-top: 20px;padding: 20px;border-radius: 8px;background: var(--brand);color: var(--brand-light);display: flex;gap: 10px;">
+                                <i class="icon-block" style="font-size: 2.2rem;"></i>
+                                {{ 'shop::app.checkout.onepage.complete_your_profile' | trans }}
+                            </div>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <div style="margin-top: 20px;padding: 20px;border-radius: 8px;border: 1px solid var(--brand-light);color: var(--brand);display: flex;gap: 10px;">
+                        <i class="icon-block" style="font-size: 2.2rem;"></i>
+                        {{ 'shop::app.checkout.onepage.receive-orders-disabled' | trans }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <a href="" data-toggle="modal" data-target="#customerLoginModal">
+                    <div style="margin-top: 20px;padding: 20px;border-radius: 8px;border: 1px solid var(--brand-light);color: var(--brand);display: flex;gap: 10px;">
+                        <i class="icon-block" style="font-size: 2.2rem;"></i>
+                        {{ 'shop::app.checkout.onepage.login_first' | trans }}
+                    </div>
+                </a>
+            {% endif %}
+
+    
+            {% set customer = authUser %}
+            {% set program = getFunction('getLoyaltyProgram') %}
+
+            {% if not cart.coupon_code and not cart.prize and customer %}
+                <div class="panel panel--borderless panel-loyalty mt-20">
+                    <div class="panel-heading panel-heading--gray p-15 list list--horizontal">
+                        <i class="icon-star mr-15"></i>
+                        <p class="no-margin font-14">
+                            <font style="vertical-align: inherit;">
+                                {{ 'shop::app.checkout.redeem.your_points' | trans({'points': (customer and customer.adminCustomer.points |length > 0) ? customer.adminCustomer.points : 0}) }}
+                            </font>
+                            <a class="btn-link primary no-padding" data-toggle="modal" data-target="#loyalty_system_modal">
+                                {{ 'shop::app.checkout.redeem.replace' | trans }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if program %}
+                <div id="div_ajax">
+                    {% include 'checkout/cart/loyalty/program.twig' %}
+                    {% include 'checkout/cart/loyalty/point.twig' %}
+                </div>
+            {% endif %}
+
+        </div>
+    
+        {# {% include 'products.view.cross-sells' %} #}
+            
+    {% else %}
+        <div class="title">{{ 'shop::app.checkout.cart.title' | trans }}</div>
+
+        <div class="cart-content">
+            <p>{{ 'shop::app.checkout.cart.empty' | trans }}</p>
+
+            <p style="display: inline-block;">
+                <a style="display: inline-block;" href="{{ route('shop.home.index') }}" class="btn btn-lg btn-primary">
+                    {{ 'shop::app.checkout.cart.continue-shopping' | trans }}
+                </a>
+            </p>
+        </div>
+
+    {% endif %}
+    {% if (authUser is not null and authUser.is_verified is not null and authUser.is_verified == 0) %}
+        {% include 'customers.account.profile.popup' %}
+    {% endif %}
+</section>
+
+{% endblock %}
+
+
+{% block footer_scripts %}  
+<script type="text/javascript"
+    src="https://twsaa.com/admin-themes/mbotiq/assets/js/plugins/owlcarousel/owl.carousel.min.js"></script>
+<script type="text/javascript" src="https://twsaa.com/admin-themes/mbotiq/assets/js/plugins/toastr/toastr.min.js"></script>
+
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+<script type="text/javascript">
+    setTimeout(() => {
+            $('.owl-carousel').owlCarousel({
+                loop: false,
+                autoplay: false,
+                autoplayTimeout: 5000,
+                rewind: true,
+                margin: 20,
+                dots: true,
+                nav: true,
+                rtl: {{ lang == 'ar' ? 'true' : 'false' }},
+            });
+        }, 2000);
+        var id;
+        var value;
+        $(document).on('click', '.owl-item', function(e) {
+            $('.selectable').removeClass("program-border");
+            $(this).find('.selectable').addClass("program-border");
+            id = $(this).find('.selectable').attr('data-points-prize_id');
+            value = $(this).find('.selectable').attr('data-points-value');
+        });
+        $(document).on('click', '.btn-save-loyalty', function(e) {
+            if(id > 0)
+            {
+                $('#loyalty_system_modal').modal('hide');
+                $('#points_exchange').modal();
+            }else{
+                toastr.error('Please select something to redeem')
+            }
+        });
+        $(document).on('click', '.btn-points-exchange', function(e) {
+            if(id > 0)
+            {
+                $('#points_exchange').modal('hide');
+                $.ajax({
+                    url: "{{ route('shop.checkout.cart.prize.apply') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        locale: "{{ lang }}",
+                        id: id,
+                        value: value,
+                    },
+                    cache: false,
+                    success: function(resp) {
+                        $('.panel-loyalty').hide();
+                        toastr.success(resp.message)
+                    },
+                    error: function(err) {
+                        toastr.error(err.responseJSON.message)
+                    }
+                })
+            }
+        });
+        $(document).ready(function(){
+            // storeAsFile
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+                var fileInputElements = document.querySelectorAll('.my-pond');
+                fileInputElements.forEach(function (inputElement) {
+                    FilePond.create(inputElement);
+                });
+                    
+
+                FilePond.setOptions({
+                    allowImagePreview: true
+                    , labelIdle: `<div class="s-product-options-filepond-placeholder"><span class="s-product-options-filepond-placeholder-icon">
+                        <i class="icon-camera"></i>
+                        </span><span class="s-product-options-filepond-placeholder-text">اسحب و افلت الملف هنا</span><span class="filepond--label-action" tabindex="0">استعراض</span></div>`
+                    , iconRemove: '<i class="icon-trash"></i>'
+                    , iconUndo: '<i class="icon-forward"></i>'
+                    , acceptedFileTypes: ['image/png']
+                    , instantUpload: false
+                    , allowProcess: false
+                    , storeAsFile: true
+                });
+
+                $('body').on('click', '.program-edited', function(e) {
+
+                    console.log($(this).parent("div").parent("div").find('.s-product-options-image-input'));
+                    $(this).parent("div").parent("div").find('.s-product-options-image-input').trigger("click");
+                    $(this).fadeOut(400, function() {
+                        $(this).parent("div").parent("div").find('.s-product-options-image-input').removeClass('d-none');
+                        $(this).remove();
+                    });
+                });
+        });
+
+</script>
+<script>
+    // Get references to the DOM elements
+    const couponCodeInput = document.getElementById('coupon-code');
+    const applyCouponBtn = document.getElementById('apply-coupon-btn');
+    const errorMessageContainer = document.getElementById('error-message');
+    const appliedCouponDetails = document.getElementById('applied-coupon-details');
+    const appliedCouponName = document.getElementById('applied-coupon-name');
+    const removeCouponBtn = document.getElementById('remove-coupon-btn');
+    const maximumDiscountLabel = document.getElementById('maximum-discount');
+    const maxDiscountAmount = document.getElementById('max-discount-amount');
+
+    let appliedCoupon = "{{ cart.coupon_code }}";
+    let showMaximumDiscount = "{{ cart.getCartRule ? cart.getCartRule.show_maximum_amount : 0}}";
+    let maximumDiscount = "{{ cart.getCartRule ? cart.getCartRule.maximum_amount : 0 }}";
+    let actionType = "{{ cart.getCartRule  ? cart.getCartRule.action_type : ''}}";
+
+    // Enable/Disable apply coupon button based on coupon code input
+    couponCodeInput.addEventListener('input', function() {
+        if (couponCodeInput.value.trim() !== '') {
+            applyCouponBtn.disabled = false;
+        } else {
+            applyCouponBtn.disabled = true;
+        }
+    });
+
+    // Handle form submission to apply coupon
+    $('body').on('submit', '#coupon-form', function(e) {
+        e.preventDefault();
+    
+        const couponCode = $('#coupon-code').val().trim(); // assuming the coupon code input has id 'coupon-code'
+        
+        if (!couponCode) return;
+    
+        // Disable button to prevent multiple submissions
+        $('#apply-coupon-btn').prop('disabled', true); // assuming button has id 'apply-coupon-btn'
+    
+        // Send AJAX request to apply the coupon
+        $.ajax({
+            url: '{{ route('shop.checkout.cart.coupon.apply') }}',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ code: couponCode }),
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            success: function(data) {
+                if (data.success) {
+                    // Update UI with applied coupon
+                    const appliedCoupon = couponCode;
+                    $('#applied-coupon-name').text(appliedCoupon); // assuming applied coupon display has id 'applied-coupon-name'
+                    $('#coupon-code').val(''); // clear input field
+                    $('#applied-coupon-details').show(); // assuming element has id 'applied-coupon-details'
+    
+                    // Show success message
+                    alert(data.message);  // Replace with your flash message handling if needed
+    
+                    // Optionally reload page if on cart page
+                    if (window.location.pathname.includes('/cart')) {
+                        setTimeout(() => window.location.reload(), 700);
+                    }
+                } else {
+                    // Display error message
+                    $('#error-message-container').text(data.message).show(); // assuming error message container has id 'error-message-container'
+                }
+                $('#apply-coupon-btn').prop('disabled', false); // re-enable button
+            },
+            error: function(error) {
+                $('#error-message-container').text(error.message).show(); // assuming error message container has id 'error-message-container'
+                $('#apply-coupon-btn').prop('disabled', false); // re-enable button
+            }
+        });
+    });
+    
+
+    // Handle coupon removal
+    $('body').on('click', '#remove-coupon-btn', function(e) {
+        fetch('{{ route('shop.checkout.coupon.remove.coupon') }}', {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Reset applied coupon details
+            appliedCoupon = '';
+            appliedCouponDetails.style.display = 'none';
+
+            // Show success message
+            alert(data.message);  // Replace with your flash message handling if needed
+
+            // Optionally reload page if on cart page
+            if (window.location.pathname.includes('/cart')) {
+                setTimeout(() => window.location.reload(), 700);
+            }
+        })
+        .catch(error => {
+            alert('Error: ' + error.message);  // Replace with your flash message handling if needed
+        });
+    });
+
+    $('body').on('change', '#use_wallet', function(e) {
+        $('#walletForm').submit();
+    });
+
+    $('body').on('click', '.decrease', function(e) {
+        var qtyBox = $(this).closest('.control-group').find('.qtyBox');
+        var value = parseInt(qtyBox.val(), 10);
+        if (value > 1) {
+            qtyBox.val(value - 1);
+        }
+    });
+
+    $('body').on('click', '.increase', function(e) {
+        var qtyBox = $(this).closest('.control-group').find('.qtyBox');
+        var value = parseInt(qtyBox.val(), 10);
+        var max = parseInt(qtyBox.attr('max'), 10);
+        if (max >= value + 1) {
+            qtyBox.val(value + 1); 
+        }
+    });
+    
+</script>
+
+{% endblock %}

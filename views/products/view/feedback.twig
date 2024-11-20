@@ -1,0 +1,51 @@
+<div class="container py-3 comments-wrapper">
+    <form id="comment_form" class="ask-form ajax" method="POST"
+        action="{{ route('shop.reviews.store', product.product_id) }}">
+        {{ csrf_field() }}
+        {% set errors = getFunction('getErrorMessage') %}
+
+        <div class="control-group {{ errors['rating']|length > 0 ? 'has-error' : '' }}">
+            <div class="stars">
+                <span class="icon-star star-5 xx-large" for="star-5" onclick="calculateRating(this.id)" id="1"></span>
+                <span class="icon-star star-4 xx-large" for="star-4" onclick="calculateRating(this.id)" id="2"></span>
+                <span class="icon-star star-3 xx-large" for="star-3" onclick="calculateRating(this.id)" id="3"></span>
+                <span class="icon-star star-2 xx-large" for="star-2" onclick="calculateRating(this.id)" id="4"></span>
+                <span class="icon-star star-1 xx-large" for="star-1" onclick="calculateRating(this.id)" id="5"></span>
+            </div>
+
+            <div class="control-error">{{ errors['rating'][0] }}</div>
+
+            <input type="hidden" id="rating" name="rating">
+        </div>
+        <div class="control-group {{ errors['comment']|length > 0 ? 'has-error' : '' }}">
+            <textarea id="ask_textarea" name="comment" class="form-control" placeholder="{{ ('shop::app.products.comments'|trans) }}"
+                rows="3" maxlength="500"
+                style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 76px;"></textarea>
+                <div class="control-error">{{ errors['comment'][0] }}</div>
+        </div>
+
+        <div class="clear"></div>
+        <div class="ask-form-footer row justify-content-between">
+            <div class="col-md-6 mb-2 mb-md-0">
+                <button id="ask_button" type="submit"
+                    class="btn btn-primary">{{ ('shop::app.products.send'|trans) }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+    <script>
+        function calculateRating(id) {
+            var a = document.getElementById(id);
+            document.getElementById("rating").value = id;
+
+            for (let i = 1; i <= 5; i++) {
+                if (id >= i) {
+                    document.getElementById(i).style.color = "#FFD700";
+                } else {
+                    document.getElementById(i).style.color = "#d4d4d4";
+                }
+            }
+        }
+    </script>

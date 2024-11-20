@@ -1,0 +1,131 @@
+<country-state></country-state>
+
+@push('scripts')
+    <script type="text/x-template" id="country-state-template">
+        <div>
+                    <div class="control-group" :class="[errors.has('country') ? 'has-error' : '']">
+                        <label for="country" class="required">
+                            {{ __('shop::app.customer.account.address.create.country') }}
+                        </label>
+
+                        <select type="text" v-validate="'required'" class="control" id="country" name="country" v-model="country" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.country') }}&quot;">
+                            <option value=""></option>
+                            @foreach (core()->countries() as $country)
+                                <option {{ $country->code === $defaultCountry ? 'selected' : '' }} value="{{ $country->code }}">
+                                    {{ $country->name }}</option>
+                            @endforeach
+                        </select>
+
+                        <span class="control-error" v-if="errors.has('country')">
+                            @{{ errors . first('country') }}
+                        </span>
+                    </div>
+
+                    <div class="control-group" :class="[errors.has('state') ? 'has-error' : '']">
+                        <label for="state" class="required">
+                            {{ __('shop::app.customer.account.address.create.state') }}
+                        </label>
+
+                        <input type="text" v-validate="'required'" class="control" id="state" name="state" v-model="state" v-if="!haveStates()" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.state') }}&quot;"/>
+                        <select v-validate="'required'" class="control" id="state" name="state" @change="onChange($event)" v-model="state" v-if="haveStates()" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.state') }}&quot;">
+
+                            <option  value="">{{ __('shop::app.customer.account.address.create.select-state') }}</option>
+
+                            <option v-for='(state, index) in countryStates[country]' :value="state.id" :id="state.id">
+                                @{{ state . default_name }}
+                            </option>
+
+                        </select>
+
+                        <span class="control-error" v-if="errors.has('state')">
+                            @{{ errors . first('state') }}
+                        </span>
+                    </div>
+
+                    <div class="control-group" :class="[errors.has('city') ? 'has-error' : '']">
+                        <label for="state" class="required">
+                            {{ __('shop::app.customer.account.address.create.city') }}
+                        </label>
+
+                        <input type="text" v-validate="'required'" class="control" id="city" name="city" v-model="city" v-if="!haveCities()" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.city') }}&quot;"/>
+                        <select v-validate="'required'" class="control" id="city" name="city" v-model="city" v-if="haveCities()" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.city') }}&quot;">
+
+                            <option  value="">{{ __('shop::app.customer.account.address.create.select-city') }}</option>
+
+                            <option v-for='(city, index) in stateCities' :value="city.id">
+                                @{{ city . name }}
+                            </option>
+
+                        </select>
+
+                        <span class="control-error" v-if="errors.has('state')">
+                            @{{ errors . first('state') }}
+                        </span>
+                    </div>
+                </div>
+            </script>
+    <script>
+
+        let stateCities = null
+
+        Vue.component('country-state', {
+
+            template: '#country-state-template',
+
+            inject: ['$validator'],
+
+            data() {
+                return {
+                    country: "{{ $countryCode ?? $defaultCountry }}",
+
+                    state: "{{ $stateCode }}",
+
+                    city: "{{ $city }}",
+
+                    cities: @json($cities),
+
+                    countryStates: @json(core()->groupedStatesByCountries())
+                }
+            },
+
+            methods: {
+                haveStates() {
+                    if (this.countryStates[this.country] && this.countryStates[this.country].length) {
+                        return true;
+                    }
+                    stateCities = null;
+                    return false;
+                },
+
+                onChange(event) {
+                    var stateId = event.target.selectedOptions[0].id;
+                    if (stateId) {
+                        axios.get('{{ route('addresses.state.cities') }}', {
+                                params: {
+                                    id: stateId
+                                }
+                            })
+                            .then(function(response) {
+                                if (response.data.data.length > 0)
+                                    stateCities = response.data.data;
+                                else
+                                    null;
+                            });
+                    }
+                },
+
+                haveCities() {
+                    if(this.cities)
+                    {
+                        stateCities = this.cities;
+                    }
+                    if (stateCities && stateCities.length) {
+                        return true;
+                    }
+                    return false;
+                },
+            }
+        });
+
+    </script>
+@endpush

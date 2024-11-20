@@ -1,0 +1,29 @@
+<div class="top-toolbar">
+    <div class="dropdown-toggle">
+        <div class="btn btn-dark btn-xs" type="button">{{ ('shop::app.products.sort-by'|trans) }} <i
+                class="icon-caret-down"></i></div>
+    </div>
+    <div class="dropdown-list @on_ltr('bottom-right', 'bottom-left') dropdown-links dropdown-links-sm" style="display: none;top: 30px;">
+        <ul>
+            <li>
+                <a href="?sort=name&amp;order=asc">من أ-ي</a>
+            </li>
+            <li>
+                <a href="?sort=name&amp;order=desc">من ي-أ</a>
+        
+            </li>
+            <li>
+                <a href="?sort=created_at&amp;order=desc">الأحدث أولا</a>
+            </li>
+            <li>
+                <a href="?sort=created_at&amp;order=asc">الأقدم أولا</a>
+            </li>
+            <li>
+                <a href="?sort=price&amp;order=asc">السعر من الاقل الى الاعلى</a>
+            </li>
+            <li>
+                <a href="?sort=price&amp;order=desc">السعر من الاعلى الى الاقل</a>
+            </li>
+        </ul>
+    </div>
+</div>

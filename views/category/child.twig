@@ -1,0 +1,12 @@
+<ul class="cat-sub">
+{% for index, category in categories %}
+    <li>
+        <a href="/{{ category.slug }}"><!---->
+        {{ category.name }}
+        </a>
+        {% if category.children | length > 0 %}
+            {% include 'category/child.twig' with {'categories': category.children} %}
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>

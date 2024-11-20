@@ -1,0 +1,21 @@
+<ul class="nav category-navbar" id="cat-here">
+</ul>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/category', // Replace with your API endpoint
+            type: 'GET', // or 'POST'
+            success: function(response) {
+                // Handle the response data
+                if(response.html)
+                    $('#cat-here').html(response.html); // Display the response in an element
+                else if(response)
+                    $('#cat-here').html(response); // Display the response in an element
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error('AJAX Error:', status, error);
+            }
+        });
+    });
+</script>

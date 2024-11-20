@@ -1,0 +1,97 @@
+<twsaaproduct-options class="s-product-options-wrapper hydrated">
+    <twsaaconditional-fields class="hydrated">
+        {% for item in product.product.customizable %}
+            <div class="s-product-options-option-container" data-option-id="{{ item.id }}">
+                <div class="s-product-options-option" data-option-type="{{ item.type }}" data-option-required="true">
+                    <label for="options[{{ item.id }}]" class="s-product-options-option-label">
+                        <b>{{ item.option_name }}
+                            {% if item.required == 'on' %}
+                            <span> * </span>
+                            {% endif %}
+                        </b>
+                    </label>
+                    <div class="s-product-options-option-content">
+                        <div class="s-product-options-{{ item.type }}">
+                            {% if item.type == "text" or item.type == "number" %}
+                                <input type="{{ item.type }}" class="s-form-control" {{ item.required == "on" ? "required" : "" }} name="options[{{ item.id }}]" placeholder="">
+                            {% elseif item.type == "textarea" %}
+                                <textarea rows="4" class="s-form-control" {{ item.required == "on" ? "required" : "" }} id="options[{{ item.id }}]" name="options[{{ item.id }}]" placeholder=""></textarea>
+                            {% elseif item.type == "radio" %}
+                                <select name="options[{{ item.id }}][]" class="s-form-control" {{ item.required == "on" ? "required" : "" }}>
+                                    <option value="">{{ ('admin::app.catalog.products.choose'|trans) }}</option>
+                                    {% for option in item.productOptions %}
+                                    <option value="{{ option.id }}">{{ option.option_details_name }} ({{ option.details_price }} {{ product.core_currency }})</option>
+                                    {% endfor %}
+                                </select>
+                            {% elseif item.type == "checkbox" %}
+                                <div class="s-product-options-multiple-options-wrapper required">
+                                    {% for option in item.productOptions %}
+                                    <div>
+                                        <input type="checkbox" value="{{ option.id }}" name="options[{{ item.id }}][]" id="field-{{ item.id }}-{{ option.id }}" aria-describedby="options[{{ item.id }}]-description" {{ item.required == "on" ? "required" : "" }}>
+                                        <label for="field-{{ item.id }}-{{ option.id }}">{{ option.option_details_name }} ({{ option.details_price }} {{ product.core_currency }})</label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% elseif item.type == "image" %}
+                                <div>
+                                    <div class="s-product-options-image-input required s-file-upload hydrated">
+                                        <input type="hidden" class="my-pond" id="filepond-image" name="options[{{ item.id }}]" {{ item.required == "on" ? "required" : "" }}>
+                                        <input class="file" name="hidden-options[{{ item.id }}]" id="option-filepond-image" {{ item.required == "on" ? "required" : "" }}>
+                                    </div>
+                                </div>
+                            {% elseif item.type == "file" %}
+                                <div>
+                                    <div class="s-product-options-image-input required s-file-upload hydrated">
+                                        <input type="hidden" id="filepond-file" class="my-pond" name="options[{{ item.id }}]" {{ item.required == "on" ? "required" : "" }}>    
+                                        <input class="file" name="hidden-options[{{ item.id }}]" id="option-filepond-file" {{ item.required == "on" ? "required" : "" }}>
+                                    </div>
+                                </div>
+                            {% elseif item.type == "color_picker" %}
+                                <input type="color" class="form-control form-control-color" name="options[{{ item.id }}]" value="#ff2402" />
+                            {% elseif item.type == "date" %}
+                                <input type="date" class="form-control form-control-color" {{ item.required == "on" ? "required" : "" }} name="options[{{ item.id }}]" />
+                            {% elseif item.type == "time" %}
+                                <input type="time" class="form-control form-control-color" {{ item.required == "on" ? "required" : "" }} name="options[{{ item.id }}]" />
+                            {% elseif item.type == "datetime" %}
+                                <input type="datetime-local" class="form-control form-control-color" {{ item.required == "on" ? "required" : "" }} name="options[{{ item.id }}]" />
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+    </twsaaconditional-fields>
+</twsaaproduct-options>
+
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+{% block footer_scripts %}
+<script>
+    $(document).ready(function() {
+    
+            FilePond.registerPlugin(FilePondPluginImagePreview);
+            var inputElement1 = document.querySelector('input[id="option-filepond-image"]');
+            var inputElement2 = document.querySelector('input[id="option-filepond-file"]');
+            var pond1 = FilePond.create(inputElement1);
+            var pond2 = FilePond.create(inputElement2);
+                
+        
+            FilePond.setOptions({
+                allowImagePreview: true
+                , labelIdle: `<div class="s-product-options-filepond-placeholder"><span class="s-product-options-filepond-placeholder-icon">
+                    <i class="icon-camera"></i>
+                    </span><span class="s-product-options-filepond-placeholder-text">اسحب و افلت الملف هنا</span><span class="filepond--label-action" tabindex="0">استعراض</span></div>`
+                , iconRemove: '<i class="icon-trash"></i>'
+                , iconUndo: '<i class="icon-forward"></i>'
+                , acceptedFileTypes: ['image/png']
+                , instantUpload: false
+                , allowProcess: false
+                , storeAsFile: true
+            });
+            
+        });
+</script>
+{% endblock %}

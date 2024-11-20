@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{% block title %}{% endblock %}</title>
+    {% set asset_url = getFunction('assets') %}
+    {% set storage_url = 'https://cdn.twsaa.com/' %}
+    {% set lang = getFunction('locale') %}
+
+    {% if lang == 'ar' %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/bootstrap-ar.min.css' }}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/bootstrap-en.min.css' }}">
+    {% endif %}
+
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/search.min.css' }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/fonts.css' }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/front-fonts.css' }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/ui.css' }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'js/plugins/owlcarousel/assets/owl.carousel.min.css' }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'js/plugins/owlcarousel/assets/owl.theme.default.min.css' }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/swiper-bundle.min.css' }}" />
+    {% if lang == 'ar' %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/ar.css' }}" />
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/en.css' }}" />
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/app.css' }}">
+
+    <link href="{{ asset_url ~ 'fonts/STC-Regular.ttf' }}">
+    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/datepicker.min.css">
+    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/bootstrap-select.min.css">
+    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/toastr.min.css" rel="stylesheet">
+
+
+    <style>
+        :root {
+            --brand: #5e8cff;
+            --brand-light: #d7d7d7;
+        }
+
+        .cat-sub {
+            position: absolute;
+            width: 200px;
+            max-height: 561px;
+            background: #fff;
+            text-align: right;
+            box-shadow: 0 0 0 1px #e0e0e0;
+            margin-left: -120px;
+            display: none;
+        }
+
+        .float-left {
+            float: left;
+        }
+
+        .category-navbar {
+            text-align: -webkit-center;
+        }
+
+        .cat-sub li ul {
+            right: 100%;
+        }
+
+        /* Hide all child and sub-child menus by default */
+        .nav .cat-sub {
+            display: none;
+        }
+
+        /* Show child menu when hovering over the parent li */
+        .nav li:hover > .cat-sub {
+            display: block;
+        }
+
+        /* Show sub-child menu only when hovering over the child li */
+        .nav .cat-sub li:hover > .cat-sub {
+            display: block;
+            margin-top: -40px
+        }
+
+        /* Optional: Style the parent li and links */
+        .nav li {
+            position: relative; /* Required for absolute positioning of child menus */
+        }
+
+        .nav a {
+            text-decoration: none;
+            padding: 10px;
+            display: block; /* Make the entire area clickable */
+        }
+
+        /* Style for child menu items */
+        .nav .cat-sub {
+            position: absolute; /* Position the child menu */
+            left: 0; /* Align to the left of the parent */
+            top: 100%; /* Position it below the parent */
+            background-color: #fff; /* Background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+        }
+
+        /* Optional: Style the links within the child menu */
+        .nav .cat-sub a {
+            padding: 10px;
+            color: #333; /* Link color */
+        }
+
+        .nav .cat-sub a:hover {
+            background-color: #f0f0f0; /* Background color on hover */
+        }
+
+        .float-left {
+            float: left;
+        }
+
+        .owl-nav {
+            display: none;
+        }
+        .owl-carousel,
+        .owl-carousel .owl-item {
+            position: initial;
+        }
+    </style>
+
+    {% block head %}{% endblock %}
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/jquery.min.js' }}"></script>
+    <script>
+        Number.prototype.toLocaleFixed = function(currency = '') {
+            return currency.concat(' ').concat(
+                this.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                })).trim();
+        };
+        String.prototype.cleanPhone = function() {
+            return this.replace(/[^0-9\+]+/g, '');
+        };
+    </script>
+</head>
+<body class="{{ lang == 'ar' ? 'rtl' : 'ltr' }}">
+    <div class="app" id="app">
+        <div class="header">
+            {{ include("layout/header.twig") }}
+        </div>
+        
+        <div class="main main-container-wrapper">
+            <div class="content-container">
+                {% block main_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="footer">
+                {{ include("layout/footer.twig") }}
+        </div>
+
+        {% if not authUser %}
+            {{ include("customers/session/popup.twig") }}
+        {% endif %}
+    </div>
+
+    <script type="text/javascript">
+        window.flashMessages = [];    
+        window.serverErrors = [];
+    </script>
+    
+    
+    <script type="text/javascript" src="{{ asset_url ~'js/shop.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/plugins/owlcarousel/owl.carousel.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/swiper-bundle.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/bootstrap.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/toastr.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/plugins/font-awesome/font-awesome.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/jquery-ui.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/datepicker.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/ui.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/bootstrap-select.min.js' }}"></script>
+    <script type="text/javascript" src="{{ asset_url ~'js/plugins/popper/popper.min.js' }}"></script>
+    <script>
+        {% set getSuccess = getFunction('getSuccess') %}
+        {% if getSuccess %}
+            toastr.options = {
+                "closeButton" : true,
+                "progressBar" : true
+            };
+            toastr.success("{{ getSuccess }}");
+        {% endif %}
+    
+        {% set getError = getFunction('getError') %}
+        {% if getError %}
+            toastr.options = {
+                "closeButton" : true,
+                "progressBar" : true
+            };
+            toastr.error("{{ getError }}");
+        {% endif %}
+
+        {% set getInfo = getFunction('getInfo') %}
+        {% if getInfo %}
+            toastr.options = {
+                "closeButton" : true,
+                "progressBar" : true
+            };
+            toastr.info("{{ getInfo }}");
+        {% endif %}
+    
+        {% set getWarning = getFunction('getWarning') %}
+        {% if getWarning %}
+            toastr.options = {
+                "closeButton" : true,
+                "progressBar" : true
+            };
+            toastr.warning("{{ getWarning }}");
+        {% endif %}
+    
+        {% set getErrorMessage = getFunction('getErrorMessage') %}
+        {% if getErrorMessage %}
+            {% for error in getErrorMessage %}
+                toastr.options = {
+                    "closeButton" : true,
+                    "progressBar" : true
+                };
+                toastr.error("{{ error }}");
+            {% endfor %}
+        {% endif %}
+    </script>
+    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/api.js"></script>
+    {% if lang == 'en' %}
+    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/search.min.js"></script>
+    {% else %}
+    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/search.ar.min.js"></script>
+    {% endif %}
+    <script>
+        $(document).ready(function() {
+                    
+                    $('.ui.search')
+                        .search({
+                            apiSettings: {
+                                url: 'api/search?term={query}&language=false',
+                                onRequest: function(promise, xhr) {
+                                    $('.search-loader').fadeIn(200);
+                                },
+                                onResponse: function(response) {
+                                    $('.search-loader').fadeOut(200);
+                                    const res = response.data || [];
+                                    res.data = res.data.map(r => {
+                                        r.price = '<span class="product-price">'+r.price+'</span>';
+                                        let discountedPrice = r.special_price;
+                                        let discounted = r.discounted;
+                                        if (discounted) {
+                                            r.price =
+                                                `<span style='color:red'>${discountedPrice}</span><br/><small><s style='opacity:0.4;'>${r.price}</s></small>`;
+                                        }
+                                        r.url = '/' + r.url_key + '?origsource=shopsearch';
+                                        r.description = '';
+                                        r.action = 'action1';
+                                        r.actionText = 'action2';
+                                        r.actionURL = r.url;
+                                        return r;
+                                    });
+                                    return res
+                                },
+                            },
+                            fields: {
+                                results: 'data',
+                                title: 'name',
+                            }
+                        })
+                });
+    
+    </script>
+    {% block footer_scripts %}{% endblock %}
+
+    <div class="modal-overlay"></div>
+    <script>
+        $(document).ready(function() {
+            $(".addToCart").on('click', function(e){
+                var productId = $(this).data("id");
+                var formData = $('#addToCart-'+productId).serialize();
+                var imgtodrag = $(this).closest('.product-card').find("img").eq(0);
+                var cart = $('.top-links-cart');
+                $.ajax({
+                    url: "{{ route('cart.addition', '') }}"+'/'+productId,
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if(response['redirect-url'])
+                        {
+                            location.href= response['redirect-url'];
+                        }
+                        else if(response.success == true)
+                        {
+                            toastr.success(response.message);
+                            $('.cart-count').removeClass('d-none');
+                            $('.cart-count').html(response.count);
+                            $('.disabled-link').removeClass('disabled-link');
+                            if (imgtodrag) {
+                                var imgclone = imgtodrag.clone()
+                                    .offset({
+                                        top: imgtodrag.offset().top,
+                                        left: imgtodrag.offset().left
+                                    })
+                                    .css({
+                                        'opacity': '0.5',
+                                        'position': 'absolute',
+                                        'height': '150px',
+                                        'width': '150px',
+                                        'z-index': '100'
+                                    })
+                                    .appendTo($('body'))
+                                    .animate({
+                                        'top': cart.offset().top + 10,
+                                        'left': cart.offset().left + 10,
+                                        'width': 75,
+                                        'height': 75
+                                    }, 1000, 'easeInOutExpo');
+    
+                                imgclone.animate({
+                                    'width': 0,
+                                    'height': 0
+                                }, function() {
+                                    $(this).detach()
+                                });
+                            }
+    
+                        }
+                        else
+                        {
+                            toastr.warning(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

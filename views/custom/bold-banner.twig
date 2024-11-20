@@ -1,0 +1,10 @@
+{% if content['settings']['image'] %}
+    {% if content['settings']['link'] %}
+        <a id="block{{ content['block_id'] }}" href="{{ content['setting']['link'] }}">
+    {% endif %}
+    <img class="w-100 mb-40 mt-40" src=" {{ content['settings']['image'] }}" alt="" />
+   
+    {% if content['settings']['link'] %}
+    </a>
+    {% endif %}
+{% endif %}

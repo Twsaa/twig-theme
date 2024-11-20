@@ -1,0 +1,98 @@
+<div class="product-image-group">
+
+    <div class="cp-spinner cp-round" id="loader">
+    </div>
+    <div>
+        <ul class="thumb-list">
+            {% if product.images |length > 4  %}
+                <li class="gallery-control top d-none" @click="moveThumbs('top')">
+                    <span class="overlay"></span>
+                    <i class="icon-arrow-up"></i>
+                </li>
+            {% endif %}
+                
+            {% for index, image in product.images %}
+                <li class="thumb-frame" id="thumb-frame-{{ image.id }}" @mouseover="changeImage({{ index }})" style="width: 120px;">
+                    <img src="{{ storage_url ~ image.path }}" />
+                </li>
+            {% endfor %}
+
+            {% if product.images |length > 4  %}
+                <li class="gallery-control bottom d-none" @click="moveThumbs('bottom')">
+                    <span class="overlay"></span>
+                    <i class="icon-arrow-down"></i>
+                </li>                
+            {% endif %}
+        </ul>
+
+        <div id="video-container" style="display:none;"></div>
+        <div class="product-hero-image" id="product-hero-image">
+            <img  id="pro-img" data-image="currentOriginalImageUrl"/>
+
+            {% if product.promotion_title %}
+                <p class="promotion-title" style="background-color:#f87e7e">{{ product.promotion_title }}</p>                
+            {% endif %}
+            
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    var images = {{ product.images|json_encode|raw }};
+    var counter = 0;
+    var counter_down = 0;
+    var counter_up = 0;
+    var move_down = true;
+    var move_up = true;
+    $(document).ready(function() {
+        changeImage(0)
+    });
+
+    function changeImage (index) {
+        if (images[index].video_url) {
+            $("#product-hero-image").hide();
+            $("#video-container").show();
+            $("#video-container").html(images[index].video_embed);
+        } else {
+            $("#video-container").hide();
+            $("#video-container").html('');
+            $("#product-hero-image").show();
+            
+            $('#pro-img').attr('src', images[index].url);
+            $('#pro-img').attr('data-image', images[index].url); 
+
+            if ($(window).width() > 580) {
+                $('img#pro-img').data('zoom-image', images[index].url).ezPlus();
+            }
+        }
+    }
+
+    function moveThumbs (direction) {
+        let len = images.length;
+        if (direction === "top") {
+
+            counter = counter - 1;
+            $('#thumb-frame-'+images[counter]['id']).removeClass('d-none')
+        } else {
+            $('#thumb-frame-'+images[counter]['id']).addClass('d-none')
+            counter = counter + 1;
+        }
+
+        if(counter == (len - 4))
+        {
+            $('.bottom').addClass('d-none');
+        }else{
+            $('.bottom').removeClass('d-none');
+        }
+
+        if(counter > 0)
+        {
+            $('.top').removeClass('d-none');
+        }else{
+            $('.top').addClass('d-none');
+        }
+    }
+
+</script>

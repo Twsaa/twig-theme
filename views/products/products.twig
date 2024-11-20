@@ -1,0 +1,52 @@
+{% extends "layout/main.twig" %}
+{% block title %} main {% endblock %}
+{% block main_content %}
+    <div class="main">
+        <div class="category-block">
+            {% include 'products/list/grid.twig' with {'product': product, sorter: true} %}
+
+        </div>
+    </div>
+
+    <script>
+        var page = 1; //The number of records to display per request
+        var action = 'inactive'; //Check if current action is going on or not. If not then inactive otherwise active
+        $(window).scroll(function(){
+            if($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive')
+            {
+                action = 'active';
+    
+                var sort = (new URL(location.href)).searchParams.get('sort');
+                var order = (new URL(location.href)).searchParams.get('order');
+                page = page + 1;
+                $(".s-products-list-loading-wrapper").show();
+                
+                url_query = "?page="+page;
+                if(sort)
+                {
+                    url_query += "&sort="+sort;
+                }
+                if(order)
+                {
+                    url_query += "&order="+order;
+                }
+
+                $.ajax({
+                        url: "{{ route('shop.productOrCategory.load', 'products') }}"+url_query,
+                        type: "GET",
+                        cache: false,
+                        success: function(resp) {
+                            if(resp.success == true)
+                            {
+                                $('#load_data').append(resp.html)
+                                action = 'inactive';
+                            }
+                            $(".s-products-list-loading-wrapper").hide();
+                        },
+                    });
+            }
+        });
+    
+    
+    </script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% if (product.OutOfStock and not product.saleable ) %}
+    <button type="button" class="btn btn-lg btn-danger disabled">
+        {{ ('shop::app.products.out_of_stock'|trans) }}
+    </button>
+{% else %}
+    <button type="submit" class="btn btn-lg btn-primary" 
+    {% if not product.saleable  %}
+        disabled
+    {% endif %} 
+    >
+        {{ (product.type == 'booking') ?  ('shop::app.products.book-now'|trans) :  ('shop::app.products.add-to-cart'|trans) }}
+    </button>
+{% endif %}

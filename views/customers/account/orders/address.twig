@@ -1,0 +1,8 @@
+{{ address.company_name is not empty ? address.company_name ~ '</br>' : '' }}
+<b>{{ address.name }}</b></br>
+{{ address.address1 }}</br>
+{{ address.city }}</br>
+{{ address.state }}</br>
+{{ address.country_name }}
+{{ address.postcode }}</br></br>
+{{ 'shop::app.checkout.onepage.contact' | trans }} : {{ address.phone }}

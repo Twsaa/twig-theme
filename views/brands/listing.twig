@@ -1,0 +1,40 @@
+
+{% extends "layout/main.twig" %}
+{% block title %}  brands {% endblock %}
+{% block main_content %}
+
+    <div class="container">
+        <ul id="brands_index" class="list list--horizontal">
+            {% for key, brand in brands %}
+                <li><a href="#brand_{{ key }}">
+                    {{ key }}
+                </a> </li>
+            {% endfor %}
+        </ul>
+        <div id="brands_list">
+            {% for key, brand in brands %}
+                <section id="brand_{{ key }}" class="brand-section">
+                    <h2 class="brand-section__title">
+                        <b class="center">{{ key }}</b>
+                    </h2>
+                    <div class="brand-section__content">
+                        <ul class="list brands-list">
+                            {% for item in brand %}
+                            
+                                <li>
+                                    <a 
+                                    {% if item.meta_url %}
+                                        href="brands/{{ item.name }}/brand-{{ item.id }}" 
+                                    {% endif %}
+                                    >
+                                        <img src="{{ storage_url ~ (item.logo) }}" alt="{{ item.name }}">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends "layout/main.twig" %}
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+
+    <section class="product-detail">
+
+        <div class="layouter">
+            <form action="{{ route('cart.add', product.product_id) }}" id="product-form" method="POST" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input type="hidden" id="is_buy_now" name="is_buy_now" value="0">
+
+                <div class="form-container">
+
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+
+                    {% include 'products/view/gallery.twig' %}
+
+                    <div class="details">
+
+                        <h6 class="badge badge-pill badge-primary">
+                            {{ product.subtitle }}
+                        </h6>
+                        <div class="product-heading flexbetween flexvcenter flex-wrap">
+                            <div>{{ product.name }}</div>
+                            {# <div>
+                                {{ product.getBrand }}
+                            </div> #}
+                            {% if product.getBrand | length > 0 %}
+                                {% if product.getBrand.logo %}
+                                    <a href="">
+                                        <img src="{{ storage_url ~ product.getBrand.logo }}" height="40px" />
+                                    </a> 
+                                {% else %}
+                                    <span>{{ brand.name }}</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+
+
+                        <span class="product-price">
+                            {{ product.html_price | raw }}
+                        </span>
+
+                        <div class="stock-status {% if product.sufficient_quantity == true %}
+                                active
+                            {% endif %}
+                                ">
+                            {% if product.sufficient_quantity == true %}
+                                {{ ('shop::app.products.in-stock'|trans) }}
+                            {% elseif (product.sufficient_quantity > 0) %}
+                                {{ ('shop::app.products.available-for-order'|trans) }}
+                            {% else %}
+                                {{ ('shop::app.products.out-of-stock'|trans) }}
+                            {% endif %}
+                    </div>
+                    {% if product.show_sku %}
+                        {% if product.sku %}
+                            <div class="product-metadata sku">
+                                <i class="icon-tag mr-5"></i>
+                                {{ ('admin::app.catalog.products.sku'|trans) }} {{ product.sku }}
+                            </div>                            
+                        {% endif %}
+                        {% if product.barcode %}
+                            <div class="product-metadata barcode">
+                                <i class="icon-barcode mr-5"></i>
+                                {{ ('admin::app.catalog.products.barcode'|trans) }} {{ product.barcode }}
+                            </div>                            
+                        {% endif %}
+                    {% endif %}
+
+                    {% if sales_count > -1 %}
+                        {% if product.show_purchase_count %}
+                            <div class="product-metadata stock">
+                                <i class="icon-box mr-5"></i>
+                                {{ sales_count }} {{ ('admin::app.layouts.sales'|trans) }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+
+                        <div class="full-description mt-30" data-max-height="300">
+                            {{ product.description|raw }}
+                        </div>
+
+                        {% if product.show_weight %}
+                            <div class="product-metadata weight">
+                                <i class="icon-cart-download mr-5"></i>
+                                {{ ('admin::app.catalog.products.weight'|trans) }} <span class="product-shipping-weight">{{ product.weight|default(1) }}</span>  {{ ('admin::app.admin.shipping.kg'|trans) }}
+                            </div>
+                        {% endif %}
+
+                        {% if product.type == 'configurable' %}
+                            {% include 'products/view/configurable-options.twig' %}
+                        {% endif %}
+                        {% if product.type == 'customizable' %}                            
+                            {% include 'products/view/customizable.twig' %}
+                        {% endif %}
+
+                        <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 20px;padding-top: 20px;">
+
+                            {% if product.show_quantity_box %}
+                                <div class="quantity control-group" class="" >
+                                    <label class="required">{{ ('shop::app.products.quantity'|trans) }}</label>
+
+                                    <button type="button" class="decrease" @click="decreaseQty()">-</button>
+
+                                    <input
+                                        class="control"
+                                        id="qtyBox"
+                                        name="quantity"
+                                        data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
+                                        readonly=""
+                                        max="maxQuantity"
+                                        @keyUp="changeQty()" 
+                                    />
+
+                                    <button type="button" class="increase" @click="increaseQty()">+</button>
+
+                                    <span class="control-error"></span>
+
+                                    {# <i id="remaningQty" style=" text-align: center;">{{ maxQuantity }} items remaining</i> #}
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="quantity" value="1">
+                            {% endif %}
+
+                            {% include 'products/view/product-add.twig' %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% if product.enable_product_reviews %}
+            {% if product.guest_review %}
+                {% include 'products/view/feedback.twig' %}
+
+            {% endif %}
+        {% endif %}
+        {% include 'products/view/reviews.twig' %}
+        {% include 'products/view/related-products.twig' %}
+        {% include 'products/view/up-sells.twig' %}
+
+
+    </section>
+
+
+    <script>
+            var qty = 1;
+            var minQuantity = 1;
+            var maxQuantity = 1;
+            var manualQuantity = {{ product.quantity_manually }};
+            var showQuantity = {{ product.remaning_quantity }};
+
+            $(document).ready(function() {
+                if ('number' === typeof window.MAX_QTY) {
+                    maxQuantity = window.MAX_QTY;
+                    minQuantity = window.MAX_QTY > 0 ? 1 : 0;
+                    qty = window.MAX_QTY > 0 ? 1 : 0;
+                    showQuantity = showQuantity == 0 ? false : (showQuantity == 1 ? true : showQuantity >= maxQuantity);
+                }
+
+                $('#qtyBox').attr('min', minQuantity);
+                $('#qtyBox').attr('max', maxQuantity);
+                $('#qtyBox').attr('value', qty);
+                if(showQuantity)
+                {
+                    $('#remaningQty').prepend(maxQuantity);
+                    $('#remaningQty').addClass('d-block')
+                }else{
+                    $('#remaningQty').addClass('d-none')
+                }
+                if(manualQuantity)
+                {
+                    $('#qtyBox').prop('readonly', false);
+                }else{
+                    $('#qtyBox').prop('readonly', true);
+                }
+            });
+            function quantity(qty, prevQty) {
+                if (parseInt(qty) == qty && qty != prevQty) {
+                    qty = parseInt(qty);
+
+                    if (qty < minQuantity) {
+                        qty = minQuantity;
+                    } else if (qty > maxQuantity) {
+                        qty = maxQuantity;
+                    }
+                    qty = qty;
+                } else {
+                    qty = prevQty;
+                }
+                $('#qtyBox').attr('value', qty);
+                return qty;
+            }
+
+            function changeQty() {
+                const q = $('#qtyBox').val();
+                qty = quantity(q, qty);
+                $('#qtyBox').val(qty);
+            }
+            function decreaseQty() {
+                const q = qty-1;
+                qty = quantity(q, qty);
+            }
+
+            function increaseQty() {
+                const q = qty+1;
+                qty = quantity(q, qty);
+            }
+            
+
+
+        $(document).ready(function() {
+            document.getElementById('loader').style.display = "none";
+        });
+
+        window.onload = function() {
+            var thumbList = document.getElementsByClassName('thumb-list')[0];
+            var thumbFrame = document.getElementsByClassName('thumb-frame');
+            var productHeroImage = document.getElementsByClassName('product-hero-image')[0];
+            if (thumbList && productHeroImage) {
+
+                for (let i = 0; i < thumbFrame.length; i++) {
+                    thumbFrame[i].style.width = "120px";
+                }
+
+                if (document.body.offsetWidth > 1024) {
+                    thumbList.style = null;
+                    thumbList.style.height = "480px";
+                } else {
+                    thumbList.style = null;
+                    thumbList.style.justifyContent = 'center';
+                }
+            }
+
+            window.onresize = function() {
+                if (thumbList && productHeroImage) {
+
+                    for (let i = 0; i < thumbFrame.length; i++) {
+                        thumbFrame[i].style.width = "120px";
+                    }
+
+                    if (document.body.offsetWidth > 1024) {
+                        thumbList.style = null;
+                        thumbList.style.width = "120px";
+                        thumbList.style.height = "480px";
+                    } else {
+                        thumbList.style = null;
+                        thumbList.style.justifyContent = 'center';
+                    }
+                }
+            }
+        };
+
+        $('body').on('submit', '#product-form', function(e) {
+            e.preventDefault();
+            var submitButton = e.originalEvent.submitter;
+
+            if (submitButton.getAttribute('type') != 'submit')
+                return;
+
+            $('#product-form [required]').each(function(c) {
+                if ($.trim($(this).val()) === '') {
+                    toastr.error('required fields are missing');
+                    return false;
+                }
+            });
+            
+            var is_buy_now = submitButton.classList.contains('buynow') ? 1 : 0;
+            if(is_buy_now == 1)
+            {
+                $('#is_buy_now').val(is_buy_now);
+            }
+            
+            setTimeout(function() {
+                document.getElementById('product-form').submit();
+                var formData = $('#product-form').serializeArray();
+            }, 0);
+        });
+    </script>
+    <script>
+        window.MAX_QTY = {{product.total_quantity}};
+    </script>
+
+{% endblock %}

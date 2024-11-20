@@ -1,0 +1,83 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+    <div class="account-content">
+
+        {% include 'customers/account/partials/sidemenu.twig' %}
+
+        <div class="account-layout">
+
+            <div class="account-head">
+                <span class="back-icon"><a href="/customer/account/profile"><i
+                            class="icon icon-menu-back"></i></a></span>
+                <span class="account-heading">{{ ('shop::app.customer.account.address.index.title'|trans) }}</span>
+
+                {% if addresses is not empty %}
+                    <span class="account-action">
+                        <a class="btn btn-primary" href="/customer/account/addresses/create">
+                            {{ ('shop::app.customer.account.address.index.add'|trans) }}
+                        </a>
+                    </span>
+                {% else %}
+                    <span></span>
+                {% endif %}
+                
+                <div class="horizontal-rule"></div>
+            </div>
+
+            <div class="account-table-content">
+                {% if addresses is empty %}
+                    <div>{{ ('shop::app.customer.account.address.index.empty'|trans) }}</div>
+                    <br />
+                    <a class="btn btn-primary" href="/customer/account/addresses/create">
+                        {{ ('shop::app.customer.account.address.index.add'|trans) }}
+                    </a>
+                {% else %}
+                    <div class="address-holder">
+                        {% for address in addresses %}
+                            <div class="address-card">
+                                <div class="details">
+                                    <span class="bold">{{ authUser.name }}</span>
+                                    <ul class="address-card-list">
+                                        <li class="mt-5">{{ address.company_name }}</li>
+                                        <li class="mt-5">{{ address.first_name }}</li>
+                                        <li class="mt-5">{{ address.last_name }}</li>
+                                        <li class="mt-5">{{ address.address1 }},</li>
+                                        <li class="mt-5">{{ address.city_name }}</li>
+                                        <li class="mt-5">{{ address.state_name }}</li>
+                                        <li class="mt-5">{{ address.country_name }} {{ address.postcode }}</li>
+                                        <li class="mt-10">
+                                            {{ ('shop::app.customer.account.address.index.contact'|trans) }}: {{ address.phone }}
+                                        </li>
+                                    </ul>
+                
+                                    <div class="control-links mt-20">
+                                        <button type="button" class="btn btn-primary" onclick="location.href='/customer/account/addresses/edit/{{ address.id }}'">
+                                            {{ ('shop::app.customer.account.address.index.edit'|trans) }}
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="deleteAddress('/customer/account/addresses/delete/{{ address.id }}')">
+                                            {{ ('shop::app.customer.account.address.index.delete'|trans) }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteAddress(url) {
+            if (!confirm('{{ ('shop::app.customer.account.address.index.confirm-delete'|trans) }}')) {
+                event.preventDefault();
+                return;
+            }
+
+            location.href = url
+        }
+    </script>
+{% endblock %}

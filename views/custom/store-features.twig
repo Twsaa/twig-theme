@@ -1,0 +1,18 @@
+<section class="s-block s-block--features container">
+    <span class="s-design-before s-design-invisible-dom" id="edit-1366530013"></span>
+    <div class="row">
+        {% for item in content['settings']['items'] %}
+            <div class="col-md-4">
+                <div class="s-block--features__item">
+                    <div class="feature-icon">
+                        <i class="{{ item['icon'] }}"></i>
+                    </div>
+                    <h2>{{ item['main_title'] }}</h2>
+                    <p class="text-base da-tm leading-6 line-clamp-3 w-full da-tm text-center my-2">
+                        {{ item['sub_title'] }}
+                    </p>
+                </div>
+            </div>            
+        {% endfor %}
+    </div>
+</section>

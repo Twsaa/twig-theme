@@ -1,0 +1,15 @@
+{% if product.related_products|length > 1 %}
+    <div class="attached-products-wrapper">
+    
+        <div class="title">
+            {{ ('shop::app.products.related-product-title'|trans) }}
+            <span class="border-bottom"></span>
+        </div>
+    
+        <div class="product-grid-4">
+            {% for related_product in product.related_products %}
+                {% include 'products/list/card.twig' with {'product': related_product} %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

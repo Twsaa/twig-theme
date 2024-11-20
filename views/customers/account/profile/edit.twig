@@ -1,0 +1,78 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+    <div class="account-content">
+
+        {% include 'customers/account/partials/sidemenu.twig' %}
+
+        <div class="account-layout">
+
+            <div class="account-head mb-10">
+                <span class="back-icon"><a href="/customer/account/profile"><i class="icon icon-menu-back"></i></a></span>
+
+                <span class="account-heading">{{ ('shop::app.customer.account.profile.edit-profile.title'|trans) }}</span>
+
+                <span></span>
+            </div>
+
+            <form method="post" action="{{ route('customer.profile.store') }}">
+
+                <div class="edit-form">
+                    {{ csrf_field() }}
+                
+                    <div class="control-group {{ errors['first_name']|length > 0 ? 'has-error' : '' }}">
+                        <label for="first_name" class="required">{{ ('shop::app.customer.account.profile.fname'|trans) }}</label>
+                        <input type="text" class="control" name="first_name" value="{{ customer.first_name }}" required>
+                        <span class="control-error">{{ errors['first_name'][0] ? errors.first('first_name') : '' }}</span>
+                    </div>
+                
+                    <div class="control-group {{ errors['last_name']|length > 0 ? 'has-error' : '' }}">
+                        <label for="last_name" class="required">{{ ('shop::app.customer.account.profile.lname'|trans) }}</label>
+                        <input type="text" class="control" name="last_name" value="{{ customer.last_name }}" required>
+                        <span class="control-error">{{ errors['last_name'][0] ? errors.first('last_name') : '' }}</span>
+                    </div>
+                
+                    <div class="control-group {{ errors['gender']|length > 0 ? 'has-error' : '' }}">
+                        <label for="gender" class="required">{{ ('shop::app.customer.account.profile.gender'|trans) }}</label>
+                        <select name="gender" class="control" required>
+                            <option value="" {% if customer.gender == "" %}selected{% endif %}></option>
+                            <option value="Other" {% if customer.gender == "Other" %}selected{% endif %}>{{ ('shop::app.customer.account.profile.other'|trans) }}</option>
+                            <option value="Male" {% if customer.gender == "Male" %}selected{% endif %}>{{ ('shop::app.customer.account.profile.male'|trans) }}</option>
+                            <option value="Female" {% if customer.gender == "Female" %}selected{% endif %}>{{ ('shop::app.customer.account.profile.female'|trans) }}</option>
+                        </select>
+                        <span class="control-error">{{ errors['gender'][0] ? errors.first('gender') : '' }}</span>
+                    </div>
+                
+                    <div class="control-group {{ errors['phone']|length > 0 ? 'has-error' : '' }}">
+                        <label for="phone">{{ ('shop::app.customer.account.profile.phone'|trans) }}</label>
+                        <input type="input" class="control phone-fix" name="phone" value="{{ customer.phone }}" required>
+                        <span class="control-error">{{ errors['phone'][0] ? errors.first('phone') : '' }}</span>
+                    </div>
+                
+                    <div class="control-group {{ errors['date_of_birth']|length > 0 ? 'has-error' : '' }}">
+                        <label for="date_of_birth">{{ ('shop::app.customer.account.profile.dob'|trans) }}</label>
+                        <input type="date" class="control" name="date_of_birth" placeholder="{{ ('shop::app.customer.account.profile.dmy'|trans) }}" value="{{ customer.date_of_birth }}">
+                        <span class="control-error">{{ errors['date_of_birth'][0] ? errors.first('date_of_birth') : '' }}</span>
+                    </div>
+                
+                    <div class="control-group {{ errors['email']|length > 0 ? 'has-error' : '' }}">
+                        <label for="email" class="required">{{ ('shop::app.customer.account.profile.email'|trans) }}</label>
+                        <input type="email" class="control" name="email" value="{{ customer.email }}" required>
+                        <span class="control-error">{{ errors['email'][0] ? errors.first('email') : '' }}</span>
+                    </div>
+                
+                    <div class="button-group">
+                        <input class="btn btn-primary btn-lg" type="submit" value="{{ ('shop::app.customer.account.profile.submit'|trans) }}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#datepicker').datepicker();
+        })
+    </script>
+{% endblock %}

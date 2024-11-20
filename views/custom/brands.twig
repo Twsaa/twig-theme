@@ -1,0 +1,29 @@
+<div id="block{{ content['block_id'] }}">
+    {% if content['setting']['brands_title'] %}
+        <div class="s-block__title">
+            <div class="flex flex-col w-full">
+                <h2 class="w-full da-cp">{{ content['setting']['brands_title'] }}</h2>
+            </div>
+        </div>        
+    {% endif %}
+    
+    <div id="slider{{ content['block_id'] }}" class="home-grid mb-20 owl-carousel">
+        {% for brand in content['settings']['brands'] %}
+            <div class="">
+                <div class="">
+                    <a href="">
+                        <div class="product-image">
+                            <img src="{{ storage_url ~ brand['logo'] }}"
+                                {# onerror="this['src']='{{ asset_url ~ (brand['logo']) }}'" #}
+                                 />
+                        </div>        
+                    </a>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-lg">{{ brand['name'] }}</h3>
+                </div>
+            </div>
+        {% endfor %}
+       
+    </div>
+</div>

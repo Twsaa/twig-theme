@@ -1,0 +1,124 @@
+
+<div class="product-options" id="product-options">
+    <div class="attributes">
+        <input type="hidden" id="selected_configurable_option" name="selected_configurable_option" value="">
+        {% for index, attribute in childAttributes['attributes'] %}
+            <div class="attribute control-group" data-attribute-id="{{ attribute['id'] }}">
+                <label class="required">{{ attribute['label'] }}</label>
+                 {% if (not attribute['swatch_type'] or attribute['swatch_type'] == '' or attribute['swatch_type'] == 'dropdown') and attribute['code'] != 'image' and attribute['code'] != 'color' %}
+                    <select class="control" name="super_attribute[{{ attribute['id'] }}]" data-attribute-id="{{ attribute['id'] }}" 
+                    {% for option in attribute['options'] %}
+                        @change="configure({{ attribute['id'] }}, {{ option['id'] }}, {{ index }})"
+                    {% endfor %}
+                    >
+                        <option value="">{{ ('shop::app.products.select-above-options'|trans) }}</option>
+                        {% for option in attribute['options'] %}
+                            <option value="{{ option['id'] }}">{{ option['label'] }}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    <div class="swatch-container">
+                        {% for option in attribute['options'] %}
+                            <label class="swatch" data-id="{{ option['id'] }}">
+                                <input type="radio" name="super_attribute[{{ attribute['id'] }}]" value="{{ option['id'] }}" @change="configure({{ attribute['id'] }}, {{ option['id'] }}, {{ index }})" />
+                                {% if attribute['code'] == 'color' %}
+                                    <span style="background: {{ option['swatch_value'] }};"></span>
+                                {% elseif attribute['code'] == 'image' %}
+                                    <img src="{{ option['swatch_url'] }}" alt="{{ option['label'] }}">
+                                {% else %}
+                                    {{ option['label'] }}
+                                {% endif %}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <span class="control-error" data-error-for="super_attribute[{{ attribute['id'] }}]"></span>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+
+    var allowedProducts = [];
+    var simpleProduct = '';
+    var config = ({{ childAttributes | json_encode | raw }});
+
+    function configure(attribute, option, index) {
+
+        matchedAttributes = config.attributes.filter(function (config) {
+            return config.id === attribute
+        });
+
+        matchedOptions = matchedAttributes[0]['options'].filter(function (matchedAttributes) {
+            return matchedAttributes.id == option;
+        });
+
+        if (matchedOptions[0] != undefined && matchedOptions[0].products != undefined) {
+            allowedProducts[index] = matchedOptions[0].products;
+        }
+
+        if(findCommonValues(allowedProducts)[0] != undefined)
+        {
+            simpleProduct = findCommonValues(allowedProducts)[0];
+        }
+        $('#selected_configurable_option').val(simpleProduct);
+        reloadPrice(simpleProduct);
+        changeStock(simpleProduct);
+    }
+
+    function findCommonValues(arrays) {
+        return arrays.reduce((acc, curr) => acc.filter(value => curr.includes(value)));
+    }
+
+    function reloadPrice (simpleProduct) {
+        var variant_prices = config['variant_prices'][simpleProduct];
+        var regularElement = $('.product-price');
+        var priceElement = $('.special-price');
+        console.log(config['variant_prices'])
+        $('.product-shipping-weight').html(variant_prices.weight);
+        {# weightElement.innerHTML = variant_prices.weight; #}
+
+        if(variant_prices['qty'] > 0)
+        {
+            qty = 1; 
+            maxQuantity = variant_prices['qty'];
+            $('#qtyBox').attr('min', 1);
+            $('#qtyBox').attr('max', variant_prices['qty']);
+            $('#qtyBox').attr('max', variant_prices['qty']);
+            $('#qtyBox').attr('value', 1);
+        }else{
+            qty = 0; 
+            maxQuantity = 0;
+            $('#qtyBox').attr('min', 1);
+            $('#qtyBox').attr('max', 0);
+            $('#qtyBox').attr('value', 0);
+        }
+
+        regularElement.html(variant_prices.regular_price.formated_price);
+        priceElement.html(variant_prices.final_price.formated_price);
+
+        if (variant_prices.qty) {
+            const maxqty = variant_prices.qty;
+            window.MAX_QTY = maxqty;
+        } else {
+            window.MAX_QTY = null;
+        }
+    }
+
+    function changeStock (productId) {
+        var inStockElement = document.querySelector('.stock-status');
+
+        if (productId) {
+            inStockElement.style.display= "block";
+        } else {
+            inStockElement.style.display= "none";
+        }
+    }
+</script>
+
+
+<script>
+    window.MAX_QTY = {{product.total_quantity}};
+</script>
+

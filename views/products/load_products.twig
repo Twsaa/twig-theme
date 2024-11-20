@@ -1,0 +1,10 @@
+{% if products %} 
+    {% for product in products %}
+        {% include 'products/list/card.twig' with {'product': product.product} %}
+    {% endfor %}
+{% else %}
+    <div class="product-list empty">
+        <h2>{{ ('shop::app.products.whoops'|trans) }}</h2>
+        <p>{{ ('shop::app.search.no-results'|trans) }}</p>
+    </div>
+{% endif %}

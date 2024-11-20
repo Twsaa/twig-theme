@@ -1,0 +1,95 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+    <div class="account-content">
+
+        {% include 'customers/account/partials/sidemenu.twig' %}
+
+        <div class="account-layout">
+
+            <div class="account-head mb-15">
+                <span class="account-heading">{{ ('shop::app.customer.account.wishlist.title'|trans) }}</span>
+
+                {% if items|length > 0 %}
+                    <div class="account-action">
+                        <a href="/customer/wishlist/removeall">{{ ('shop::app.customer.account.wishlist.deleteall'|trans) }}</a>
+                    </div>
+                {% endif %}                
+
+                <div class="horizontal-rule"></div>
+            </div>
+
+            <div class="account-items-list">
+
+                {% if items|length > 1 %}
+                    {% for item in items %}
+                        <div class="account-item-card mt-15 mb-15">
+                            <div class="media-info">
+                
+                                <img class="media" src="{{ item.product.base_image_url }}" />
+                
+                                <div class="info">
+                                    <div class="product-name">
+                                        {{ item.product.name }}
+                                    </div>
+                
+                                    {% if item.product.average_rating > 0 %}
+                                        <span class="stars" style="display: inline">
+                                            {% for i in 1..5 %}
+                                                {% if item.product.average_rating >= i %}
+                                                    <span class="icon-star2"></span>
+                                                {% else %}
+                                                    <span class="icon-star"></span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </span>                                        
+                                    {% endif %}
+                                </div>
+                            </div>
+                
+                            <div class="operations">
+                                <a class="mb-50" href="/customer/wishlist/remove/{{ item.id }}" onclick="removeWishlist(event)">
+                                    <span class="icon trash-icon icon-close-mini"><i class="fa fa-times"></i></span>
+                                </a>
+                
+                                <a href="/customer/wishlist/move/{{ item.id }}" class="btn btn-primary btn-md">
+                                    {{ ('shop::app.customer.account.wishlist.move-to-cart'|trans) }}
+                                </a>
+                            </div>
+                        </div>
+                
+                        <div class="horizontal-rule mb-10 mt-10"></div>
+                    {% endfor %}
+                
+                    <div class="bottom-toolbar">
+                        {% if items is not iterable %}
+                            {{ items|raw }}
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="empty">
+                        {{ ('customer::app.wishlist.empty'|trans) }}
+                    </div>
+                {% endif %}
+                
+            </div>
+
+        </div>
+    </div>
+<script>
+    function removeWishlist(event) {
+        event.preventDefault();
+        var icon = event.currentTarget.querySelector('.icon-close-mini');
+        if (icon) {
+            icon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        }
+        var removeUrl = event.currentTarget.getAttribute('href');
+        setTimeout(function() {
+            window.location.href = removeUrl;
+        }, 500); // Adjust the delay time as needed
+    }
+
+</script>
+{% endblock %}

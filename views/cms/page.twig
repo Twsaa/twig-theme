@@ -1,0 +1,8 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+    <div class="cms-content">
+        {{ page.html_content|raw }}
+    </div>
+{% endblock %}

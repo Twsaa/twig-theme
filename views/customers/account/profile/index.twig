@@ -1,0 +1,95 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+<div class="account-content">
+
+    {% include 'customers/account/partials/sidemenu.twig' %}
+
+    <div class="account-layout">
+
+        <div class="account-head">
+
+            <span class="back-icon"><a href="/customer/account/profile"><i class="icon icon-menu-back"></i></a></span>
+
+            <span class="account-heading">{{ ('shop::app.customer.account.profile.index.title'|trans) }}</span>
+
+            <span class="account-action">
+                <a class="btn btn-primary" href="/customer/account/profile/edit">{{ ('shop::app.customer.account.profile.index.edit'|trans) }}</a>
+            </span>
+
+            <div class="horizontal-rule"></div>
+        </div>
+
+
+        <div class="account-table-content" style="width: 50%;">
+            <table style="color: #5E5E5E;">
+                <tbody>
+                    
+                    <tr>
+                        <td>{{ ('shop::app.customer.account.profile.fname'|trans) }}</td>
+                        <td>{{ customer.first_name }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>{{ ('shop::app.customer.account.profile.lname'|trans) }}</td>
+                        <td>{{ customer.last_name }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>{{ ('shop::app.customer.account.profile.gender'|trans) }}</td>
+                        <td>{{ (customer.gender) }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>{{ ('shop::app.customer.account.profile.dob'|trans) }}</td>
+                        <td>{{ customer.date_of_birth }}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td>{{ ('shop::app.customer.account.profile.email'|trans) }}</td>
+                        <td>{{ customer.email }}</td>
+                    </tr>
+
+                    
+                </tbody>
+            </table>
+
+
+           
+            <form method="POST" action="{{ route('customer.profile.destroy') }}" @submit.prevent="onSubmit">
+                {{ csrf_field() }}
+                <modal id="deleteProfile" :is-open="modalIds.deleteProfile">
+                    <h3 slot="header">{{ ('shop::app.customer.account.address.index.enter-password'|trans) }}</h3>
+
+                    <div slot="body">
+                        <div class="control-group {{ errors['first']['password'] ? 'has-error' : '' }}">
+                            <label for="password" class="required">{{ 'admin::app.users.users.password'|trans }}</label>
+                            <input type="password" class="control" id="password" name="password" required minlength="6" maxlength="18" />
+
+                            {% if errors is defined and errors['first']['password'] %}
+                                <span class="control-error">
+                                    {{ errors['first']['password'] }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+
+                        <div class="page-action">
+                            <button type="submit"  class="btn btn-lg btn-primary mt-10">
+                            {{ ('shop::app.customer.account.address.index.delete'|trans) }}
+                            </button>
+                        </div>
+                    </div>
+                </modal>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

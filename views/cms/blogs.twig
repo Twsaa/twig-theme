@@ -1,0 +1,109 @@
+
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+<div class="content page-container">
+    <div class="container content-container">
+        <div class="page-main-container blog-archive with-side-menu">
+            <div class="posts-wrapper">
+                <div class="row">
+                    <div class="col-md-3 sidebar">
+                        <div class="side-menu__overlay"></div>
+                        <div class="sidebar__blog-menu side-menu">
+                            <button class="side-menu__close">
+                                <i class="icon-cancel"></i>
+                            </button>
+                            <div class="section-header section-header--clear border-less mb-20">
+                                <h2 class="section--title">
+                                    <span>
+                                        {{ ('admin::app.admin.blog.categories'|trans) }}
+                                    </span>
+                                </h2>
+                            </div>
+                            <ul class="list side-menu__ul">
+                                {% for category in blogCategories %}
+                                    <li>
+                                        <a href="/blogs/category/{{ category['id'] }}">
+                                            {{ category['name'] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        {% for category in blogCategories %}
+                            <section class="mb-50">
+                                <div class="section-header section-header--clear mb-4 d-flex">
+                                    <h2 class="section--title">
+                                        <span>
+                                            {{ category['name'] }}
+                                        </span>
+                                    </h2>
+                                </div>
+                                
+                                <section>
+                                    <div class="infinite-scroll grid-block grid-block--col-3 grid-block--gap-20">
+                                        {% for blog in blogs[category['id']] %}
+                                            <div class="post post--col post--short flex-1 ">
+                                                <a class="post__img"
+                                                    href="/blog/{{blog.company_id}}/{{ blog.meta_url }}">
+                                                    {% if blog.image %}
+                                                        <img src="{{ storage_url~(blog.image) }}"
+                                                            alt="{{ blog.name }}" aria-label="{{ blog.name }}">                                                        
+                                                    {% else %}
+                                                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/placeholder.png"
+                                                            alt="{{ blog.name }}" aria-label="{{ blog.name }}">
+                                                    {% endif %}
+                                                </a>
+                                                <div class="post__body">
+                                                    <a href="/blog/{{blog.company_id}}/{{ blog.meta_url }}"
+                                                        class="post__title">
+                                                        <h3>
+                                                            {{ blog.name }}
+                                                        </h3>
+                                                    </a>
+                                                    <p>
+                                                        {{ blog.description }}
+                                                    </p>
+                                                    <div class="post__meta text-muted mt-10">
+                                                        <span class="post__meta__item mr-10">
+                                                            <i class="icon-user mr-5"></i>
+                                                            <a href="blogs/author{{ blog.author_id }}" class="post-author">
+                                                                {{ blog.getUser.name }}
+                                                            </a>
+                                                        </span>
+                                                        <span class="post__meta__item post-date mr-5">
+                                                            <i class="icon-calendar-alt mr-5"></i>
+                                                            {{ blog.created_at }}
+                                                        </span>
+                                                        <span class="d-block w-100 mt-10">
+                                                            {{ ('admin::app.admin.blog.category'|trans) }}: 
+                                                            <a href="/blogs/category/{{ category['id'] }}" class="post-cat">
+                                                                {{ category['name'] }}
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>                                
+                                        {% endfor %}
+                                    </div>
+                                    <div class="render" style="text-align:center;display: none">
+                                    </div>
+                                    <div class="page-load-status" style="display: none">
+                                        <div class="infinite-scroll-request">
+                                            <div class="loader"></div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </section>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

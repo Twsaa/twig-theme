@@ -1,0 +1,139 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block head %}
+    <style>
+        .row {
+            margin-right: -15px;
+            margin-left: -15px;
+            display: block;
+        }
+        
+        .thumbnail {
+            border-radius: 6px;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 20px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 0px;
+            transition: border .2s ease-in-out;
+        }
+    </style>
+{% endblock %}
+{% block main_content %}
+<div class="content page-container">
+    <div class="container">
+    <div class="page-main-container page-single blog-single">
+        <div class="thumbnail page-box">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="caption product-desc box-more has-thumb p-20">
+                        <h1 class="product-title blog-title text-semibold">
+                            {{ blog.name }}
+                        </h1>
+                        <div class="post__meta blog-single__meta text-muted">
+                            <span class="inline-flex">
+                                {{ ('admin::app.admin.blog.author'|trans) }}:
+                                <a href="/blogs/author/{{ blog.author_id }}" class="post-author">
+                                    {{ blog.getUser.name }}
+                                </a>
+                            </span>
+                            <span class="post-date">{{ blog.created_at }}</span>
+                        </div>
+                        <div class="blog-single__thumb mt-30 mb-30">
+                            {% if blog.image %}                            
+                                <img src="{{ storage_url ~ (blog.image) }}" style="width: -webkit-fill-available;"
+                                    alt="{{ blog.name }}" aria-label="{{ blog.name }}">
+                            {% else %}
+                                <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/placeholder.png"
+                                    alt="{{ blog.name }}" aria-label="{{ blog.name }}">
+                            {% endif %}
+                        </div>
+                        <p>
+                            {{ blog.description|raw }}</p>
+                        <div class="clear"></div>
+                        <div class="mt-20">
+                            <div class="a2a_kit a2a_kit_size_32 a2a_default_style blog-single__share-icons"
+                                data-a2a-icon-color="transparent" style="line-height: 32px;">
+                                <a class="a2a_button_twitter" target="_blank" rel="nofollow noopener" href="/#twitter">
+                                    <span class="a2a_s__default a2a_s_twitter" style="background-color: transparent;">
+                                        <i class="fa-brands fa-twitter" style="color: #000000;"></i>
+                                    </span><span class="a2a_label">Twitter</span></a>
+                                <a class=" a2a_button_facebook" target="_blank" rel="nofollow noopener" href="/#facebook">
+                                    <span class="a2a_s__default a2a_s_facebook" style="background-color: transparent;">
+                                        <i class="fa-brands fa-facebook-f" style="color: #000000;"></i>
+                                    </span>
+                                    <span class="a2a_label">Facebook</span>
+                                </a>
+                                <a class="a2a_button_copy_link" target="_blank" rel="nofollow noopener" href="/#copy_link">
+                                    <span class="a2a_s__default a2a_s_link" style="background-color: transparent;">
+                                        <i class="fas fa-link" style="color: #000000;"></i>
+                                    </span>
+                                    <span class="a2a_label">Copy Link</span>
+                                </a>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="related">
+        <div class="section-header section-header--clear d-flex text-center mt-50 mb-20">
+            <h3 class="section--title"><span>{{ ('admin::app.admin.blog.categories'|trans) }}</span></h3>
+        </div>
+        <div class="grid-block grid-block--col-3 grid-block--gap-20">
+            {% for blog in relatedBlogs %}   
+                <div class="post post--col flex-1 ">
+                    <a class="post__img" href="/blog/{{ blog.company_id }} '/' {{ blog.meta_url }}">
+                        {% if blog.image %}                            
+                            <img src="{{ storage_url ~ (blog.image) }}"
+                                alt="{{ blog.name }}" aria-label="{{ blog.name }}">
+                        {% else %}
+                            <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/placeholder.png"
+                                alt="{{ blog.name }}" aria-label="{{ blog.name }}">
+                        {% endif %}
+                    </a>
+                    <div class="post__body">
+                        <a href="/blog/{{ blog.company_id }} '/' {{ blog.meta_url }}" class="post__title">
+                            <h3>{{ blog.name }}</h3>
+                        </a>
+                        <p>{{ blog.promotion_title }}</p>
+                        <div class="post__meta text-muted mt-10">
+                            <span class="post__meta__item mr-10">
+                                <i class="sicon-user mr-5"></i>
+                                <a href="blogs/author/{{ blog.author_id }}"
+                                    class="post-author">{{ blog.getUser.name }}</a>
+                            </span>
+                            <span class="post__meta__item post-date mr-5">
+                                <i class="sicon-calendar-alt mr-5"></i>
+                                {{ blog.created_at }}</span>
+                            <span class="d-block w-100 mt-10">
+                                {{ ('admin::app.admin.blog.category'|trans) }}:
+                                {% for category in blog.blog_categories %}
+                                    <a href="blogs/category/{{ category.id }}" class="post-cat">
+                                        {{ category.name }}
+                                    </a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var a2a_config = a2a_config || {};
+        a2a_config.linkurl = "/blog/{{ blog.id }}/ {{ blog.meta_url }}";
+        a2a_config.locale = "ar";
+</script>
+<script async="" src="https://static.addtoany.com/menu/page.js" type="text/javascript">
+</script>
+
+{% endblock %}

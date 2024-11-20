@@ -1,0 +1,87 @@
+{% if product.total_reviews %}
+    
+    <div class="rating-reviews">
+        <div class="rating-header">
+            {{ ('shop::app.products.reviews-title'|trans) }}
+        </div>
+
+        <div class="overall">
+            <div class="review-info">
+
+                <span class="number">
+                    {{ product.average_rating }}
+                </span>
+
+                <span class="stars">
+                    {% for i in is %}
+                        
+                    {% endfor %}
+                    {% for i in 1..5 %}
+                        {% if (i <= product.average_rating) %}
+                             <span class="icon-star2 star-{{ i }}"></span>    
+                        {% else %}
+                            <span class="icon-star star-{{ i }}" style="color: silver"></span>
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                </span>
+
+                <div class="total-reviews">
+                    {{ 'shop::app.products.total-reviews'|trans({'total': product.total_reviews}) }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="reviews">
+
+            <div id="loadReview"></div>
+            <div class="s-infinite-scroll-wrapper">
+                <a id="load-more" class="s-infinite-scroll-btn s-button-btn s-button-primary">
+                    <span class="s-button-text s-infinite-scroll-btn-text"> {{ ('shop::app.products.load_more'|trans) }}</span>
+                    <span class="s-button-loader s-button-loader-center s-infinite-scroll-btn-loader"
+                        style="display: none"></span>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+{% endif %}
+
+    <script>
+        var page = 0;
+        var moreData = true;
+
+        $(function() {
+            page++;
+            getresult(page);
+        });
+
+        $(document).on('click', `#load-more`, function(e) {
+            if (moreData) {
+                page++;
+                getresult(page);
+            }
+        });
+
+        function getresult(url) {
+            $.ajax({
+                url: "{{ route('shop.reviews.load', product.product_id) }}"+'?page=' + url,
+                type: 'GET',
+                success: function(response) {
+                    if (response) {
+                        $('#loadReview').append(response);
+                    } else {
+                        moreData = false;
+                        $('#load-more').hide();
+                    }
+                },
+                error: function(err) {}
+            });
+        }
+
+    </script>

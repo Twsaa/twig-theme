@@ -1,0 +1,83 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+<div class="account-content">
+    {% include 'customers/account/partials/sidemenu.twig' %}
+    <div class="account-layout">
+
+        <div class="account-head mb-10 d-flex" style="justify-content: space-between">
+            <span class="back-icon"><a href="/customer/account/profile"><i
+                        class="icon icon-menu-back"></i></a></span>
+            <span class="account-heading">
+                {{ ('shop::app.layouts.wallet'|trans) }}
+            </span>
+
+            <div class="address-card">
+                <div class="details">
+                    <div class="account-body">
+                        <div class="p-5">
+                            <i class="icon-bag-dollar"></i> {{ ('shop::app.customer.account.wallet.total_money'|trans) }}:
+                            {{ adminCustomer.core_currency }} {{ adminCustomer.wallet }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="horizontal-rule"></div>
+
+        <div class="account-items-list">
+            <div class="account-table-content">
+                <div class="table">
+                    <div class="grid-container">
+                        <table class="table">
+                            <thead>
+                                <tr style="height: 65px;">
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.order_id'|trans) }}
+                                    </th>
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.created_at'|trans) }}
+                                    </th>
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.type'|trans) }}
+                                    </th>
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.amount'|trans) }}
+                                    </th>
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.status'|trans) }}
+                                    </th>
+                                    <th class="grid_head">
+                                        {{ ('shop::app.customer.account.wallet.notes'|trans) }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set wallets = getFunction('dataTableWallet') %}
+                                {% for wallet in wallets %}
+                                    <tr>
+                                         <td data-value="Order Id">{{ wallet['order_id'] }}</td>
+                                        <td data-value="Created At">{{ wallet['created_at'] }}</td>
+                                        <td data-value="Type">{{ wallet['type'] }}</td>
+                                        <td data-value="Amount">{{ wallet['amount'] }}</td>
+                                        <td data-value="Status">{{ wallet['status'] }}</td> 
+                                        <td data-value="Notes">{{ wallet['notes'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        {% if wallets is not iterable %}
+                            {{ wallets|raw }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

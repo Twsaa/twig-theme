@@ -1,0 +1,76 @@
+{% extends "layout/main.twig" %}
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+
+    {# @inject ('productRepository', 'Webkul\Product\Repositories\ProductRepository') #}
+
+    <div class="main">
+
+        <div class="category-block" 
+        {% if category.display_mode == 'description_only'  %}
+            style="width: 100%"
+        {% endif %}
+        >
+        {% if category.image | length > 0 %}    
+            <div class="hero-image mb-35">
+                <img class="logo" src="{{ category.image_url }}" />
+            </div>
+        {% endif %}
+
+        {% include 'products/list/grid.twig' with {'product': product, sorter: true} %}
+
+            {# @if (in_array(category.display_mode, [null, 'products_only', 'products_and_description']))
+                <?php products = productRepository.getByCategories(category.id); ?>
+
+                    @include('products/list/grid.twig')
+            @endif #}
+        </div>
+
+    </div>
+
+    <script>
+        var page = 1; //The number of records to display per request
+        var action = 'inactive'; //Check if current action is going on or not. If not then inactive otherwise active
+        
+        $(window).scroll(function(){
+        
+            if($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive')
+            {
+                action = 'active';
+    
+                var sort = (new URL(location.href)).searchParams.get('sort');
+                var order = (new URL(location.href)).searchParams.get('order');
+                page = page + 1;
+                $(".s-products-list-loading-wrapper").show();
+                
+                url_query = "?page="+page;
+                if(sort)
+                {
+                    url_query += "&sort="+sort;
+                }
+                if(order)
+                {
+                    url_query += "&order="+order;
+                }
+    
+                url_path = "/load-more"+"/{{ category.url_path }}"+url_query;
+                $.ajax({
+                        url: url_path,
+                        type: "GET",
+                        cache: false,
+                        success: function(resp) {
+                            if(resp.success == true)
+                            {
+                                $('#load_data').append(resp.html)
+                                action = 'inactive';
+                            }
+                            $(".s-products-list-loading-wrapper").hide();
+                        },
+                    });
+            }
+        });
+    
+    
+    </script>
+{% endblock %}

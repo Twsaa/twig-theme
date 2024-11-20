@@ -1,0 +1,3 @@
+{% if (product.up_sells|length > 1 ) %}
+    {% include 'custom/fixed-products-slider.twig' with {'content': {'settings': {'products': product.up_sells, 'products_title': 'Products you may like' }}} %}
+{% endif %}

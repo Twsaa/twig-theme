@@ -1,0 +1,65 @@
+<div class="modal modal-light fade" id="completeProfileModal" role="dialog" aria-labelledby="completeProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class="icon-cancel"></i>
+            </button>
+            <div class="s-modal-header-inner mt-25 text-center">
+                <span>
+                    <i class="icon-user xx-large"></i>
+                </span>
+            <div class="s-modal-header-content"><h2>{{ ('shop::app.customer.login-form.title'|trans) }}</h2></div></div>
+        </div>
+        <div class="modal-body mt-0">
+            <div class="account-content m-0">
+        
+                <div class="account-layout mt-0">
+        
+                    <form method="post" action="{{ route('customer.profile.store') }}">
+        
+                        <div class="">
+                            {{ csrf_field() }}
+                            {% set errors = getFunction('getErrorMessage') %}
+
+                            <div class="control-group {{ errors['first_name'] | length > 0 ? 'has-error' : '' }}">
+                                <label for="first_name" class="required">{{ 'shop::app.customer.account.profile.fname'|trans }}</label>
+                                <input type="text" class="control" name="first_name" value="{{ customer.first_name }}" required>
+                                <span class="control-error">{{ errors['first_name'] | length > 0 ? errors['first_name'][0] : '' }}</span>
+                            </div>
+                        
+                            <div class="control-group {{ errors['last_name'] | length > 0 ? 'has-error' : '' }}">
+                                <label for="last_name" class="required">{{ 'shop::app.customer.account.profile.lname'|trans }}</label>
+                                <input type="text" class="control" name="last_name" value="{{ customer.last_name }}" required>
+                                <span class="control-error">{{ errors['last_name'] | length > 0 ? errors['last_name'][0] : '' }}</span>
+                            </div>
+        
+                            <div class="control-group {{ errors['phone'] | length > 0 ? 'has-error' : '' }}">
+                                <label for="phone">{{ 'shop::app.customer.account.profile.phone'|trans }}</label>
+                                <input type="input" class="control phone-fix" name="phone" value="{{ customer.phone }}" required>
+                                <span class="control-error">{{ errors['phone'] | length > 0 ? errors['phone'][0] : '' }}</span>
+                            </div>
+                        
+                            <div class="control-group {{ errors['email'] | length > 0 ? 'has-error' : '' }}">
+                                <label for="email" class="required">{{ 'shop::app.customer.account.profile.email'|trans }}</label>
+                                <input type="email" class="control" name="email" value="{{ customer.email }}" required>
+                                <span class="control-error">{{ errors['email'] | length > 0 ? errors['email'][0] : '' }}</span>
+                            </div>
+        
+                            <div class="button-group">
+                                <input class="btn btn-primary btn-lg" type="submit" value="{{ 'shop::app.customer.account.profile.submit'|trans }}">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#datepicker').datepicker();
+
+    })
+</script>

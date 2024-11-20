@@ -1,0 +1,126 @@
+<div id="loyalty_system_modal" class="modal modal-light fade" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header modal-header--informative no-border">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="icon-cancel"></i>
+                </button>                <div>
+                    <div class="img-wrapper">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/flat.svg" alt="flat">
+                    </div>
+                    <div>
+                        <h4 class="title mb-0 mt-0">
+                            <span>{{ program.prize_promotion_title | default(program.translations[0]['name']) }}</span>
+                        </h4>
+                        <span>{{ program.prize_promotion_description | default(program.translations[0]['prize_promotion_description'])}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body p-20">
+                <ul class="nav nav-tabs nav-tabs-solid mb-20" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#free_shipping" aria-controls="free_shipping" role="tab" data-toggle="tab" aria-expanded="true">
+                            {{ 'shop::app.checkout.redeem.free_shipping' | trans }}
+                        </a>
+                    </li>
+                    <li role="presentation" class="">
+                        <a href="#coupon_discount" aria-controls="coupon_discount" role="tab" data-toggle="tab" aria-expanded="false">
+                            {{ 'shop::app.checkout.redeem.discount_coupon' | trans }}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="free_shipping">
+                        <div class="owl-carousel owl-theme">
+                            {% for item in getFunction('getFreeShipping') %}
+                                <div class="product product--light loyal-prize selectable" 
+                                     data-points-prize_id="{{ item.id }}" 
+                                     data-points-type="free_shipping" 
+                                     data-points-value="{{ item.required_points }}" 
+                                     data-points-name="شحن مجاني">
+                                    <a class="product--light__thumb">
+                                        <img class="owl-lazy" alt="شحن مجاني" src="https://twsaa.com/admin-themes/mbotiq/assets/images/free_shipping.webp" style="opacity: 1;">
+                                    </a>
+                                    <div class="product--light__meta">
+                                        <a>{{ ('shop::app.checkout.redeem.' ~ item.selected_prize|lower)|trans }}</a>
+                                        <div>
+                                            <p class="text-muted font-13">{{ item.description }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="product--light__footer">{{ item.required_points }} {{ 'shop::app.checkout.redeem.points'|trans }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="coupon_discount">
+                        <div class="points-carousel owl-carousel owl-carousel--filtered-sides owl-carousel--flat-nav owl-theme eq-height-carousel owl-rtl owl-loaded owl-drag owl-hidden">
+                            {% for item in getFunction('getFreeCoupons') %}
+                                <div class="product product--light loyal-prize selectable active" 
+                                     data-points-prize_id="{{ item.id }}" 
+                                     data-points-type="coupon_discount" 
+                                     data-points-value="{{ item.required_points }}" 
+                                     data-points-name="كوبون خصم 100 ر.س">
+                                    <a class="product--light__thumb">
+                                        {% if item.discount_image %}
+                                            <img class="owl-lazy" alt="discount coupon" src="{{ storage_url ~ (item.discount_image) }}" style="opacity: 1;">
+                                        {% else %}
+                                            <img class="owl-lazy" alt="discount coupon" src="https://twsaa.com/admin-themes/mbotiq/assets/images/free_coupon.png" style="opacity: 1;">
+                                        {% endif %}
+                                    </a>
+                                    <div class="product--light__meta">
+                                        <a>
+                                            {% if item.discount_type == 'fixed_amount' or item.discount_type == 'amount' %}
+                                                {{ item.fixed_amount }} {{ getFunction('getCurrentCurrencyCode') }} {{ ('shop::app.checkout.redeem.' ~ item.selected_prize|lower)|trans }}
+                                            {% elseif item.discount_type == 'percent_amount' or  item.discount_type == 'percent' %}
+                                                {{ item.percent_amount }} % {{ ('shop::app.checkout.redeem.' ~ item.selected_prize|lower)|trans }}
+                                            {% endif %}
+                                        </a>
+                                        <div>
+                                            <p class="text-muted font-13">{{ item.description }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="product--light__footer">
+                                        {{ item.required_points }} {{ 'shop::app.checkout.redeem.points'|trans }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="free_product">
+                        <div class="points-carousel owl-carousel owl-carousel--filtered-sides owl-carousel--flat-nav owl-theme eq-height-carousel owl-rtl owl-loaded owl-drag owl-hidden">
+                            {% for item in getFunction('getFreeProducts') %}
+                                <div class="product product--light loyal-prize selectable" 
+                                     data-points-prize_id="{{ item.id }}" 
+                                     data-points-type="free_product" 
+                                     data-points-value="{{ item.required_points }}" 
+                                     data-points-name="منتج مجاني: ايفون 14 ( 128 جيجا ، 5G ، اللون سيتم اختياره حسب المتاح )">
+                                    <a class="product--light__thumb">
+                                        {% if item.product_image == 'new_image' %}
+                                            <img class="owl-lazy" alt="Free product" src="{{ storage_url ~ (item.free_product_image ?? '') }}" style="opacity: 1;">
+                                        {% else %}
+                                            <img class="owl-lazy" alt="Free product" src="{{ item.getProduct.base_image_url ?? '' }}" style="opacity: 1;">
+                                        {% endif %}
+                                    </a>
+                                    <div class="product--light__meta">
+                                        <a>{{ ('shop::app.checkout.redeem.' ~ item.selected_prize|lower)|trans }}: {{ item.getProduct.name }}</a>
+                                        <div>
+                                            <p class="text-muted font-13">{{ item.description }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="product--light__footer">
+                                        {{ item.required_points }} {{ 'shop::app.checkout.redeem.points'|trans }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer no-border pt-0 pr-20 pl-20 pb-20">
+                <button class="btn btn-primary btn-wide btn-modal-submit text-white btn-save-loyalty">
+                    {{ 'shop::app.checkout.redeem.redeem_points'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

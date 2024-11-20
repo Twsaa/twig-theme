@@ -1,0 +1,37 @@
+{% for index, category in categories %}
+    <li parent="{{ index }}">
+        <a href="/{{ category['slug'] }}">
+            {{ category['name'] }}
+        </a>
+        {% if category['children'] | length > 0 %}
+            {% include 'category/child.twig' with {'categories': category['children']} %}
+        {% endif %}
+    </li>
+{% endfor %}
+
+
+
+<script>
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+            loop: false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoWidth: true,
+            rewind: true,
+            margin: 15,
+            nav: true,
+            rtl: {{ lang ? 'true' : 'false' }},
+        });
+        setTimeout(() => {
+            $('#block{{ content['block_id'] }} .product-group-arrow-prev').click(function() {
+                $('#block{{ content['block_id'] }} .owl-prev').click();
+            })
+
+            $('#block{{ content['block_id'] }} .product-group-arrow-next').click(function() {
+                $('#block{{ content['block_id'] }} .owl-next').click();
+            })
+        }, 1000);
+        $('#block{{ content['block_id'] }} .product-group').slideDown();
+    });
+</script>

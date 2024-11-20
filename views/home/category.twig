@@ -1,0 +1,21 @@
+{% extends "layout/main.twig" %}
+
+{% block title %} main {% endblock %}
+
+{% block main_content %}
+    <div class="home">
+        <div class="main">
+    
+            <div class="category-block" {% if (category.display_mode == 'description_only') %} style="width: 100%" {% endif %}>
+                {% if (category.image) %}
+                    <div class="hero-image mb-35">
+                        <img class="logo" src="{{ category.image_url}}" />
+                    </div>
+                {% endif %}    
+                {% include 'products/grid.twig' with {'content': content} %}
+            </div>
+    
+        </div>
+    </div>
+
+{% endblock %}

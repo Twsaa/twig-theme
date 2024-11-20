@@ -1,0 +1,97 @@
+{% extends "layout/main.twig" %}
+{% block title %} main {% endblock %}
+{% block main_content %}
+
+    <div class="main">
+        <article class="article article--brand vertical clearfix">
+            <img src="{{ storage_url ~ (brand.logo) }}" alt="Brand Logo">
+            <h1 class="font-18">{{ brand.name ?? '' }}</h1>
+            <p class="font-15">
+            </p>
+        </article>
+        <div class="title title--section title--brand">
+            <h2></h2>
+        </div>
+        <div class="category-container">
+
+            <div class="category-block" 
+                {% if brand.display_mode == 'description_only'  %}
+                    style="width: 100%" 
+                {% endif %}
+                >
+                <div class="hero-image mb-35">
+                    {% if brand.image %}
+                        <img class="logo" src="{{ brand.image_url }}" />
+                    {% endif %}
+                </div>
+
+
+                {% if brand.display_mode is null or brand.display_mode in ['products_only', 'products_and_description'] %}
+                
+                    {# @include ('products.list.toolbar') #}
+                    {% if products|length > 0 %}
+                        
+                        {% include 'products/list/grid.twig' with {'product': product, sorter: false} %}
+                        
+                    {% else %}
+
+                        <div class="product-list empty">
+                            <h2>{{ ('shop::app.products.whoops'|trans) }}</h2>
+
+                            <p>
+                                {{ ('shop::app.products.empty'|trans) }}
+                            </p>
+                        </div>
+
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var page = 1; //The number of records to display per request
+        var action = 'inactive'; //Check if current action is going on or not. If not then inactive otherwise active
+        
+        $(window).scroll(function(){
+        
+    
+    
+            if($(window).scrollTop() + $(window).height() > $("#load_data").height() && action == 'inactive')
+            {
+                action = 'active';
+    
+                var sort = (new URL(location.href)).searchParams.get('sort');
+                var order = (new URL(location.href)).searchParams.get('order');
+                page = page + 1;
+                $(".s-products-list-loading-wrapper").show();
+                
+                url_query = "?page="+page;
+                if(sort)
+                {
+                    url_query += "&sort="+sort;
+                }
+                if(order)
+                {
+                    url_query += "&order="+order;
+                }
+                url_query += "&brand="+"{{ brand.id }}";
+                $.ajax({
+                        url: "{{ route('shop.productOrCategory.load', 'brands') }}"+url_query,
+                        type: "GET",
+                        cache: false,
+                        success: function(resp) {
+                            if(resp.success == true)
+                            {
+                                $('#load_data').append(resp.html)
+                                action = 'inactive';
+                            }
+                            $(".s-products-list-loading-wrapper").hide();
+                        },
+                    });
+            }
+        });
+    
+    
+    </script>
+{% endblock %}
