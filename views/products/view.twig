@@ -144,7 +144,22 @@
         {% include 'products/view/related-products.twig' %}
         {% include 'products/view/up-sells.twig' %}
 
-
+        <div class="modal fade" id="fastCheckOut" tabindex="-1" aria-labelledby="fastCheckOutLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="fastCheckOutBody">
+                    </div>
+                    <div id="loadingoverlay"> 
+                        <div class="cv-spinner">
+                            <span class="spinner"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if (authUser is not null and authUser.is_verified is not null and authUser.is_verified == 0) %}
+            {% include 'customers/account/profile/popup.twig' %}
+        {% endif %}
     </section>
 
 
@@ -285,5 +300,166 @@
     <script>
         window.MAX_QTY = {{product.total_quantity}};
     </script>
-
+    <script>
+        var domain = window.location.hostname;
+        $(document).ready(function () {
+            function startProcessing(){
+                 $("#loadingoverlay").fadeIn();
+            }
+            function stopProcessing(){
+                $("#loadingoverlay").fadeOut();
+            }
+    
+            $('body').on('click', '#fastCheckOutButton', function() {
+                $('#fastCheckOut').modal('show');
+                data = $('#product-form').serialize();
+                startProcessing();
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: domain+"/fast/checkout",
+                    success: function(resp) {
+                        $('#fastCheckOutBody').html(resp.data);
+                        stopProcessing();
+                    },
+                    error: function(resp) {
+                        stopProcessing();
+                    }
+                });
+            });
+    
+            $('body').on('click', '.summary-widget--btn', function() {
+                var div = $(".summary-widget-open");
+                if (div.hasClass('open')) {
+                    div.show();
+                    div.removeClass('open')
+                } else {
+                    div.hide();
+                    div.addClass('open')
+                }
+            });
+            $('body').on('change', "input[name='payment[method]']", function() {
+                var selectedPaymentMethod = $("input[name='payment[method]']:checked").val();
+                if(selectedPaymentMethod == 'moneytransfer')
+                {
+                    $('.form--payment').show()
+                }else{
+                    $('.form--payment').hide()
+                }
+            });
+            $('body').on('change', ".change-address", function() {
+                let address = $(this).val();
+                data = $('#product-form').serialize();
+                data += ('&address='+address);
+                let coupon = $('.coupon-input').val();
+                data += ('&coupon='+coupon);
+                startProcessing();
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: domain+"/fast/checkout",
+                    success: function(resp) {
+                        $('#fastCheckOut').modal('show');
+                        $('#fastCheckOutBody').html(resp.data);
+                        stopProcessing();
+                    },
+                    error: function(resp) {
+                        stopProcessing();
+                        // console.log(resp);
+                    }
+                });
+            });
+            $('body').on('change', "#shipping-company", function() {
+                let address = $('.change-address').val();
+                let shipping = $(this).val();
+                let coupon = $('.coupon-input').val();
+                data += ('&coupon='+coupon);
+                data = $('#product-form').serialize();
+                data += ('&address='+address);
+                data += ('&shipping='+shipping);
+                startProcessing();
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: domain+"/fast/checkout",
+                    success: function(resp) {
+                        $('#fastCheckOut').modal('show');
+                        $('#fastCheckOutBody').html(resp.data);
+                        stopProcessing();
+                    },
+                    error: function(resp) {
+                        stopProcessing();
+                        // console.log(resp);
+                    }
+                });
+            });
+            $('body').on('click', ".add-coupon", function() {
+                $('.add-coupon').hide()
+                $('.coupon-input').show()
+                $('.coupon-button').show()
+            });
+            $('body').on('click', ".btn--coupon", function() {
+                let address = $('.change-address').val();
+                let shipping = $('#shipping-company').val();
+                let coupon = $('.coupon-input').val();
+                data = $('#product-form').serialize();
+                data += ('&address='+address);
+                data += ('&shipping='+shipping);
+                data += ('&coupon='+coupon);
+                startProcessing();
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: domain+"/fast/checkout",
+                    success: function(resp) {
+                        $('#fastCheckOut').modal('show');
+                        $('#fastCheckOutBody').html(resp.data);
+                        stopProcessing();
+                    },
+                    error: function(resp) {
+                        stopProcessing();
+                    }
+                });
+            });
+            $('body').on('click', "#pay-now", function() {
+                product = $('#product-form').serialize();
+                cart = $('#buy-now-form').serialize();
+                coupon = $('.coupon-input').val();
+                var data = product + '&' + cart + ('&coupon='+coupon);
+                startProcessing();
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: "{{ route('shop.fast.payout') }}",
+                    success: function(response) {
+                        if (response.success) {
+                            if (response.redirect_url) {
+                                window.location.href = response.redirect_url;
+                            } else {
+                                window.location.href = "{{ route('shop.checkout.success') }}";
+                            }
+                        }
+                        stopProcessing();
+                    },
+                    error: function(error) {
+                        stopProcessing();
+                        try {
+                            if(error.response.status === 403 && error.response.data.redirect_url){
+                                window.location.href = response.data.redirect_url;
+                            }
+                        } catch (x) {}
+    
+                        this_this.disable_button = false;
+    
+                        if (error?.response?.data?.message) {
+                            window.flashMessages = [{ 'type': 'alert-error', 'message': error?.response?.data?.message }];
+                        } else {
+                            window.flashMessages = [{ 'type': 'alert-error', 'message': "{{ ('shop::app.common.error'|trans) }}" }];
+                        }
+                    }
+                });
+            });
+    
+        });
+    </script>
 {% endblock %}

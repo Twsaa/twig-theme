@@ -1,7 +1,13 @@
 {% if authUser %}
-    <button type="submit" class="btn btn-lg btn-primary buynow" {{ product.saleable ? '' : 'disabled' }}>
-        {{ ('shop::app.products.buy-now'|trans) }}
-    </button>
+    {% if authUser['is_verified'] == 1 %}
+        <button type="button" class="btn btn-lg btn-primary" id="fastCheckOutButton" data-id="{{ product['id'] }}" {{ product.saleable ? '' : 'disabled' }}>
+            {{ ('shop::app.products.buy-now'|trans) }}
+        </button>
+    {% else %}
+        <a class="btn btn-lg btn-primary" data-toggle="modal" data-target="#completeProfileModal">
+            {{ ('shop::app.products.buy-now'|trans) }}
+        </a>
+    {% endif %}
 {% else %}
     <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#customerLoginModal">
         {{ ('shop::app.products.buy-now'|trans) }}
