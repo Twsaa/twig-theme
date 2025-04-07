@@ -24,6 +24,7 @@ class CustomTwigExtensions extends AbstractExtension
             new TwigFunction('getConfig', [$this, 'getConfig']),
             new TwigFunction('getSuperConfig', [$this, 'getSuperConfig']),
             new TwigFunction('getFunction', [$this, 'getFunction']),
+            new TwigFunction('jsonDecode', [$this, 'jsonDecode']),
             new TwigFunction('getDownloadableLinkItem', [$this, 'getDownloadableLinkItem']),
             new TwigFunction('formatPrice', [$this, 'formatPrice']),
             new TwigFunction('trans', [$this, 'translate']),
@@ -52,6 +53,11 @@ class CustomTwigExtensions extends AbstractExtension
     {
         // print_r($name);
         return $this->$name();
+    }
+
+    public function jsonDecode($name)
+    {
+        return(json_decode($name, true));
     }
     
     public function getDownloadableLinkItem($order_id,$id,$option_id)
@@ -3052,6 +3058,28 @@ class CustomTwigExtensions extends AbstractExtension
         return true;
     }
     public function getFreeProducts()
+    {
+        return true;
+    }
+    public function getad()
+    {
+        return [
+            "id" => 31,
+            "icon" => "icon-bell",
+            "title" => "asdf",
+            "description" => "asdf",
+            "expire_date" => "2025-04-30 00:00:00",
+            "pages" => "all",
+            "font_color" => " #ffffff",
+            "background_color" => "#000000",
+            "link" => '{"link_type":"category","type_id":"182","prod_name":null,"slug":"\u0639\u0637\u0648\u0631 \u0646\u0633\u0627\u0626\u064a\u0629"}',
+            "is_active" => 1,
+            "company_id" => 38,
+            "created_at" => "2025-04-06 16:36:42",
+            "updated_at" => "2025-04-06 17:25:48",
+        ];
+    }
+    public function getPath()
     {
         return true;
     }

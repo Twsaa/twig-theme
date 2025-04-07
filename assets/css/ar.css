@@ -6164,3 +6164,6 @@ input[type=file] {
         padding: 1.5rem;
     }
 }
+.text-white{
+    color:  #ffffff !important;
+}
