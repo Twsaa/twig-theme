@@ -31,9 +31,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/app.css' }}">
 
     <link href="{{ asset_url ~ 'fonts/STC-Regular.ttf' }}">
-    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/datepicker.min.css">
-    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/bootstrap-select.min.css">
-    <link href="https://tawasa.test/admin-themes/mbotiq/assets/vendor/toastr.min.css" rel="stylesheet">
+    <link href="https://twsaa.com/admin-themes/mbotiq/assets/vendor/datepicker.min.css">
+    <link href="https://twsaa.com/admin-themes/mbotiq/assets/vendor/bootstrap-select.min.css">
+    <link href="https://twsaa.com/admin-themes/mbotiq/assets/vendor/toastr.min.css" rel="stylesheet">
 
 
     <style>
@@ -140,6 +140,39 @@
 </head>
 <body class="{{ lang == 'ar' ? 'rtl' : 'ltr' }}">
     <div class="app" id="app">
+
+        {% set ad = getFunction('getad') %}
+        {% set path = getFunction('getPath') %}
+        {% set id = product is defined ? product['id'] : 0 %}
+        {% if ad %}
+            {% set link = jsonDecode(ad['link']) %}
+
+            {% if ad['pages'] == 'all' or
+                (ad['pages'] == 'home' and path == '/') or
+                (ad['pages'] == 'category' and path != '/' and id == 0) or
+                (ad['pages'] == 'product' and id > 0) or
+                (ad['pages'] == 'cart' and path == 'checkout/cart') or
+                (ad['pages'] == 'checkout' and path == 'checkout/onepage') %}
+
+                <div class="store-notify" style="background-color: {{ ad['background_color'] }}; color: {{ ad['font_color'] }};">
+                    <div class="container center-between py-2.5">
+                        <h2 class="flex-1 font-bold text-center text-sm">
+                            <i class="inline-block align-middle mr-2 text-base {{ ad['icon'] }}" style="background-color: {{ ad['background_color'] }}; color: {{ ad['font_color'] }};"></i>
+                            {% if link['slug'] %}
+                                <a class="text-white" href="/{{ link['slug'] }}" target="_self">
+                            {% else %}
+                                <a class="text-white" target="_self">
+                            {% endif %}
+                                {{ ad['description'] }}
+                            </a>
+                        </h2>
+                        <a href="#" class="px-1 ad-close icon-cancel" id="notify-close" aria-label="close-alert"></a>
+                    </div>
+                </div>
+
+            {% endif %}
+        {% endif %}
+
         <div class="header">
             {{ include("layout/header.twig") }}
         </div>
@@ -223,11 +256,11 @@
             {% endfor %}
         {% endif %}
     </script>
-    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/api.js"></script>
+    <script type="text/javascript" src="https://twsaa.com/admin-themes/mbotiq/assets/search/api.js"></script>
     {% if lang == 'en' %}
-    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/search.min.js"></script>
+    <script type="text/javascript" src="https://twsaa.com/admin-themes/mbotiq/assets/search/search.min.js"></script>
     {% else %}
-    <script type="text/javascript" src="https://tawasa.test/admin-themes/mbotiq/assets/search/search.ar.min.js"></script>
+    <script type="text/javascript" src="https://twsaa.com/admin-themes/mbotiq/assets/search/search.ar.min.js"></script>
     {% endif %}
     <script>
         $(document).ready(function() {
