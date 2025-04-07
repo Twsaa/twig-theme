@@ -71,7 +71,7 @@
                                                 <span class="badge badge-md badge bg-danger">{{ 'shop::app.customer.account.order.index.fraud' | trans }}</span>
                                             {% endif %}                                                                                       
                                         </td>
-                                        <td data-value="Actions" class="actions" style="white-space: nowrap; width: 100px;"><div class="action"><a href="{{ route('admin.sales.orders.view', order.fid) }}" ><span class="icon-eye"></span></a></div></td>
+                                        <td data-value="Actions" class="actions" style="white-space: nowrap; width: 100px;"><div class="action"><a href="{{ route('admin.sales.orders.view', order.id) }}" ><span class="icon-eye"></span></a></div></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
