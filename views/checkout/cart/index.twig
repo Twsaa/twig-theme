@@ -423,7 +423,7 @@
 
     {% endif %}
     {% if (authUser is not null and authUser.is_verified is not null and authUser.is_verified == 0) %}
-        {% include 'customers.account.profile.popup' %}
+        {% include 'customers/account/profile/popup.twig' %}
     {% endif %}
 </section>
 

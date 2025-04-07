@@ -110,30 +110,30 @@
                     {% endif %}
                     <div>
                         {% if getFunction('getDefaultPaymentMethod').getAdminPaymentMethod and getFunction('getDefaultPaymentMethod').getAdminPaymentMethod['active']|default(0) == 1 %}
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/visa.png" alt="visa">
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/mastercard.png" alt="mastercard">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/visa.png" alt="visa">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/mastercard.png" alt="mastercard">
                         {% if getSuperConfig('store.current_country_code') != "OM" %}
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/mada.png" alt="mada">
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/applepay.png" alt="applepay">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/mada.png" alt="mada">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/applepay.png" alt="applepay">
                         {% endif %}
                         {% endif %}
                         {% if getFunction('getInstallmentPaymentMethod').getAdminPaymentMethod and getFunction('getInstallmentPaymentMethod').getAdminPaymentMethod['active']|default(0) == 1 %}
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/cod.png" alt="cod">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/cod.png" alt="cod">
                         {% endif %}
                         {% if (getFunction('getTabbyPaymentMethod') and getFunction('getTabbyPaymentMethod').active|default(0)) == 1 and (getFunction('getTabbyPaymentMethod').getAdminPaymentMethod['active']|default(0)) == 1 %}
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/tabby.webp" alt="tabby">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/tabby.webp" alt="tabby">
                         {% endif %}
                         {% if (getFunction('getTamaraPaymentMethod') and getFunction('getTamaraPaymentMethod').active|default(0)) == 1 and (getFunction('getTamaraPaymentMethod').getAdminPaymentMethod['active']|default(0)) == 1 %}
-                        <img src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/tamara.svg" alt="tamara">
+                        <img src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/tamara.svg" alt="tamara">
                         {% endif %}
                         {% if company.certificate_id %}
                             {% if getSuperConfig('store.current_country_code') == "OM" %}
                             <a target="_blank" href="https://maroof.om/businesses?keyword={{ company.certificate_id }}" alt="{{ company.certificate_id }}">
-                                <img width="100%" height="100%" src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
+                                <img width="100%" height="100%" src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
                             </a>
                             {% else %}
                             <a target="_blank" href="https://eauthenticate.saudibusiness.gov.sa/certificate-details/{{ company.certificate_id }}" alt="{{ company.certificate_id }}">
-                                <img width="100%" height="100%" src="https://tawasa.test/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
+                                <img width="100%" height="100%" src="https://twsaa.com/admin-themes/mbotiq/assets/images/payments/sbc.webp" class="lazy rounded-sm hover:opacity-80 transition-opacity h-6" alt="value added tax" loading="lazy">
                             </a>
                             {% endif %}
                         {% endif %}

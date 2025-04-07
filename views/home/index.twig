@@ -22,7 +22,7 @@
                 {% include 'custom/brands.twig' with {'content': content} %}
             {% endif %}
              {% if ('list_of_items' == content['slug']) %}
-                {% if ('slider' == content['type']) %}
+                {% if ('slider' == content['settings']['type']) %}
                     {% include 'custom/list-of-items-slider.twig' with {'content': content} %}
                 {% else %}
                     {% include 'custom/list-of-items.twig' with {'content': content} %}
