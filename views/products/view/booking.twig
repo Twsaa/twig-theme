@@ -1,0 +1,20 @@
+{% if product['type'] == 'booking' %}
+    
+    <link rel="stylesheet" href="{{ asset_url ~ 'css/default-booking.css' }}">
+    <div class="booking-information">
+
+        {% if product['booking']['location'] != '' %}
+            <div class="booking-info-row">
+                <span class="icon bp-location-icon"></span>
+                <span class="title">{{ ('bookingproduct::app.shop.products.location'|trans) }}</span>
+                <span class="value">{{ product['booking']['location'] }}</span>
+                <a href="https://maps.google.com/maps?q={{ product['booking']['location'] }}" target="_blank">View on Map</a>
+            </div>
+        {% endif %}
+
+        {% set templatePath = 'products/view/booking/' ~ product['booking']['type'] ~ '.twig' %}
+        {% include templatePath with { 'bookingProduct': product['booking'] } %}
+
+
+    </div>
+{% endif %}
