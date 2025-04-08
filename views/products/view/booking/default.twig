@@ -1,0 +1,13 @@
+{% if product['booking']['default_slot']['duration'] %}
+    <div class="booking-info-row">
+        <span class="icon bp-slot-icon"></span>
+        <span class="title">
+            {{ ('bookingproduct::app.shop.products.slot-duration'|trans) }} :
+
+            {{ 'bookingproduct::app.shop.products.slot-duration-in-minutes'|trans({'minutes': product.booking.default_slot.duration}) }}
+
+        </span>
+    </div>
+{% endif %}
+
+{% include 'products/view/booking/slots.twig' with {'bookingProduct': product['booking']}   %}

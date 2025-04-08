@@ -1,0 +1,12 @@
+<div class="form-group slots">
+    <ul class="list">
+        
+        {% for item in data %}
+        <li>        
+            <button class="btn btn--outline light btn--wide select-slot" type="button" data-timestamp="{{ item['timestamp'] }}">
+                <span class="time">{{ item['from'] ~' - '~item['to'] }}</span>
+            </button>            
+        </li>
+        {% endfor %}
+    </ul>
+</div>

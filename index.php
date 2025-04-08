@@ -137,6 +137,14 @@ elseif ($url == '/ouu1ro7') {
     $context = downloadable();
     echo $twig->render('products/view.twig', $context);
 }
+elseif ($url == '/kl1pg6w') {
+    $context = booking();
+    echo $twig->render('products/view.twig', $context);
+}
+elseif (str_contains($url, '/kl1pg6w?')) {
+    $context = bookingOptions();
+    echo $twig->render('products/view/booking/options.twig', $context);
+}
 else{
     $context = allProducts();
     echo $twig->render('products/category.twig', $context);

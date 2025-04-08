@@ -1,5 +1,9 @@
 {% extends "layout/main.twig" %}
 {% block title %} main {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="https://twsaa.com/themes/mbotiq/assets/css/default-booking.css">
+    <link rel="stylesheet" href="https://twsaa.com/themes/default/assets/css/calendar.css">
+{% endblock %}
 {% block main_content %}
 
 
@@ -95,6 +99,9 @@
                         {% endif %}
                         {% if product.type == 'customizable' %}                            
                             {% include 'products/view/customizable.twig' %}
+                        {% endif %}
+                        {% if product.type == 'booking' %}                            
+                            {% include 'products/view/booking.twig' %}
                         {% endif %}
 
                         <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 20px;padding-top: 20px;">
@@ -463,3 +470,254 @@
         });
     </script>
 {% endblock %}
+{% block footer_scripts %}
+    {% if product['type'] == 'customizable' %}
+            <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+            <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+            <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+            <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+            <script>
+                $(document).ready(function() {
+                
+                        FilePond.registerPlugin(FilePondPluginImagePreview);
+                        var inputElement1 = document.querySelector('input[id="option-filepond-image"]');
+                        var inputElement2 = document.querySelector('input[id="option-filepond-file"]');
+                        var pond1 = FilePond.create(inputElement1);
+                        var pond2 = FilePond.create(inputElement2);
+                            
+                    
+                        FilePond.setOptions({
+                            allowImagePreview: true
+                            , labelIdle: `<div class="s-product-options-filepond-placeholder"><span class="s-product-options-filepond-placeholder-icon">
+                                <i class="icon-camera"></i>
+                                </span><span class="s-product-options-filepond-placeholder-text">اسحب و افلت الملف هنا</span><span class="filepond--label-action" tabindex="0">استعراض</span></div>`
+                            , iconRemove: '<i class="icon-trash"></i>'
+                            , iconUndo: '<i class="icon-forward"></i>'
+                            , acceptedFileTypes: ['image/png']
+                            , instantUpload: false
+                            , allowProcess: false
+                            , storeAsFile: true
+                        });
+                        
+                    });
+            </script>
+    {% elseif product['type'] == "booking" %}
+            <script>
+                $(document).ready(function() {
+                    var activeDays = {
+                        startTime: '12:00',
+                        endTime: '23:00',
+                        daysOfWeek: {{ product['slot_days'] }}
+                    },
+                    booking_overrides = [],
+                    reservations = [],
+                    current_date = null,
+                    max_slots = {{ product['booking']['max_qty'] }},
+                    booking_type = "{{ product['product_booking_type'] }}",
+                    excludedDatesList = [];
+                    var calendarEl = document.getElementById('calendar'),
+                        calendar = new FullCalendar.Calendar(calendarEl, {
+                            headerToolbar: {
+                                start: '',
+                                center: 'title',
+                                end: 'prev,next'
+                            },
+                            initialView: 'dayGridMonth',
+                            locale: '{{ getFunction('locale') }}',
+                            contentHeight: 500,
+                            //   schedulerLicenseKey: '0893078531-fcs-1629792461',
+                            unselectAuto: true,
+                            dateClick: function(info) {
+                                const day = info.date.getDay(),
+                                findDay = activeDays.daysOfWeek.findIndex(item => item === day);
+                                current_date = info;
+                            if (findDay === -1) {
+                
+                
+                                if(booking_type == 'many')
+                                {
+                                    dateSelected(info.dateStr);
+                                }else{
+                                    daySelected(info.dateStr);
+                                }
+                
+                                var dateIndex = booking_overrides.findIndex(item => {
+                                    return item.date === info.dateStr;
+                                });
+                
+                                if (dateIndex !== -1) {
+                                    booking_overrides.splice(dateIndex, 1);
+                                    excludedDatesList.splice(dateIndex, 1);
+                                }
+                                booking_overrides.push({
+                                    day: day,
+                                    date: info.dateStr
+                                });
+                
+                                excludedDatesList.push(`${info.dateStr}`);
+                            }
+                            else{
+                                $('#slots').html('');
+                            }
+                        },
+                        validRange (nowDate) {
+                            return {
+                                start: nowDate
+                            }
+                        },
+                    });
+                
+                    function addSelectedDate() {
+                        if(reservations.length > 0)
+                        {
+                            $.each(reservations, function(key, value) {
+                                $.each(value, function(subKey, subValue) {
+                                    var element = $('.fc-daygrid-day.fc-day[data-date="'+subValue+'"]');
+                                    if (element.length) {
+                                        element.addClass('selected');
+                                    }
+                                });
+                            });
+                        }
+                    }
+                    function removeSelectedDate(date) {
+                        $.each(reservations, function(key, value) {
+                            $.each(value, function(subKey, subValue) {
+                                if(date == subValue)
+                                {        
+                                    var element = $('.fc-daygrid-day.fc-day[data-date="'+subValue+'"]');
+                                    if (element.length) {
+                                        element.removeClass('selected');
+                                    }
+                                }
+                            });
+                        });
+                    }
+                    function daySelected(date) {
+                        if(max_slots == reservations.length)
+                        {
+                            $('#fc-media-screen').addClass('disabled');
+                            return;
+                        }
+                
+                        let dateEntry = reservations.find(entry => entry.date === current_date.dateStr);
+                        if (dateEntry) {
+                                return;
+                        }
+                
+                        var html = '<li class="child-slot"><div><span class=""><i class="icon-calendar"></i>'
+                        html += current_date.dateStr
+                        html += '</span></div> <button type="button" class="btn remove-slot" data-date="'
+                        html += current_date.dateStr
+                        html += '"><i class="icon-trash-2"></i></button></li>'
+                        $("#selected-slots").append(html);
+                
+                        reservations.push({
+                            day: current_date.date.getDay(),
+                            date: current_date.dateStr,
+                            time: [{
+                                from: "",
+                                to: ''
+                            }]
+                        });
+                
+                        addSelectedDate();
+                        $("#booking").val(JSON.stringify(reservations))
+                    }
+                
+                    function dateSelected(date) {
+                        $.ajax({
+                            url: "{{ route('booking_product.slots.get', product['booking']['id']) }}",
+                            type: "GET",
+                            data: { date: date },
+                            success: function(response) {
+                                $('#slots').html(response)
+                            },
+                            error: function(error) {
+                                console.error("Error fetching slots:", error);
+                            }
+                        });
+                    }
+                    function formatTimestamp(timestamp) {
+                        let date = new Date(timestamp * 1000); // Convert to milliseconds
+                        return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+                    }
+                    $(document.body).on('click',".select-slot",function (e) {
+                        if(max_slots == reservations.length)
+                        {
+                            $('#slots').html('');
+                            return;
+                        }
+                
+                        var timestamp =  $(this).data('timestamp'); 
+                        let parts = timestamp.split("-");
+                        let start = formatTimestamp(parts[0]);
+                        let end = formatTimestamp(parts[1]);
+                
+                        let dateEntry = reservations.find(entry => entry.date === current_date.dateStr);
+                        if (dateEntry) {
+                            let timeExists = dateEntry.time.some(slot => slot.from === start && slot.to === end);
+                            if (timeExists) {
+                                return;
+                            }
+                        }
+                        console.log(current_date)
+                        var html = '<li class="child-slot"><div><span class="has-time"><i class="icon-calendar"></i>'
+                        html += current_date.dateStr
+                        html += '</span> <span class="time"><i class="icon-time"></i>'
+                        html += start+' - '+end
+                        html += '</span></div> <button type="button" class="btn remove-slot" data-date="'
+                        html += current_date.dateStr
+                        html += '"><i class="icon-trash-2"></i></button></li>'
+                        $("#selected-slots").append(html);
+                
+                        reservations.push({
+                            day: current_date.date.getDay(),
+                            date: current_date.dateStr,
+                            time: [{
+                                from: start,
+                                to: end
+                            }]
+                        });
+                
+                        addSelectedDate();
+                        $("#booking").val(JSON.stringify(reservations))
+                        if(max_slots == reservations.length)
+                        {
+                            $('#slots').html('');
+                            return;
+                        }
+                    });
+                
+                    $(document.body).on('click',".remove-slot",function (e) {
+                        let date = $(this).data('date'); 
+                        let childIndex = $(this).closest('.child-slot').index();
+                        removeSelectedDate(date);
+                        reservations.splice(childIndex,1);
+                        $(this).closest('.child-slot').remove();
+                        addSelectedDate();
+                        $("#booking").val(JSON.stringify(reservations));
+                        $('#fc-media-screen').removeClass('disabled');
+                
+                    });
+                
+                    $(function() {
+                        $('#calendar').slideDown();
+                        $(this).hide().siblings('.btn').show()
+                        calendar.render();
+                        $('.fc-next-button, .fc-prev-button').on('click', function () {
+                            booking_overrides.forEach(item => {
+                                $(`td[data-date=${item.date}]`).addClass('selected')
+                            });
+                        });
+                        if (booking_overrides.length > 0) {
+                            booking_overrides.forEach(item => {
+                                $(`td[data-date="${item.date}"]`).addClass('selected');
+                            });
+                        }
+                    });
+                });
+            </script>
+        {% endif %}
+    {% endblock %}
+    
