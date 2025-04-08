@@ -2,7 +2,18 @@
     {% if content['settings']['link'] %}
         <a id="block{{ content['block_id'] }}" href="{{ content['setting']['link'] }}">
     {% endif %}
-    <img class="w-100 mb-40 mt-40" src=" {{ content['settings']['image'] }}" alt="" />
+
+    {% if content['settings']['start_date'] and content['settings']['start_date'] != '' and content['settings']['end_date'] and content['settings']['end_date'] != '' %}
+        {% if "now"|date > content['settings']['start_date'] and "now"|date < content['settings']['end_date'] %}
+            <img class="w-100 mb-40" src="{{ content['content']['settings']['image'] }}" alt="Banner" />
+        {% endif %}
+    {% elseif content['settings']['start_date'] and content['settings']['start_date'] != '' and (content['settings']['end_date'] == '' or content['settings']['end_date'] == '') %}
+        {% if "now"|date > setting['start_date'] %}
+            <img class="w-100 mb-40" src="{{ content['settings']['image'] }}" alt="Banner" />
+        {% endif %}
+    {% else %}
+        <img class="w-100 mb-40" src="{{ content['settings']['image'] }}" alt="Banner" />
+    {% endif %}
    
     {% if content['settings']['link'] %}
     </a>
