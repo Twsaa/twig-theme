@@ -11645,6 +11645,7 @@ function simple() {
         "maximum_quantity_per_order" => null, 
         "notify_quantity" => null, 
         "require_shipping" => 0, 
+        "saleable" => 1,
         "product" => [
               "id" => 56116, 
               "parent_id" => null, 
