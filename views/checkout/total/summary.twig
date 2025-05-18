@@ -5,27 +5,27 @@
         <label>
             {{ 'shop::app.checkout.total.sub-total' | trans }}
         </label>
-        <label class="right">{{ formatPrice(cart.base_sub_total, cart.cart_currency_code) }}</label>
+        <label class="right">{{ formatPrice(cart.base_sub_total, cart.cart_currency_code)|raw }}</label>
     </div>
 
     {% if cart.shipping_method > 0 %}
         <div class="item-detail">
             <label>{{ 'shop::app.checkout.total.delivery-charges' | trans }}</label>
-            <label class="right">{{ formatPrice(cart.base_shipping_amount, cart.cart_currency_code) }}</label>
+            <label class="right">{{ formatPrice(cart.base_shipping_amount, cart.cart_currency_code)|raw }}</label>
         </div>
     {% endif %}
     
     {% if cart.cod_amount > 0 and cart.shipping_method > 0 %}
         <div class="item-detail">
             <label id="taxrate">{{ 'shop::app.checkout.total.cod' | trans }}</label>
-            <label class="right" id="basetaxamount">{{ formatPrice(cart.base_cod_amount, cart.cart_currency_code) }}</label>
+            <label class="right" id="basetaxamount">{{ formatPrice(cart.base_cod_amount, cart.cart_currency_code)|raw }}</label>
         </div>
     {% endif %}
 
     {% if cart.base_tax_total > 0 %}
         <div class="item-detail">
             <label id="taxrate">{{ 'shop::app.checkout.total.tax' | trans }}</label>
-            <label class="right" id="basetaxamount">{{ formatPrice(cart.base_tax_total, cart.cart_currency_code) }}</label>
+            <label class="right" id="basetaxamount">{{ formatPrice(cart.base_tax_total, cart.cart_currency_code)|raw }}</label>
         </div>
     {% endif %}
 
@@ -34,14 +34,14 @@
             {{ 'shop::app.checkout.total.disc-amount' | trans }}
         </label>
         <label class="right">
-            -{{ formatPrice(cart.base_discount_amount, cart.cart_currency_code) }}
+            -{{ formatPrice(cart.base_discount_amount, cart.cart_currency_code)|raw }}
         </label>
     </div>
 
     <div class="payable-amount" id="grand-total-detail">
         <label>{{ 'shop::app.checkout.total.grand-total' | trans }}</label>
         <label class="right" id="grand-total-amount-detail">
-            {{ formatPrice(cart.base_grand_total, cart.cart_currency_code) }}
+            {{ formatPrice(cart.base_grand_total, cart.cart_currency_code)|raw }}
         </label>
     </div>
 </div>
