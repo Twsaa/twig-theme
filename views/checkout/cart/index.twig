@@ -60,7 +60,7 @@
                                             {{ item.name }}
                                         </a>
                                     </div>
-                                    <div class="price">{{ item.formated_price }}</div>
+                                    <div class="price">{{ item.formated_price|raw }}</div>
                                 
                                     {% if item.additional['selected_configurable_option'] | length > 0 %}
                                         <div class="item-options">
@@ -332,12 +332,12 @@
                         <label class="right" style="display: inline-flex; align-items: center;">
                             <b id="applied-coupon-name">{{ cart.coupon_code }}</b>
     
-                            <span class="icon icon-menu-close-adj" title="{{ ('shop::app.checkout.total.remove-coupon'|trans) }}" id="remove-coupon-btn" style="cursor: pointer;"></span>
+                            <span class="icon icon-trash" title="{{ ('shop::app.checkout.total.remove-coupon'|trans) }}" id="remove-coupon-btn" style="cursor: pointer;"></span>
                         </label>
 
                         {% if cart.getCartRule and cart.getCartRule.show_maximum_discount == 1 and cart.getCartRule.action_type == 'by_percent' %}
                             <label id="maximum-discount" style="display: {{ cart.getCartRule.maximum_amount ? 'block' : 'none' }};">
-                                <b style="color: red">{{ ('shop::app.checkout.total.maximum_discount'|trans) }} {{ formatPrice(cart.getCartRule.maximum_amount, cart.cart_currency_code) }}</b>
+                                <b style="color: red">{{ ('shop::app.checkout.total.maximum_discount'|trans) }} {{ formatPrice(cart.getCartRule.maximum_amount, cart.cart_currency_code)|raw }}</b>
                             </label>
                         {% endif %}
                     </div>

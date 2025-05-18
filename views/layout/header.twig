@@ -61,7 +61,7 @@
                 </li>
                 <li><a href="/customer/account/wallet"><span
                             class="top-links-icon top-links-cart"><span class="icon-bag-dollar"></span> <span
-                                class="wallet-wrapper">{{ getFunction('customerWallet') | default('0') }}</span></span></a></li>
+                                class="wallet-wrapper">{{ getFunction('customerWallet') | default('0') |raw }}</span></span></a></li>
             </ul>
             {% set channel = getFunction('getCurrentChannel') %}
             <div class="store-logo top-links-2">
