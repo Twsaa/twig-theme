@@ -10,6 +10,7 @@
 
     <script>
         var page = 1; //The number of records to display per request
+        var action = 'inactive'; //Check if current action is going on or not. If not then inactive otherwise active
         var limit = 7; //The number of records to display per request
         var start = 0; //The starting pointer of the data
         var action = 'inactive'; //Check if current action is going on or not. If not then inactive otherwise active
@@ -25,7 +26,7 @@
         {
             url_query += "&order="+order;
         }
-        url_path = "{{ route('shop.productOrCategory.load', 'products') }}"+url_query;
+        url_path = "{{ route('shop.productOrCategory.load', 'offers') }}"+url_query;
         $(window).on('load', function() {
 
             $(".s-products-list-loading-wrapper").show();
@@ -64,7 +65,7 @@
                 }
 
                 $.ajax({
-                        url: "{{ route('shop.productOrCategory.load', 'products') }}"+url_query,
+                        url: "{{ route('shop.productOrCategory.load', 'offers') }}"+url_query,
                         type: "GET",
                         cache: false,
                         success: function(resp) {

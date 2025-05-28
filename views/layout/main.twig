@@ -306,7 +306,7 @@
     <div class="modal-overlay"></div>
     <script>
         $(document).ready(function() {
-            $(".addToCart").on('click', function(e){
+            $(document).on('click', '.addToCart', function(e){
                 var productId = $(this).data("id");
                 var formData = $('#addToCart-'+productId).serialize();
                 var imgtodrag = $(this).closest('.product-card').find("img").eq(0);
