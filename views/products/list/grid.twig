@@ -15,14 +15,4 @@
     {% endif %}
 </div>
 <div id="load_data" class="product-grid-4">
-    {% if(not products)  %} 
-        <div class="product-list empty">
-            <h2>{{ ('shop::app.products.whoops'|trans) }}</h2>
-            <p>{{ ('shop::app.search.no-results'|trans) }}</p>
-        </div>
-    {% else %}
-        {% for product in products %}
-            {% include 'products/list/card.twig' with {'product': product.product} %}
-        {% endfor %}
-    {% endif %}
 </div>

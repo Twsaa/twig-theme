@@ -98,11 +98,11 @@
                                             </td>
                             
                                             <td data-value="{{ 'shop::app.customer.account.order.view.price' | trans }}">
-                                                {{ formatPrice(item.price, order.order_currency_code) }}
+                                                {{ formatPrice(item.price, order.order_currency_code) |raw }}
                                             </td>
                             
                                             <td data-value="{{ 'shop::app.customer.account.order.view.subtotal' | trans }}">
-                                                {{ formatPrice(item.total, order.order_currency_code) }}
+                                                {{ formatPrice(item.total, order.order_currency_code) |raw }}
                                             </td>
                             
                                             <td data-value="{{ 'shop::app.customer.account.order.view.tax-percent' | trans }}">
@@ -110,11 +110,11 @@
                                             </td>
                             
                                             <td data-value="{{ 'shop::app.customer.account.order.view.tax-amount' | trans }}">
-                                                {{ formatPrice(item.tax_amount, order.order_currency_code) }}
+                                                {{ formatPrice(item.tax_amount, order.order_currency_code) |raw }}
                                             </td>
                             
                                             <td data-value="{{ 'shop::app.customer.account.order.view.grand-total' | trans }}">
-                                                {{ formatPrice(item.total + item.tax_amount - item.discount_amount, order.order_currency_code) }}
+                                                {{ formatPrice(item.total + item.tax_amount - item.discount_amount, order.order_currency_code) |raw }}
                                             </td>
                                         </tr>
                             
@@ -171,14 +171,14 @@
                                         <tr>
                                             <td>{{ 'shop::app.customer.account.order.view.subtotal' | trans }}</td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.sub_total, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.sub_total, order.order_currency_code) |raw }}</td>
                                         </tr>
 
                                          {% if order.have_stockable_items %}
                                         <tr>
                                             <td>{{ 'shop::app.customer.account.order.view.shipping-handling' | trans }}</td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.shipping_amount, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.shipping_amount, order.order_currency_code) |raw }}</td>
                                         </tr>
                                         {% endif %} 
 
@@ -186,7 +186,7 @@
                                         <tr>
                                             <td>{{ 'shop::app.customer.account.order.view.discount' | trans }}</td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.cod_amount, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.cod_amount, order.order_currency_code) |raw }}</td>
                                         </tr>
                                         {% endif %}
 
@@ -198,20 +198,20 @@
                                                 {% endif %}
                                             </td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.discount_amount, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.discount_amount, order.order_currency_code) |raw }}</td>
                                         </tr>
                                         {% endif %}
 
                                         <tr class="border">
                                             <td>{{ 'shop::app.customer.account.order.view.tax' | trans }}</td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.tax_amount, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.tax_amount, order.order_currency_code) |raw }}</td>
                                         </tr>
 
                                         <tr class="bold">
                                             <td>{{ 'shop::app.customer.account.order.view.grand-total' | trans }}</td>
                                             <td>-</td>
-                                            <td>{{ formatPrice(order.grand_total, order.order_currency_code) }}</td>
+                                            <td>{{ formatPrice(order.grand_total, order.order_currency_code) |raw }}</td>
                                             
                                         </tr>
                                     </tbody>
