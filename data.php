@@ -168,7 +168,8 @@ function homePage() {
                         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
                         "product" => [
                             "base_image_url" => "https://cdn.twsaa.com/product/56116/0592b342-84cb-44f6-8d29-1328e332c9fd.png" 
-                        ] 
+                        ],
+                        "wishlist_product" => true
                     ], 
                     [
                         "id" => 107667, 
@@ -1523,7 +1524,7 @@ function cart() {
         "customer_first_name" => "Demo", 
         "customer_last_name" => "User", 
         "shipping_method" => null, 
-        "coupon_code" => null, 
+        "coupon_code" => "asdf", 
         "prize" => null, 
         "is_gift" => 0, 
         "use_wallet" => 0, 
@@ -1558,6 +1559,11 @@ function cart() {
         "created_at" => "2024-11-11T08:38:19.000000Z", 
         "updated_at" => "2024-11-18T11:42:22.000000Z", 
         "applied_cart_rule_ids" => "", 
+        "getCartRule" => [
+            "show_maximum_discount" => 1,
+            "action_type" => "by_percent",
+            "maximum_amount" => "3"
+        ],
         "items" => [
               [
                  "id" => 8198, 
@@ -7785,6 +7791,7 @@ function blogsAuthor() {
               "tags" => null, 
               "is_active" => 1, 
               "author_id" => 38, 
+              "author_name" => "Twsaa",
               "created_at" => "2024-07-07T14:51:01.000000Z", 
               "updated_at" => "2024-10-29T08:18:55.000000Z", 
               "locale" => "ar", 
@@ -7961,6 +7968,7 @@ function blogsCategory() {
             "tags" => null, 
             "is_active" => 1, 
             "author_id" => 38, 
+            "author_name" => "Twsaa",
             "created_at" => "2024-07-07T14:51:01.000000Z", 
             "updated_at" => "2024-10-29T08:18:55.000000Z", 
             "locale" => "ar",
@@ -8023,6 +8031,7 @@ function blog() {
         "tags" => null, 
         "is_active" => 1, 
         "author_id" => 38, 
+        "author_name" => "Twsaa",
         "created_at" => "2024-07-07T14:51:01.000000Z", 
         "updated_at" => "2024-10-29T08:18:55.000000Z", 
         "locale" => "ar", 
@@ -8076,6 +8085,7 @@ function blog() {
             "tags" => null, 
             "is_active" => 1, 
             "author_id" => 38, 
+            "author_name" => "Twsaa",
             "created_at" => "2024-07-07T14:51:01.000000Z", 
             "updated_at" => "2024-10-29T08:18:55.000000Z", 
             "locale" => "ar", 
@@ -8224,6 +8234,7 @@ function blogs() {
             "tags" => null, 
             "is_active" => 1, 
             "author_id" => 38, 
+            "author_name" => "Twsaa",
             "created_at" => "2024-07-07T14:51:01.000000Z", 
             "updated_at" => "2024-10-29T08:18:55.000000Z", 
             "locale" => "ar",
