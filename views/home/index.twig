@@ -188,132 +188,49 @@
     </script>
     <script>
     $(document).ready(function () {
+    $('.load-products').each(function () {
+        let block = $(this);
+        
+        // 1. Capture the variables from the data-attributes of the current block
+        let blockId = block.data('id');
+        let blockType = block.data('type');
+        let blockLimit = block.data('limit');
 
-        const dummyProducts = [
-            {
-                id: 1,
-                name: "configurable",
-                url_key: "2g663yz",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/643712/medium-f417538a-eb3a-4c94-a4a8-99e5a8dfcd0f.jpg"
+        // 2. Perform the AJAX call
+        $.ajax({
+            url: '/twig-theme/fetch-home-products', 
+            method: 'GET',
+            data: {
+                id: blockId,    // Using the variable we just defined
+                type: blockType,
+                limit: blockLimit
             },
-            {
-                id: 2,
-                name: "customizable",
-                url_key: "customizable",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg"
-            },
-            {
-                id: 3,
-                name: "simple",
-                url_key: "n2-4-5-3",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/662322/medium-ecc7d0a5-8573-4180-ae16-15a4a05aa51d.jpg"
-            },
-            {
-                id: 4,
-                name: "downloadable",
-                url_key: "ouu1ro7",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/650782/medium-50f0297b-2a4e-4e09-9b95-092bd3671778.jpg"
-            },
-            {
-                id: 5,
-                name: "digital",
-                url_key: "k6p8ato",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/660156/medium-7cfe95a8-88d3-4013-9e53-735237692d23.jpg"
-            },
-            {
-                id: 6,
-                name: "customizable",
-                url_key: "k6p8ato",
-                price: "367.35 SAR",
-                image: "https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg"
-            }
-        ];
+            success: function (response) {
+                // Inject the HTML fragment from Twig
+                block.html(response);
 
-        $('.load-products').each(function () {
-
-            let block = $(this);
-
-            let id   = block.data('id');
-            let type = block.data('type');
-
-            // wrapper class based on type
-            let wrapperClass =
-                type == 'slider'
-                ? 'home-grid owl-carousel owl-theme'
-                : 'row home-grid';
-
-            let html = `<div id="slider${id}" class="${wrapperClass}">`;
-
-            dummyProducts.forEach(p => {
-
-                html += `
-                    <div class="${type == 'list' ? 'col-lg-3 col-md-4 col-6 mb-4' : 'product-box px-0'}">
-
-                        <div class="product-box-inner">
-
-                            <a href="/${p.url_key}" class="product-a">
-
-                                <div class="product-image">
-                                    <img src="${p.image}" class="img-fluid" />
-                                </div>
-
-                                <div class="product-information mt-2">
-                                    <p>${p.name}</p>
-                                </div>
-
-                            </a>
-
-                            <div class="product-bottom-row">
-                                <span>${p.price}</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-
-            block.html(html);
-
-            // ONLY INIT IF SLIDER
-            if(type == 'slider') {
-
-                let slider = $('#slider' + id);
-
-                setTimeout(function () {
-
+                // 3. Initialize Owl Carousel if it's a slider
+                if (blockType === 'slider') {
+                    let sliderSelector = $('#slider' + blockId);
+                    
                     if ($.fn.owlCarousel) {
-
-                        if (slider.hasClass('owl-loaded')) {
-                            slider.trigger('destroy.owl.carousel');
-                        }
-
-                        slider.owlCarousel({
+                        sliderSelector.owlCarousel({
                             loop: false,
                             autoplay: true,
                             autoplayTimeout: 4000,
                             autoWidth: true,
                             margin: 15,
                             nav: false,
-                            rtl: {{ getFunction('locale') == 'ar' ? 'true' : 'false' }},
+                            rtl: {{ lang ? 'true' : 'false' }}
                         });
-
-                        slider.trigger('refresh.owl.carousel');
-
                     }
-
-                }, 300);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error: " + error);
             }
-
         });
-
+        });
     });
     </script>
 {% endblock %}

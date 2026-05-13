@@ -1,0 +1,9 @@
+.section-title {
+  font-family: "IBM Plex Sans Arabic", sans-serif !important;
+  font-weight: 500;
+}
+
+section {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}

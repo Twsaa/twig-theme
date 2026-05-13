@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{% block title %}{% endblock %}</title>
     {% set asset_url = getFunction('assets') %}
     {# {% set asset_url = '/twig-theme/assets/' %} #}
@@ -31,6 +33,8 @@
         <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/en.css' }}" />
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/app.css' }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/custom.css' }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/ui-custom.css' }}">
 
     <link href="{{ asset_url ~ 'fonts/STC-Regular.ttf' }}">
     <link href="https://twsaa.com/admin-themes/mbotiq/assets/vendor/datepicker.min.css">

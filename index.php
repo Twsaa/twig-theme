@@ -145,6 +145,76 @@ elseif (str_contains($url, '/kl1pg6w?')) {
     $context = bookingOptions();
     echo $twig->render('products/view/booking/options.twig', $context);
 }
+elseif ($url == '/fetch-home-products') {
+    $type = $_GET['type'] ?? 'grid';
+    $blockId = $_GET['id'] ?? 0;
+    $limit = $_GET['limit'] ?? 6;
+
+    $products = [
+        [
+            'product_id' => 1, 
+            'name' => 'Configurable Product', 
+            'url_key' => '2g663yz', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => true,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/643712/medium-f417538a-eb3a-4c94-a4a8-99e5a8dfcd0f.jpg']
+        ],
+        [
+            'product_id' => 2, 
+            'name' => 'Customizable Product', 
+            'url_key' => 'customizable', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg']
+        ],
+        [
+            'product_id' => 3, 
+            'name' => 'Simple Product', 
+            'url_key' => 'n2-4-5-3', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => true,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/662322/medium-ecc7d0a5-8573-4180-ae16-15a4a05aa51d.jpg']
+        ],
+        [
+            'product_id' => 4, 
+            'name' => 'Downloadable Product', 
+            'url_key' => 'ouu1ro7', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/650782/medium-50f0297b-2a4e-4e09-9b95-092bd3671778.jpg']
+        ],
+        [
+            'product_id' => 5, 
+            'name' => 'Digital Product', 
+            'url_key' => 'k6p8ato', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/660156/medium-7cfe95a8-88d3-4013-9e53-735237692d23.jpg']
+        ],
+        [
+            'product_id' => 6, 
+            'name' => 'Premium Product', 
+            'url_key' => 'premium-product', 
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => false, // Out of stock example
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg']
+        ]
+    ];
+
+    // 3. Render only the partial file
+    echo $twig->render('home/products-list.twig', [
+        'products' => $products,
+        'type' => $type,
+        'id' => $blockId
+    ]);
+    exit; // Stop execution so no other HTML is appended
+}
 else{
     $context = allProducts();
     echo $twig->render('products/category.twig', $context);
