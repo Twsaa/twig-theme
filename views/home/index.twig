@@ -188,133 +188,48 @@
     </script>
     <script>
     $(document).ready(function () {
+    $('.load-products').each(function () {
+        let block = $(this);
+        
+        // 1. Capture the variables from the data-attributes of the current block
+        let blockId = block.data('id');
+        let blockType = block.data('type');
+        let blockLimit = block.data('limit');
 
-        const dummyProducts = [
-            {
-                id: 1,
-                name: "Configurable Product",
-                url_key: "2g663yz",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/643712/medium-f417538a-eb3a-4c94-a4a8-99e5a8dfcd0f.jpg"
+        // 2. Perform the AJAX call
+        $.ajax({
+            url: '/twig-theme/fetch-home-products', 
+            method: 'GET',
+            data: {
+                id: blockId,    // Using the variable we just defined
+                type: blockType,
+                limit: blockLimit
             },
-            {
-                id: 2,
-                name: "Customizable Product",
-                url_key: "customizable",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg"
-            },
-            {
-                id: 3,
-                name: "Simple Product",
-                url_key: "n2-4-5-3",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/662322/medium-ecc7d0a5-8573-4180-ae16-15a4a05aa51d.jpg"
-            },
-            {
-                id: 4,
-                name: "Downloadable Product",
-                url_key: "ouu1ro7",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/650782/medium-50f0297b-2a4e-4e09-9b95-092bd3671778.jpg"
-            },
-            {
-                id: 5,
-                name: "Digital Product",
-                url_key: "k6p8ato",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/660156/medium-7cfe95a8-88d3-4013-9e53-735237692d23.jpg"
-            },
-            {
-                id: 6,
-                name: "Premium Product",
-                url_key: "premium-product",
-                price: "367.35",
-                image: "https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg"
-            }
-        ];
+            success: function (response) {
+                // Inject the HTML fragment from Twig
+                block.html(response);
 
-        $('.load-products').each(function () {
-
-            let block = $(this);
-            let id = block.data('id');
-            let type = block.data('type');
-
-            let wrapperClass = 'home-grid mb-20 owl-carousel owl-theme';
-
-            if (type !== 'slider') {
-                wrapperClass = 'product-grid-4';
-            }
-
-            let html = `<div id="slider${id}" class="${wrapperClass}">`;
-
-            dummyProducts.forEach(p => {
-                html += `
-                <div class="product-box">
-                    <div>
-                        <a href="/${p.url_key}" title="${p.name}" class="product-a">
-                            <div class="product-image">
-                                <img src="${p.image}" alt="${p.name}" loading="lazy"/>
-                            </div>
-                            <div class="product-information w-100 mt-4">
-                                <div class="product-name">
-                                    <p class="text-center">${p.name}</p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <div class="product-bottom-row">
-                            <span class="price d-flex" id="price-${p.id}">
-                                ${p.price}<img class="sar-icon" src="http://test.localhost/tawasa/public/admin-themes/mbotiq/assets/images/sar.svg" style="width:10px" alt="sar">
-                            </span>
-                        </div>
-
-                        <div class="hover-buttons">
-                            <form action="http://test.localhost/tawasa/public/customer/wishlist/add/${p.id}" method="GET">
-                                <input type="hidden" name="product_id" value="${p.id}">
-                                <button type="submit" class="border-0 btn" title="إضافة منتج إلى قائمة الأمنيات" id="wishlist-changer">
-                                    <i class="icon-heart"></i>
-                                </button>
-                            </form>
-                            
-                            <form id="addToCart-${p.id}">
-                                <input type="hidden" name="_token" value="3r46Urh6LB4b0yeiGv3f0tmvJ44ZODmgrFu6Q4Rt">
-                                <input type="hidden" name="product_id" value="${p.id}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="button" class="btn addToCart border-0" data-id="${p.id}">
-                                    <i class="icon-cart"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>`;
-            });
-
-            html += `</div>`;
-
-            block.html(html);
-
-            let slider = $('#slider' + id);
-
-            setTimeout(function () {
-                if (type === 'slider' && $.fn.owlCarousel) {
-                    if (slider.hasClass('owl-loaded')) {
-                        slider.trigger('destroy.owl.carousel');
+                // 3. Initialize Owl Carousel if it's a slider
+                if (blockType === 'slider') {
+                    let sliderSelector = $('#slider' + blockId);
+                    
+                    if ($.fn.owlCarousel) {
+                        sliderSelector.owlCarousel({
+                            loop: false,
+                            autoplay: true,
+                            autoplayTimeout: 4000,
+                            autoWidth: true,
+                            margin: 15,
+                            nav: false,
+                            rtl: {{ lang ? 'true' : 'false' }}
+                        });
                     }
-
-                    slider.owlCarousel({
-                        loop: false,
-                        autoplay: true,
-                        autoplayTimeout: 4000,
-                        autoWidth: true,
-                        margin: 15,
-                        nav: false,
-                        rtl: {{ getFunction('locale') == 'ar' ? 'true' : 'false' }}
-                    });
-
-                    slider.trigger('refresh.owl.carousel');
                 }
-            }, 300);
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error: " + error);
+            }
+        });
         });
     });
     </script>

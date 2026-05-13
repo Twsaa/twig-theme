@@ -205,8 +205,8 @@ button{
     width: 20px;
     height: 20px;
     padding: 0px;
-    top: -4px;
-    left: -14px;
+    top: -10px;
+    left: 4px;
     background-color: var(--brand);
 }
 
