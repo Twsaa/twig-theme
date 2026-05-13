@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{% block title %}{% endblock %}</title>
     {% set asset_url = getFunction('assets') %}
+    {# {% set asset_url = '/twig-theme/assets/' %} #}
     {% set storage_url = 'https://cdn.twsaa.com/' %}
     {% set lang = getFunction('locale') %}
 
@@ -15,7 +16,8 @@
         <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/bootstrap-en.min.css' }}">
     {% endif %}
 
-    
+    <link rel="stylesheet" type="text/css" href="https://tawasa4shujat.twsaa.com/themes/uray/assets/js/plugins/owlcarousel/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://tawasa4shujat.twsaa.com/themes/uray/assets/js/plugins/owlcarousel/assets/owl.theme.default.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/search.min.css' }}">
     <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/fonts.css' }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset_url ~ 'css/front-fonts.css' }}" />
@@ -198,7 +200,7 @@
     
     
     <script type="text/javascript" src="{{ asset_url ~'js/shop.js' }}"></script>
-    <script type="text/javascript" src="{{ asset_url ~'js/plugins/owlcarousel/owl.carousel.min.js' }}"></script>
+    <script type="text/javascript" src="https://tawasa4shujat.twsaa.com/themes/uray/assets/js/plugins/owlcarousel/owl.carousel.min.js"></script>
     <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/swiper-bundle.min.js' }}"></script>
     <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/bootstrap.min.js' }}"></script>
     <script type="text/javascript" src="{{ asset_url ~'js/core/libraries/toastr.min.js' }}"></script>
