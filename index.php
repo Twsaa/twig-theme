@@ -145,7 +145,7 @@ elseif (str_contains($url, '/kl1pg6w?')) {
     $context = bookingOptions();
     echo $twig->render('products/view/booking/options.twig', $context);
 }
-elseif ($url == '/fetch-home-products') {
+elseif (str_contains($url, '/fetch-home-products')) {
     $type = $_GET['type'] ?? 'grid';
     $blockId = $_GET['id'] ?? 0;
     $limit = $_GET['limit'] ?? 6;
