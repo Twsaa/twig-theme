@@ -134,68 +134,69 @@ function homePage() {
                  "type" => "slider", 
                  "products_title" => "المنتجات", 
                  "link" => "/تخفيضات", 
-                 "products" => [
-                    [
-                       "id" => 106891, 
-                       "product_id" => 55668, 
-                       "sku" => "2G663YZ", 
-                       "name" => "configurable", 
-                       "url_key" => "2g663yz", 
-                       "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                       "product" => [
-                          "base_image_url" => "https://cdn.twsaa.com/product/55668/a16626c7-40a0-42f9-954f-5e1b25159fc1.png" 
-                       ] 
-                    ], 
-                    [
-                        "id" => 106919, 
-                        "product_id" => 55682, 
-                        "parent_id" => null, 
-                        "sku" => "customizable", 
-                        "name" => "customizable", 
-                        "url_key" => "customizable", 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/product/55682/aa97d069-649f-41d3-bf95-a66addfc903c.jpg" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 107663, 
-                        "product_id" => 56116, 
-                        "parent_id" => null, 
-                        "sku" => "N2-4-5-3", 
-                        "name" => "simple", 
-                        "url_key" => "n2-4-5-3", 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/product/56116/0592b342-84cb-44f6-8d29-1328e332c9fd.png" 
-                        ],
-                        "wishlist_product" => true
-                    ], 
-                    [
-                        "id" => 107667, 
-                        "product_id" => 56118, 
-                        "parent_id" => null, 
-                        "sku" => "OUU1RO7", 
-                        "name" => "downloadable", 
-                        "url_key" => "ouu1ro7", 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/product/56118/medium-68fc0441-483a-4167-a993-22d76d82b494.jpg" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 107859, 
-                        "product_id" => 56219, 
-                        "parent_id" => null, 
-                        "sku" => "K6P8ATO", 
-                        "name" => "digital", 
-                        "url_key" => "k6p8ato", 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/product/56219/large-b5a93051-3cc1-4d62-8b7f-2cd7897b9581.jpg" 
-                        ] 
-                    ] 
-                 ] 
+                'products' => 'getLatestProducts',
+                //  "products" => [
+                //     [
+                //        "id" => 106891, 
+                //        "product_id" => 55668, 
+                //        "sku" => "2G663YZ", 
+                //        "name" => "configurable", 
+                //        "url_key" => "2g663yz", 
+                //        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //        "product" => [
+                //           "base_image_url" => "https://cdn.twsaa.com/product/55668/a16626c7-40a0-42f9-954f-5e1b25159fc1.png" 
+                //        ] 
+                //     ], 
+                //     [
+                //         "id" => 106919, 
+                //         "product_id" => 55682, 
+                //         "parent_id" => null, 
+                //         "sku" => "customizable", 
+                //         "name" => "customizable", 
+                //         "url_key" => "customizable", 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/product/55682/aa97d069-649f-41d3-bf95-a66addfc903c.jpg" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 107663, 
+                //         "product_id" => 56116, 
+                //         "parent_id" => null, 
+                //         "sku" => "N2-4-5-3", 
+                //         "name" => "simple", 
+                //         "url_key" => "n2-4-5-3", 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/product/56116/0592b342-84cb-44f6-8d29-1328e332c9fd.png" 
+                //         ],
+                //         "wishlist_product" => true
+                //     ], 
+                //     [
+                //         "id" => 107667, 
+                //         "product_id" => 56118, 
+                //         "parent_id" => null, 
+                //         "sku" => "OUU1RO7", 
+                //         "name" => "downloadable", 
+                //         "url_key" => "ouu1ro7", 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/product/56118/medium-68fc0441-483a-4167-a993-22d76d82b494.jpg" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 107859, 
+                //         "product_id" => 56219, 
+                //         "parent_id" => null, 
+                //         "sku" => "K6P8ATO", 
+                //         "name" => "digital", 
+                //         "url_key" => "k6p8ato", 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/product/56219/large-b5a93051-3cc1-4d62-8b7f-2cd7897b9581.jpg" 
+                //         ] 
+                //     ] 
+                //  ] 
               ] 
            ], 
         [
@@ -217,114 +218,115 @@ function homePage() {
                 "type" => "list", 
                 "products_title" => "Makeup", 
                 "link" => "/المكياج", 
-                "products" => 
-                [
-                    [
-                        "id" => 48111, 
-                        "product_id" => 24300, 
-                        "parent_id" => null, 
-                        "sku" => "L2-2-4-4-M5AZN", 
-                        "name" => "يولاند بيوتي - احمر خدود 24", 
-                        "url_key" => "l2-2-4-4-m5azn", 
+                'products' => 'getLatestProducts',
+                // "products" => 
+                // [
+                //     [
+                //         "id" => 48111, 
+                //         "product_id" => 24300, 
+                //         "parent_id" => null, 
+                //         "sku" => "L2-2-4-4-M5AZN", 
+                //         "name" => "يولاند بيوتي - احمر خدود 24", 
+                //         "url_key" => "l2-2-4-4-m5azn", 
 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48163, 
-                        "product_id" => 24326, 
-                        "parent_id" => null, 
-                        "sku" => "K3-9-4-6", 
-                        "name" => "تكنيك - باليت ظلال عيون بانوفي 7 الوان", 
-                        "url_key" => "k3-9-4-6", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48149, 
-                        "product_id" => 24319, 
-                        "parent_id" => null, 
-                        "sku" => "K3-9-5-4", 
-                        "name" => "تكنيك - باليت ظلال عيون بوجي 15 لون  30 جم", 
-                        "url_key" => "k3-9-5-4", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48123, 
-                        "product_id" => 24306, 
-                        "parent_id" => null, 
-                        "sku" => "L2-2-3-2-M5AZN", 
-                        "url_key" => "L2-2-3-2-M5AZN", 
-                        "name" => "يولاند بيوتي - قلم كحل كريمي اسود 030 - YB-35", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48049, 
-                        "product_id" => 24269, 
-                        "parent_id" => null, 
-                        "sku" => "A2 5-3-7", 
-                        "name" => "رفليوشن - باليت ظلال العيون فيلفت روز", 
-                        "url_key" => "a2-5-3-7", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48155, 
-                        "product_id" => 24322, 
-                        "parent_id" => null, 
-                        "sku" => "K3-9-5-1", 
-                        "name" => "تكنيك - باليت ظلال عيون بلوبيري بي 7 الوان", 
-                        "url_key" => "k3-9-5-1", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48133, 
-                        "product_id" => 24311, 
-                        "parent_id" => null, 
-                        "sku" => "L2-2-1-3-M5AZN", 
-                        "name" => "تكنيك - باليت ظلال عيون اكسبوسد 16 لون 29.6 جم", 
-                        "url_key" => "l2-2-1-3-m5azn", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48131, 
-                        "product_id" => 24310, 
-                        "parent_id" => null, 
-                        "sku" => "L2-2-1-4-M5AZN", 
-                        "name" => "تكنيك - باليت ظلال عيون لندن 35 لون 42 جم", 
-                        "url_key" => "l2-2-1-4-m5azn",                                                                                 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ] 
-                ] 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48163, 
+                //         "product_id" => 24326, 
+                //         "parent_id" => null, 
+                //         "sku" => "K3-9-4-6", 
+                //         "name" => "تكنيك - باليت ظلال عيون بانوفي 7 الوان", 
+                //         "url_key" => "k3-9-4-6", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48149, 
+                //         "product_id" => 24319, 
+                //         "parent_id" => null, 
+                //         "sku" => "K3-9-5-4", 
+                //         "name" => "تكنيك - باليت ظلال عيون بوجي 15 لون  30 جم", 
+                //         "url_key" => "k3-9-5-4", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48123, 
+                //         "product_id" => 24306, 
+                //         "parent_id" => null, 
+                //         "sku" => "L2-2-3-2-M5AZN", 
+                //         "url_key" => "L2-2-3-2-M5AZN", 
+                //         "name" => "يولاند بيوتي - قلم كحل كريمي اسود 030 - YB-35", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48049, 
+                //         "product_id" => 24269, 
+                //         "parent_id" => null, 
+                //         "sku" => "A2 5-3-7", 
+                //         "name" => "رفليوشن - باليت ظلال العيون فيلفت روز", 
+                //         "url_key" => "a2-5-3-7", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48155, 
+                //         "product_id" => 24322, 
+                //         "parent_id" => null, 
+                //         "sku" => "K3-9-5-1", 
+                //         "name" => "تكنيك - باليت ظلال عيون بلوبيري بي 7 الوان", 
+                //         "url_key" => "k3-9-5-1", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48133, 
+                //         "product_id" => 24311, 
+                //         "parent_id" => null, 
+                //         "sku" => "L2-2-1-3-M5AZN", 
+                //         "name" => "تكنيك - باليت ظلال عيون اكسبوسد 16 لون 29.6 جم", 
+                //         "url_key" => "l2-2-1-3-m5azn", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48131, 
+                //         "product_id" => 24310, 
+                //         "parent_id" => null, 
+                //         "sku" => "L2-2-1-4-M5AZN", 
+                //         "name" => "تكنيك - باليت ظلال عيون لندن 35 لون 42 جم", 
+                //         "url_key" => "l2-2-1-4-m5azn",                                                                                 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ] 
+                // ] 
             ] 
         ], 
         [
@@ -400,168 +402,169 @@ function homePage() {
                 "limit" => "12", 
                 "type" => "list", 
                 "link" => "/منتجات-يوسرين", 
-                "products" => [
-                    [
-                        "id" => 48755, 
-                        "product_id" => 24624, 
-                        "parent_id" => null, 
-                        "sku" => "G2 5-1-3", 
-                        "name" => "يوسيرين - كريم ليلي مضاد للتجاعيد غني بالريتينول ومساعد 48جرام", 
-                        "url_key" => "g2-5-1-3", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48691, 
-                        "product_id" => 24592, 
-                        "parent_id" => null, 
-                        "sku" => "EUC9853", 
-                        "name" => "يوسيرين بيبي كريم للاطفال مع برو فيتامين ب5 وزبدة الشيا الطبيعية، 141 جم", 
-                        "url_key" => "euc9853", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48753, 
-                        "product_id" => 24623, 
-                        "parent_id" => null, 
-                        "sku" => "G2-8-3-9", 
-                        "name" => "يوسرين - لوشن للبشرة الجافة والخشنة -500مل", 
-                        "url_key" => "g2-8-3-9", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48261, 
-                        "product_id" => 24375, 
-                        "parent_id" => null, 
-                        "sku" => "I3-4-2-1", 
-                        "name" => "جليتز - اظافر صناعية لصق ذاتي لون فضي لماع - 10", 
-                        "url_key" => "i3-4-2-1", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48693, 
-                        "product_id" => 24593, 
-                        "parent_id" => null, 
-                        "sku" => "EUC3148", 
-                        "name" => "يوسيرين - ماء ميسيلار مرطب 3 في 1، مركب من حمض الهيالورونيك، 200مل", 
-                        "url_key" => "euc3148", 
+                'products' => 'getLatestProducts',
+                // "products" => [
+                //     [
+                //         "id" => 48755, 
+                //         "product_id" => 24624, 
+                //         "parent_id" => null, 
+                //         "sku" => "G2 5-1-3", 
+                //         "name" => "يوسيرين - كريم ليلي مضاد للتجاعيد غني بالريتينول ومساعد 48جرام", 
+                //         "url_key" => "g2-5-1-3", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48691, 
+                //         "product_id" => 24592, 
+                //         "parent_id" => null, 
+                //         "sku" => "EUC9853", 
+                //         "name" => "يوسيرين بيبي كريم للاطفال مع برو فيتامين ب5 وزبدة الشيا الطبيعية، 141 جم", 
+                //         "url_key" => "euc9853", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48753, 
+                //         "product_id" => 24623, 
+                //         "parent_id" => null, 
+                //         "sku" => "G2-8-3-9", 
+                //         "name" => "يوسرين - لوشن للبشرة الجافة والخشنة -500مل", 
+                //         "url_key" => "g2-8-3-9", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48261, 
+                //         "product_id" => 24375, 
+                //         "parent_id" => null, 
+                //         "sku" => "I3-4-2-1", 
+                //         "name" => "جليتز - اظافر صناعية لصق ذاتي لون فضي لماع - 10", 
+                //         "url_key" => "i3-4-2-1", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48693, 
+                //         "product_id" => 24593, 
+                //         "parent_id" => null, 
+                //         "sku" => "EUC3148", 
+                //         "name" => "يوسيرين - ماء ميسيلار مرطب 3 في 1، مركب من حمض الهيالورونيك، 200مل", 
+                //         "url_key" => "euc3148", 
 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48793, 
-                        "product_id" => 24643, 
-                        "parent_id" => null, 
-                        "sku" => "C3-5-2-4", 
-                        "name" => "ميلي - قناع تقوية الشعر بأكليل الجبل والنعناع 340 جم", 
-                        "url_key" => "c3-5-2-4", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48729, 
-                        "product_id" => 24611, 
-                        "parent_id" => null, 
-                        "sku" => "P3-8-4-6", 
-                        "name" => "يوسيرين - لوشن الترطيب اليومي خال من العطور - 500مل", 
-                        "url_key" => "p3-8-4-6", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48761, 
-                        "product_id" => 24627, 
-                        "parent_id" => null, 
-                        "sku" => "C2 4-4-4", 
-                        "name" => "يوسرين -  زيت الاستحمام أتوبي كونترول أوميغا - 400مل", 
-                        "url_key" => "c2-4-4-4", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48793, 
+                //         "product_id" => 24643, 
+                //         "parent_id" => null, 
+                //         "sku" => "C3-5-2-4", 
+                //         "name" => "ميلي - قناع تقوية الشعر بأكليل الجبل والنعناع 340 جم", 
+                //         "url_key" => "c3-5-2-4", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48729, 
+                //         "product_id" => 24611, 
+                //         "parent_id" => null, 
+                //         "sku" => "P3-8-4-6", 
+                //         "name" => "يوسيرين - لوشن الترطيب اليومي خال من العطور - 500مل", 
+                //         "url_key" => "p3-8-4-6", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48761, 
+                //         "product_id" => 24627, 
+                //         "parent_id" => null, 
+                //         "sku" => "C2 4-4-4", 
+                //         "name" => "يوسرين -  زيت الاستحمام أتوبي كونترول أوميغا - 400مل", 
+                //         "url_key" => "c2-4-4-4", 
 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48765, 
-                        "product_id" => 24629, 
-                        "parent_id" => null, 
-                        "sku" => "J1 3-2-2", 
-                        "name" => "يوسرين - إيفن بيغمنت بير فكتور كريم النهار للبشرة - 50 مل", 
-                        "url_key" => "j1-3-2-2", 
-                        "new" => null, 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48737, 
-                        "product_id" => 24615, 
-                        "parent_id" => null, 
-                        "sku" => "P3-8-5-2", 
-                        "name" => "يوسيرن - كريم ترطيب باليوريا 5٪ للأيدي", 
-                        "url_key" => "p3-8-5-2", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48765, 
+                //         "product_id" => 24629, 
+                //         "parent_id" => null, 
+                //         "sku" => "J1 3-2-2", 
+                //         "name" => "يوسرين - إيفن بيغمنت بير فكتور كريم النهار للبشرة - 50 مل", 
+                //         "url_key" => "j1-3-2-2", 
+                //         "new" => null, 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48737, 
+                //         "product_id" => 24615, 
+                //         "parent_id" => null, 
+                //         "sku" => "P3-8-5-2", 
+                //         "name" => "يوسيرن - كريم ترطيب باليوريا 5٪ للأيدي", 
+                //         "url_key" => "p3-8-5-2", 
 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48687, 
-                        "product_id" => 24590, 
-                        "parent_id" => null, 
-                        "sku" => "EUC0148", 
-                        "name" => "يوسيرين - جل تنظيف الوجه المرطب٢٠٠مل", 
-                        "url_key" => "euc0148", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48789, 
-                        "product_id" => 24641, 
-                        "parent_id" => null, 
-                        "sku" => "C3-5-5-7", 
-                        "name" => "ميلي - بلسم مقوي للشعر باكليل الجبل والنعناع 355 مل", 
-                        "url_key" => "c3-5-5-7", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ] 
-                ] 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48687, 
+                //         "product_id" => 24590, 
+                //         "parent_id" => null, 
+                //         "sku" => "EUC0148", 
+                //         "name" => "يوسيرين - جل تنظيف الوجه المرطب٢٠٠مل", 
+                //         "url_key" => "euc0148", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48789, 
+                //         "product_id" => 24641, 
+                //         "parent_id" => null, 
+                //         "sku" => "C3-5-5-7", 
+                //         "name" => "ميلي - بلسم مقوي للشعر باكليل الجبل والنعناع 355 مل", 
+                //         "url_key" => "c3-5-5-7", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ] 
+                // ] 
             ] 
         ], 
         [
@@ -583,190 +586,191 @@ function homePage() {
                 "type" => "list", 
                 "products_title" => "العدسات", 
                 "link" => "/العدسات", 
-                "products" => [
-                    [
-                        "id" => 48207, 
-                        "product_id" => 24348, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-5-1", 
-                        "name" => "دايا - عدسات لاصقة يومية آش 10 حبات", 
-                        "url_key" => "l3-9-5-1", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48215, 
-                        "product_id" => 24352, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-4-2", 
-                        "name" => "دايا - عدسات لاصقة يومية مينت 10 حبات", 
-                        "url_key" => "l3-9-4-2",                         
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48191, 
-                        "product_id" => 24340, 
-                        "parent_id" => null, 
-                        "sku" => "J3-9-4-7", 
-                        "name" => "دفرنت كلر - محلول عدسات متعدد الاغراض الكل في واحد 130مل", 
-                        "url_key" => "j3-9-4-7", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48205, 
-                        "product_id" => 24347, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-5-2", 
-                        "name" => "دايا - عدسات لاصقة يومية انديقو 10 حبات",                                                                                                                                                                                                                                                                           "url_key" => "l3-9-5-2", 
-                        "new" => null, 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48221, 
-                        "product_id" => 24355, 
-                        "parent_id" => null, 
-                        "sku" => "L3-3-2-2", 
-                        "name" => "عدسات لنس مي كنتور - contour", 
-                        "url_key" => "l3-3-2-2", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48197, 
-                        "product_id" => 24343, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-4-9", 
-                        "name" => "عدسات ديفا - كريم Cream", 
-                        "url_key" => "l3-9-4-9", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48227, 
-                        "product_id" => 24358, 
-                        "parent_id" => null, 
-                        "sku" => "L3-3-2-1", 
-                        "name" => "عدسات لنس مي تي - TEA", 
-                        "url_key" => "l3-3-2-1", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48209, 
-                        "product_id" => 24349, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-4-5", 
-                        "name" => "دايا - عدسات لاصقة يومية جايد 10 حبات", 
-                        "url_key" => "l3-9-4-5", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48219, 
-                        "product_id" => 24354, 
-                        "parent_id" => null, 
-                        "sku" => "L3-2-5-1", 
-                        "name" => "ديفا - محلول عدسات  طبي متعدد الأغراض 100 مل", 
-                        "url_key" => "l3-2-5-1", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48193, 
-                        "product_id" => 24341, 
-                        "parent_id" => null, 
-                        "sku" => "B3-5-4-4", 
-                        "name" => "عدسات لنس مي ارابيا آي - Arabia Eye", 
-                        "url_key" => "b3-5-4-4", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48195, 
-                        "product_id" => 24342, 
-                        "parent_id" => null, 
-                        "sku" => "B3-5-4-3", 
-                        "name" => "عدسات لنس مي دراما - Drama", 
-                        "url_key" => "b3-5-4-3", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48211, 
-                        "product_id" => 24350, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-4-4", 
-                        "name" => "دايا - عدسات لاصقة يومية بيكان 10 حبات", 
-                        "url_key" => "l3-9-4-4", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48203, 
-                        "product_id" => 24346, 
-                        "parent_id" => null, 
-                        "sku" => "L3-9-4-6", 
-                        "name" => "عدسات ديفا - لامير Lamir", 
-                        "url_key" => "l3-9-4-6", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ], 
-                    [
-                        "id" => 48189, 
-                        "product_id" => 24339, 
-                        "parent_id" => null, 
-                        "sku" => "C3-5-2-9", 
-                        "name" => "عدسات لنس مي تان - TAN", 
-                        "url_key" => "c3-5-2-9", 
-                        "saleable" => 1, 
-                        "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                        "product" => [
-                            "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                        ] 
-                    ] 
-                ] 
+                'products' => 'getLatestProducts',
+                // "products" => [
+                //     [
+                //         "id" => 48207, 
+                //         "product_id" => 24348, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-5-1", 
+                //         "name" => "دايا - عدسات لاصقة يومية آش 10 حبات", 
+                //         "url_key" => "l3-9-5-1", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48215, 
+                //         "product_id" => 24352, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-4-2", 
+                //         "name" => "دايا - عدسات لاصقة يومية مينت 10 حبات", 
+                //         "url_key" => "l3-9-4-2",                         
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48191, 
+                //         "product_id" => 24340, 
+                //         "parent_id" => null, 
+                //         "sku" => "J3-9-4-7", 
+                //         "name" => "دفرنت كلر - محلول عدسات متعدد الاغراض الكل في واحد 130مل", 
+                //         "url_key" => "j3-9-4-7", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48205, 
+                //         "product_id" => 24347, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-5-2", 
+                //         "name" => "دايا - عدسات لاصقة يومية انديقو 10 حبات",                                                                                                                                                                                                                                                                           "url_key" => "l3-9-5-2", 
+                //         "new" => null, 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48221, 
+                //         "product_id" => 24355, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-3-2-2", 
+                //         "name" => "عدسات لنس مي كنتور - contour", 
+                //         "url_key" => "l3-3-2-2", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48197, 
+                //         "product_id" => 24343, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-4-9", 
+                //         "name" => "عدسات ديفا - كريم Cream", 
+                //         "url_key" => "l3-9-4-9", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48227, 
+                //         "product_id" => 24358, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-3-2-1", 
+                //         "name" => "عدسات لنس مي تي - TEA", 
+                //         "url_key" => "l3-3-2-1", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48209, 
+                //         "product_id" => 24349, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-4-5", 
+                //         "name" => "دايا - عدسات لاصقة يومية جايد 10 حبات", 
+                //         "url_key" => "l3-9-4-5", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48219, 
+                //         "product_id" => 24354, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-2-5-1", 
+                //         "name" => "ديفا - محلول عدسات  طبي متعدد الأغراض 100 مل", 
+                //         "url_key" => "l3-2-5-1", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48193, 
+                //         "product_id" => 24341, 
+                //         "parent_id" => null, 
+                //         "sku" => "B3-5-4-4", 
+                //         "name" => "عدسات لنس مي ارابيا آي - Arabia Eye", 
+                //         "url_key" => "b3-5-4-4", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48195, 
+                //         "product_id" => 24342, 
+                //         "parent_id" => null, 
+                //         "sku" => "B3-5-4-3", 
+                //         "name" => "عدسات لنس مي دراما - Drama", 
+                //         "url_key" => "b3-5-4-3", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48211, 
+                //         "product_id" => 24350, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-4-4", 
+                //         "name" => "دايا - عدسات لاصقة يومية بيكان 10 حبات", 
+                //         "url_key" => "l3-9-4-4", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48203, 
+                //         "product_id" => 24346, 
+                //         "parent_id" => null, 
+                //         "sku" => "L3-9-4-6", 
+                //         "name" => "عدسات ديفا - لامير Lamir", 
+                //         "url_key" => "l3-9-4-6", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ], 
+                //     [
+                //         "id" => 48189, 
+                //         "product_id" => 24339, 
+                //         "parent_id" => null, 
+                //         "sku" => "C3-5-2-9", 
+                //         "name" => "عدسات لنس مي تان - TAN", 
+                //         "url_key" => "c3-5-2-9", 
+                //         "saleable" => 1, 
+                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+                //         "product" => [
+                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+                //         ] 
+                //     ] 
+                // ] 
             ] 
         ], 
         [
@@ -914,47 +918,48 @@ function homePage() {
                "type" => "slider", 
                "products_title" => "", 
                "link" => "/تخفيضات", 
-               "products" => [
-                [
-                    "id" => 106921, 
-                    "product_id" => 55683, 
-                    "parent_id" => null, 
-                    "sku" => "GFAF0U2", 
-                    "name" => "vir", 
-                    "url_key" => "gfaf0u2", 
-                    "saleable" => 1, 
-                    "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                    "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                    ] 
-                ], 
-                [
-                    "id" => 107017, 
-                    "product_id" => 55731, 
-                    "parent_id" => null, 
-                    "sku" => "GFAF0U23", 
-                    "name" => "Testing API Mobile", 
-                    "url_key" => "ssdfasdss", 
-                    "saleable" => 1, 
-                    "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                    "product" => [
-                        "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                    ] 
-                ], 
-                [
-                    "id" => 107663, 
-                    "product_id" => 56116, 
-                    "parent_id" => null, 
-                    "sku" => "N2-4-5-3", 
-                    "name" => "ثلاجة الجمال سباركلنق لافندر 4 لتر", 
-                    "url_key" => "n2-4-5-3", 
-                    "saleable" => 1, 
-                    "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                    "product" => [
-                    "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                    ] 
-                ] 
-                ] 
+               'products' => 'getLatestProducts',
+            //    "products" => [
+            //         [
+            //             "id" => 106921, 
+            //             "product_id" => 55683, 
+            //             "parent_id" => null, 
+            //             "sku" => "GFAF0U2", 
+            //             "name" => "vir", 
+            //             "url_key" => "gfaf0u2", 
+            //             "saleable" => 1, 
+            //             "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+            //             "product" => [
+            //                 "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+            //             ] 
+            //         ], 
+            //         [
+            //             "id" => 107017, 
+            //             "product_id" => 55731, 
+            //             "parent_id" => null, 
+            //             "sku" => "GFAF0U23", 
+            //             "name" => "Testing API Mobile", 
+            //             "url_key" => "ssdfasdss", 
+            //             "saleable" => 1, 
+            //             "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+            //             "product" => [
+            //                 "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+            //             ] 
+            //         ], 
+            //         [
+            //             "id" => 107663, 
+            //             "product_id" => 56116, 
+            //             "parent_id" => null, 
+            //             "sku" => "N2-4-5-3", 
+            //             "name" => "ثلاجة الجمال سباركلنق لافندر 4 لتر", 
+            //             "url_key" => "n2-4-5-3", 
+            //             "saleable" => 1, 
+            //             "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
+            //             "product" => [
+            //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
+            //             ] 
+            //         ] 
+            //     ] 
             ] 
         ] 
     ]; 
