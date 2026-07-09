@@ -196,15 +196,15 @@ elseif (str_contains($url, '/fetch-home-products')) {
             'new' => false,
             'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/660156/medium-7cfe95a8-88d3-4013-9e53-735237692d23.jpg']
         ],
-        [
-            'product_id' => 6, 
-            'name' => 'Premium Product', 
-            'url_key' => 'premium-product', 
-            'html_price' => '<span class="price">367.35</span>',
-            'saleable' => false, // Out of stock example
-            'new' => false,
-            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg']
-        ]
+        // [
+        //     'product_id' => 6, 
+        //     'name' => 'Premium Product', 
+        //     'url_key' => 'premium-product', 
+        //     'html_price' => '<span class="price">367.35</span>',
+        //     'saleable' => false, // Out of stock example
+        //     'new' => false,
+        //     'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/649687/medium-095dbde6-ce6d-49e0-a4d4-69bfb8563bfa.jpg']
+        // ]
     ];
 
     // 3. Render only the partial file
