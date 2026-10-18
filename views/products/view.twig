@@ -22,111 +22,109 @@
 
                     <div class="details">
 
-                        <h6 class="badge badge-pill badge-primary">
-                            {{ product.subtitle }}
-                        </h6>
-                        <div class="product-heading flexbetween flexvcenter flex-wrap">
-                            <div>{{ product.name }}</div>
-                            {# <div>
-                                {{ product.getBrand }}
-                            </div> #}
+                        {% if product.subtitle %}
+                            <span class="product-subtitle">{{ product.subtitle }}</span>
+                        {% endif %}
+
+                        <div class="product-heading">
+                            <h1 class="product-title">{{ product.name }}</h1>
                             {% if product.getBrand | length > 0 %}
                                 {% if product.getBrand.logo %}
-                                    <a href="">
-                                        <img src="{{ storage_url ~ product.getBrand.logo }}" height="40px" />
-                                    </a> 
+                                    <a href="/brands/{{ product.getBrand.name }}/brand-{{ product.getBrand.id }}" class="product-brand">
+                                        <img src="{{ storage_url ~ product.getBrand.logo }}" alt="{{ product.getBrand.name }}" />
+                                    </a>
                                 {% else %}
-                                    <span>{{ brand.name }}</span>
+                                    <span class="product-brand">{{ product.getBrand.name }}</span>
                                 {% endif %}
                             {% endif %}
                         </div>
 
+                        <div class="product-price-row">
+                            <span class="product-price">
+                                {{ product.html_price | raw }}
+                            </span>
 
-                        <span class="product-price">
-                            {{ product.html_price | raw }}
-                        </span>
-
-                        <div class="stock-status {% if product.sufficient_quantity == true %}
-                                active
-                            {% endif %}
-                                ">
-                            {% if product.sufficient_quantity == true %}
-                                {{ ('shop::app.products.in-stock'|trans) }}
-                            {% elseif (product.sufficient_quantity > 0) %}
-                                {{ ('shop::app.products.available-for-order'|trans) }}
-                            {% else %}
-                                {{ ('shop::app.products.out-of-stock'|trans) }}
-                            {% endif %}
-                    </div>
-                    {% if product.show_sku %}
-                        {% if product.sku %}
-                            <div class="product-metadata sku">
-                                <i class="icon-tag mr-5"></i>
-                                {{ ('admin::app.catalog.products.sku'|trans) }} {{ product.sku }}
-                            </div>                            
-                        {% endif %}
-                        {% if product.barcode %}
-                            <div class="product-metadata barcode">
-                                <i class="icon-barcode mr-5"></i>
-                                {{ ('admin::app.catalog.products.barcode'|trans) }} {{ product.barcode }}
-                            </div>                            
-                        {% endif %}
-                    {% endif %}
-
-                    {% if sales_count > -1 %}
-                        {% if product.show_purchase_count %}
-                            <div class="product-metadata stock">
-                                <i class="icon-box mr-5"></i>
-                                {{ sales_count }} {{ ('admin::app.layouts.sales'|trans) }}
+                            <div class="stock-status{% if product.sufficient_quantity == true %} active{% elseif product.sufficient_quantity > 0 %} on-order{% endif %}">
+                                {% if product.sufficient_quantity == true %}
+                                    {{ ('shop::app.products.in-stock'|trans) }}
+                                {% elseif (product.sufficient_quantity > 0) %}
+                                    {{ ('shop::app.products.available-for-order'|trans) }}
+                                {% else %}
+                                    {{ ('shop::app.products.out-of-stock'|trans) }}
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    {% endif %}
-
-
-                        <div class="full-description mt-30" data-max-height="300">
-                            {{ product.description|raw }}
                         </div>
 
-                        {% if product.show_weight %}
-                            <div class="product-metadata weight">
-                                <i class="icon-cart-download mr-5"></i>
-                                {{ ('admin::app.catalog.products.weight'|trans) }} <span class="product-shipping-weight">{{ product.weight|default(1) }}</span>  {{ ('admin::app.admin.shipping.kg'|trans) }}
-                            </div>
-                        {% endif %}
+                        {# SKU, barcode, sales count and weight as small chips #}
+                        <div class="product-meta">
+                            {% if product.show_sku %}
+                                {% if product.sku %}
+                                    <div class="product-metadata sku">
+                                        <i class="icon-tag"></i>
+                                        {{ ('admin::app.catalog.products.sku'|trans) }} {{ product.sku }}
+                                    </div>
+                                {% endif %}
+                                {% if product.barcode %}
+                                    <div class="product-metadata barcode">
+                                        <i class="icon-barcode"></i>
+                                        {{ ('admin::app.catalog.products.barcode'|trans) }} {{ product.barcode }}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if sales_count > -1 and product.show_purchase_count %}
+                                <div class="product-metadata stock">
+                                    <i class="icon-box"></i>
+                                    {{ sales_count }} {{ ('admin::app.layouts.sales'|trans) }}
+                                </div>
+                            {% endif %}
+
+                            {% if product.show_weight %}
+                                <div class="product-metadata weight">
+                                    <i class="icon-cart-download"></i>
+                                    {{ ('admin::app.catalog.products.weight'|trans) }} <span class="product-shipping-weight">{{ product.weight|default(1) }}</span> {{ ('admin::app.admin.shipping.kg'|trans) }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="full-description" data-max-height="300">
+                            {{ product.description|raw }}
+                        </div>
 
                         {% if product.type == 'configurable' %}
                             {% include 'products/view/configurable-options.twig' %}
                         {% endif %}
-                        {% if product.type == 'customizable' %}                            
+                        {% if product.type == 'customizable' %}
                             {% include 'products/view/customizable.twig' %}
                         {% endif %}
-                        {% if product.type == 'booking' %}                            
+                        {% if product.type == 'booking' %}
                             {% include 'products/view/booking.twig' %}
                         {% endif %}
 
-                        <div style="display: flex;flex-direction: column;justify-content: center;align-items: center;gap: 20px;padding-top: 20px;">
+                        {# Quantity + add to cart / buy now #}
+                        <div class="product-actions">
 
                             {% if product.show_quantity_box %}
-                                <div class="quantity control-group" class="" >
+                                <div class="quantity control-group">
                                     <label class="required">{{ ('shop::app.products.quantity'|trans) }}</label>
 
-                                    <button type="button" class="decrease" @click="decreaseQty()">-</button>
+                                    <div class="quantity-stepper">
+                                        <button type="button" class="decrease" @click="decreaseQty()" aria-label="-">-</button>
 
-                                    <input
-                                        class="control"
-                                        id="qtyBox"
-                                        name="quantity"
-                                        data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
-                                        readonly=""
-                                        max="maxQuantity"
-                                        @keyUp="changeQty()" 
-                                    />
+                                        <input
+                                            class="control"
+                                            id="qtyBox"
+                                            name="quantity"
+                                            data-vv-as="{{ ('shop::app.products.quantity'|trans) }}"
+                                            readonly=""
+                                            max="maxQuantity"
+                                            @keyUp="changeQty()"
+                                        />
 
-                                    <button type="button" class="increase" @click="increaseQty()">+</button>
+                                        <button type="button" class="increase" @click="increaseQty()" aria-label="+">+</button>
+                                    </div>
 
                                     <span class="control-error"></span>
-
-                                    {# <i id="remaningQty" style=" text-align: center;">{{ maxQuantity }} items remaining</i> #}
                                 </div>
                             {% else %}
                                 <input type="hidden" name="quantity" value="1">

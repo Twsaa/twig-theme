@@ -1,0 +1,58 @@
+{# FAQ block — settings: title, sub_title, items[{faq_name, faq_desc}] #}
+<section class="s-block s-block--banners faq-block container" id="block{{ content['block_id'] }}" data-id="{{ content['block_id'] }}" data-item="faq" data-label="{{ content['settings']['title'] }}">
+    {% if content['settings']['title'] or content['settings']['sub_title'] %}
+        <div class="s-block__title faq-block__head">
+            <div class="flex flex-col w-full">
+                {% if content['settings']['title'] %}
+                    <h2 class="w-full da-cp">{{ content['settings']['title'] }}</h2>
+                {% endif %}
+                {% if content['settings']['sub_title'] %}
+                    <p class="w-full !p-0 text-gray-400 da-ts">{{ content['settings']['sub_title'] }}</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="accordion">
+        {% for item in content['settings']['items'] %}
+            {% set item_id = 'faq' ~ content['block_id'] ~ '-' ~ loop.index %}
+            <div class="accordion-item">
+                <button type="button" class="accordion-header" id="{{ item_id }}-btn" aria-expanded="false" aria-controls="{{ item_id }}">
+                    <span class="accordion-question">{{ item['faq_name'] }}</span>
+                    <span class="accordion-icon" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </button>
+
+                <div class="accordion-content" id="{{ item_id }}" role="region" aria-labelledby="{{ item_id }}-btn">
+                    <div class="accordion-body">
+                        <p>{{ item['faq_desc'] | nl2br }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    // One click handler for every FAQ block on the page; opening an item closes the others in the same block
+    if (!window.accordionInitialized) {
+        window.accordionInitialized = true;
+        document.addEventListener('click', function(e) {
+            var header = e.target.closest('.accordion-header');
+            if (!header) return;
+            var accordion = header.closest('.accordion');
+            var currentItem = header.closest('.accordion-item');
+
+            accordion.querySelectorAll('.accordion-item').forEach(function(item) {
+                if (item !== currentItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            var isOpen = currentItem.classList.toggle('active');
+            header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    }
+</script>

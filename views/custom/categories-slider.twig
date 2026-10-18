@@ -1,0 +1,26 @@
+<div id="block{{ content['block_id'] }}">
+    <div class="s-block__title">
+        <div class="flex flex-col w-full">
+            <h2 class="w-full da-cp">{{ content['settings']['categories_title'] }}</h2>
+        </div>
+    </div>        
+    <div id="slider{{ content['block_id'] }}" class="home-grid mb-20 owl-carousel">
+        {% for key, category in content['settings']['categories'] %}
+            <div class="">
+                <div class="">
+                    <a href="/{{category.slug}}">
+                        <div >
+                            <img src="{{ storage_url ~ category.image }}" alt="{{ category.name }}"
+                                {# onerror="this['src']='{{ asset_url ~ (brand['logo']) }}'" #}
+                                 />
+                        </div>        
+                    </a>
+                </div>
+                {#<div class="text-center">
+                    <h3 class="text-lg">{{ brand['name'] }}</h3>
+                </div>#}
+            </div>
+        {% endfor %}
+       
+    </div>
+</div>

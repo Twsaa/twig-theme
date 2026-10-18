@@ -1,5 +1,39 @@
+<div class="nav-sidebar-head">
+    <a href="/" class="nav-sidebar-brand">
+        {% if channel and channel.logo %}
+            <img src="{{ storage_url ~ channel.logo }}" alt="{{ channel.name }}">
+        {% else %}
+            {{ channel ? channel.name }}
+        {% endif %}
+    </a>
+    <button type="button" class="nav-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 2L12 12M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+</div>
 <ul class="nav category-navbar" id="cat-here">
 </ul>
+<div class="nav-sidebar-foot">
+    <div class="nav-sidebar-group">
+        <span class="nav-sidebar-label">{{ ('shop::app.footer.locale'|trans) }}</span>
+        <div class="nav-sidebar-chips">
+            {% for locale in getFunction('getAllLocales') %}
+                <a href="?locale={{ locale.code }}" class="nav-chip{{ locale.code == lang ? ' active' }}">{{ locale.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="nav-sidebar-group">
+        <span class="nav-sidebar-label">{{ ('shop::app.footer.currency'|trans) }}</span>
+        <div class="nav-sidebar-chips">
+            {% for currency in getFunction('getActiveChannelCurrency') %}
+                <a href="?currency={{ currency.code }}" class="nav-chip">{{ currency.code }} {{ currency.symbol }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="/customer/account/wallet" class="nav-sidebar-wallet">
+        <span class="icon-bag-dollar"></span>
+        <span>{{ getFunction('customerWallet') | default('0') | raw }}</span>
+    </a>
+</div>
 <script>
     $(document).ready(function() {
         $.ajax({
@@ -16,6 +50,43 @@
                 // Handle errors
                 console.error('AJAX Error:', status, error);
             }
+        });
+
+        // Mobile sidebar menu
+        var mobileQuery = window.matchMedia('(max-width: 767px)');
+
+        function openNav() {
+            $('body').addClass('nav-open');
+            $('.nav-toggle').attr('aria-expanded', 'true');
+        }
+
+        function closeNav() {
+            $('body').removeClass('nav-open');
+            $('.nav-toggle').attr('aria-expanded', 'false');
+            // Collapse submenus and clear the inline styles left by the slide animation
+            $('#cat-here li.open').removeClass('open');
+            $('#cat-here .cat-sub').removeAttr('style');
+        }
+
+        $(document).on('click', '.nav-toggle', openNav);
+        $(document).on('click', '.nav-close, .nav-overlay', closeNav);
+        $(document).on('keydown', function(e) {
+            if (e.key === 'Escape') closeNav();
+        });
+
+        // Tapping the arrow opens the submenu; tapping the name still follows the link
+        $(document).on('click', '#cat-here .nav-arrow', function(e) {
+            if (!mobileQuery.matches) return;
+            e.preventDefault();
+            e.stopPropagation();
+            var $li = $(this).closest('li');
+            $li.toggleClass('open');
+            $li.children('.cat-sub').stop(true, true).slideToggle(220);
+        });
+
+        // Close the sidebar if the screen grows to desktop size
+        $(window).on('resize', function() {
+            if (!mobileQuery.matches && $('body').hasClass('nav-open')) closeNav();
         });
     });
 </script>

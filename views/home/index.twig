@@ -23,6 +23,12 @@
              {% if ('brands' == content['slug']) %}
                 {% include 'custom/brands.twig' with {'content': content} %}
             {% endif %}
+            {% if ('categories' == content['slug']) %}
+                {% include 'custom/categories-slider.twig' with {'content': content} %}
+            {% endif %}
+            {% if ('faq' == content['slug'] and content['settings']['items'] is not empty) %}
+                {% include 'custom/faq.twig' with {'content': content} %}
+            {% endif %}
             {% if ('list_of_items' == content['slug']) %}
                 {% if ('slider' == content['settings']['type']) %}
                     {% include 'custom/list-of-items-slider.twig' with {'content': content} %}
@@ -147,8 +153,15 @@
     
                 var swiper = new Swiper(".myListSwiper", {
                     slidesPerView: perView,
+                    speed: 800, // slide transition duration (ms)
                     autoplay: {
-                        delay: 1000,
+                        delay: 4000, // time each slide stays visible (ms)
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    pagination: {
+                        el: ".myListSwiper .swiper-pagination",
+                        clickable: true,
                     },
                     navigation: {
                         nextEl: ".s-slider-next",

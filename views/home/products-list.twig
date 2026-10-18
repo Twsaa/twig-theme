@@ -20,7 +20,7 @@
                         <div class="">
                             {% if product['new'] %}
                                 <div class="sticker new">
-                                    {{ ('app.products.new'|trans) }}
+                                    {{ ('shop::app.products.new'|trans) }}
                                 </div>
                             {% endif %}
                             <a href="/{{ product['url_key'] }}" title="{{ product['name'] }}"  class="product-a product-box-container">

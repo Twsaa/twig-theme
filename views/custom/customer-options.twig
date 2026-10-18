@@ -1,51 +1,58 @@
-<section class="s-block s-block--banners   p-left angel_anime animate__ animate__fadeIn" data-wow-delay="0.1s"
-    style="visibility: visible; animation-delay: 0.1s;">
-    <div id="block{{ content['block_id'] }}">
-        <div class="product-group" style="display: ;">
-            <h3 class="product-group-heading">{{ content['setting']['customer_options'] }}</h3>
-            <div class="product-group-divider"></div>
-            <div class="product-group-arrows">
-                <span class="product-group-arrow-prev"><i class="icon-caret-{{ lang == 'ar' ? 'right':'left' }}"></i></span>
-                <span class="product-group-arrow-next"><i class="icon-caret-{{ lang == 'ar' ? 'left':'right' }}"></i></span>
+{% set hide_user = content['settings']['hide_user'] == 'true' %}
+<section id="block{{ content['block_id'] }}" class="reviews-block">
+    <div class="reviews-block__head">
+        <h3 class="reviews-block__title">{{ ('shop::app.customer.account.review.index.page-title'|trans) }}</h3>
+        {% if content['settings']['reviews'] | length > 1 %}
+            <div class="reviews-block__arrows">
+                <button type="button" class="reviews-arrow reviews-arrow--prev" aria-label="Previous">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="reviews-arrow reviews-arrow--next" aria-label="Next">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
             </div>
-        </div>
-    
-        <div id="slider{{ content['block_id'] }}" class="home-grid mb-20 owl-carousel">
-            {% for review in content['settings']['reviews'] %}
-                <div class="flex flex-col w-full px-4 pb-8 -mt-8 ">
-                    <div class="s-testimonials--slider--img flex-center flex-col gap-2" style="text-align: -webkit-center;">
-                        <div
-                            class="testimonial__avatar overflow-hidden h-24 w-24 flex z-1 rounded-full transition-shadow duration-500 hover:shadow-default">
-                            <img src="{{ asset_url ~ ('images/') }}{{ review['customer']['gender'] ?? 'other' }}-gender.png"
-                                data-src="{{ asset_url ~ ('images/') }}{{ review['customer']['gender'] ?? 'other' }}-gender.png"
-                                alt="{{ review['name'] }}" claowl-carouselss="w-full h-full object-cover lazy loaded" loading="lazy"
-                                data-ll-status="loaded" width="75" height="75" style="width: 75px">
-                        </div>
-                        <h4 class="text-lg leading-6 da-tm">
-                            {% if content['settings']['hide_user'] != 'true' %}
-                                {{ review['name'] }}
-                            {% endif %}
-                        </h4>
-                        <div class="testimonial__rating text-sm">
-                            <twsaarating-stars size="small" value="5" class="hydrated">
-                                <div class="s-rating-stars-wrapper">
-                                    {% for i in 0..4 %}
-                                        {% if review['rating'] > i %}
-                                            <i class="icon-star2" style="color: rgb(255, 215, 0);"></i>
-                                        {% else %}
-                                            <i class="icon-star2" style="color: rgb(212, 212, 212);"></i>
-                                        {% endif %}
-                                    {% endfor %}                                    
-                                </div>
-                            </twsaarating-stars>
-                        </div>
+        {% endif %}
+    </div>
+
+    <div id="slider{{ content['block_id'] }}" class="reviews-slider owl-carousel">
+        {% for review in content['settings']['reviews'] %}
+            <article class="review-card">
+                <div class="review-card__top">
+                    <svg class="review-card__quote" width="28" height="22" viewBox="0 0 28 22" fill="currentColor" aria-hidden="true"><path d="M0 22V13.2C0 9.6 .9 6.6 2.7 4.2 4.5 1.8 7.1.4 10.4 0l1 3.1c-1.9.5-3.4 1.4-4.4 2.8-1 1.4-1.5 2.9-1.5 4.6H11V22H0zm16.9 0V13.2c0-3.6.9-6.6 2.7-9 1.8-2.4 4.4-3.8 7.7-4.2l1 3.1c-1.9.5-3.4 1.4-4.4 2.8-1 1.4-1.5 2.9-1.5 4.6h5.5V22H16.9z"/></svg>
+                    <div class="review-card__stars" aria-label="{{ review['rating'] }} / 5">
+                        {% for i in 0..4 %}
+                            <svg class="{{ review['rating'] > i ? 'is-on' }}" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z"/></svg>
+                        {% endfor %}
                     </div>
-                    <p class="text-base da-tm leading-6 line-clamp-3 w-full da-tm text-center my-2">
-                        {{ review['comment'] }}
-                    </p>
-                    <i class="testimonial__icon icon-quote -scale-y-100 -scale-x-100 absolute top-4 end-4 text-3xl da-tm opacity-10"></i>
                 </div>
-            {% endfor %}
-        </div>
+
+                <p class="review-card__comment" dir="auto">{{ review['comment'] }}</p>
+
+                <div class="review-card__author">
+                    <span class="review-card__avatar" aria-hidden="true">
+                        {% if hide_user or not review['name'] %}
+                            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="6.5" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M3 17.5c1.2-3 3.8-4.5 7-4.5s5.8 1.5 7 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                        {% else %}
+                            {{ review['name'] | first | upper }}
+                        {% endif %}
+                    </span>
+                    {% if not hide_user and review['name'] %}
+                        <span class="review-card__name" dir="auto">{{ review['name'] }}</span>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
     </div>
 </section>
+
+<script>
+    $(function() {
+        var $block = $('#block{{ content['block_id'] }}');
+        $block.on('click', '.reviews-arrow--prev', function() {
+            $block.find('.owl-carousel').trigger('prev.owl.carousel');
+        });
+        $block.on('click', '.reviews-arrow--next', function() {
+            $block.find('.owl-carousel').trigger('next.owl.carousel');
+        });
+    });
+</script>

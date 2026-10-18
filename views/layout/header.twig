@@ -2,7 +2,7 @@
     <div class="header-container">
         <div class="header-row-one">
             <ul class="top-links top-links-1">
-                <li>
+                <li class="top-link-locale">
                     <div>
                         <div class="dropdown-toggle">
                             <span class="top-links-icon top-links-locale">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </li>
-                <li>
+                <li class="top-link-currency">
                     <div>
                         <div class="dropdown-toggle">
                             <span class="top-links-icon top-links-locale">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </li>
-                <li>
+                <li class="top-link-search">
                     <div class="dropdown-toggle top-links-icon top-links-search icon-magnifying-glass icon-search">
                     </div>
                     <div class="dropdown-list bottom-left popper-tooltip" style="display: none;">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="cart-dropdown-container has-counter">
+                <li class="cart-dropdown-container has-counter top-link-cart">
                     <a href="/checkout/cart">
                         <span class="top-links-icon top-links-cart">
                             <span class="icon-cart"></span>
@@ -59,7 +59,7 @@
                         </span>
                     </a>
                 </li>
-                <li><a href="/customer/account/wallet"><span
+                <li class="top-link-wallet"><a href="/customer/account/wallet"><span
                             class="top-links-icon top-links-cart"><span class="icon-bag-dollar"></span> <span
                                 class="wallet-wrapper">{{ getFunction('customerWallet') | default('0') |raw }}</span></span></a></li>
             </ul>
@@ -74,7 +74,10 @@
                 </a>
             </div>                
             <div class="top-links-3">
-                <div>
+                <button type="button" class="nav-toggle top-links-icon" aria-label="Menu" aria-controls="primary-menu" aria-expanded="false">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 4.5H16M2 9H16M2 13.5H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </button>
+                <div class="top-link-account">
                     <div 
                     {% if authUser %}
                         class="dropdown-toggle"
@@ -118,8 +121,9 @@
                 </div>
             </div>
         </div>
-        <div class="primary-menu">
+        <div class="primary-menu" id="primary-menu">
             {% include 'layout/navbar.twig' %}
         </div>
+        <div class="nav-overlay"></div>
     </div>
 </header>

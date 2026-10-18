@@ -196,6 +196,51 @@ elseif (str_contains($url, '/fetch-home-products')) {
             'new' => false,
             'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/660156/medium-7cfe95a8-88d3-4013-9e53-735237692d23.jpg']
         ],
+        [
+            'product_id' => 6,
+            'name' => 'ثلاجة الجمال سباركلنق لافندر 4 لتر',
+            'url_key' => 'n2-4-5-3',
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => true,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/56116/medium-0592b342-84cb-44f6-8d29-1328e332c9fd.png']
+        ],
+        [
+            'product_id' => 7,
+            'name' => 'Digital',
+            'url_key' => 'k6p8ato',
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/56219/medium-b5a93051-3cc1-4d62-8b7f-2cd7897b9581.jpg']
+        ],
+        [
+            'product_id' => 8,
+            'name' => 'Ebook',
+            'url_key' => 'ouu1ro7',
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/56118/medium-68fc0441-483a-4167-a993-22d76d82b494.jpg']
+        ],
+        [
+            'product_id' => 9,
+            'name' => 'Customizable Product',
+            'url_key' => 'customizable',
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => true,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/55682/medium-aa97d069-649f-41d3-bf95-a66addfc903c.jpg']
+        ],
+        [
+            'product_id' => 10,
+            'name' => 'asdf asdf2',
+            'url_key' => '2g663yz',
+            'html_price' => '<span class="price">367.35</span>',
+            'saleable' => true,
+            'new' => false,
+            'product' => ['base_image_url' => 'https://cdn.twsaa.com/product/55668/medium-a16626c7-40a0-42f9-954f-5e1b25159fc1.png']
+        ],
         // [
         //     'product_id' => 6, 
         //     'name' => 'Premium Product', 

@@ -123,6 +123,45 @@ function homePage() {
     $context['authUser'] = auth();
     $context['homeContent'] = [
         [
+            "slug" => "list_of_items", 
+            "sort" => null, 
+            "block_id" => 718904, 
+            "settings" => [
+                "items" => [
+                    [
+                        "image" => "https://dbi49knxhb5pc.cloudfront.net/home/9136/0f28c6c7-68f8-4b5b-958b-450cfcba5131.png", 
+                        "name" => "أحمر الشفاه", 
+                        "link_type" => "category", 
+                        "category_id" => "2122", 
+                        "link" => "/المكياج" 
+                    ], 
+                    [
+                        "image" => "https://dbi49knxhb5pc.cloudfront.net/home/9136/58752efc-b4aa-45b7-bece-6f3625260813.png", 
+                        "name" => "أقلام الكحل", 
+                        "link_type" => "category", 
+                        "category_id" => "2122", 
+                        "link" => "/المكياج" 
+                    ], 
+                    [
+                        "image" => "https://dbi49knxhb5pc.cloudfront.net/home/9136/7191b763-f747-4832-ac36-9755b40ad0be.png", 
+                        "name" => "كونسيلر", 
+                        "link_type" => "category", 
+                        "category_id" => "2122", 
+                        "link" => "/المكياج" 
+                    ], 
+                    [
+                        "image" => "https://dbi49knxhb5pc.cloudfront.net/home/9136/0f28c6c7-68f8-4b5b-958b-450cfcba5131.png", 
+                        "name" => "ظلال عيون", 
+                        "link_type" => "category", 
+                        "category_id" => "2122", 
+                        "link" => "/المكياج" 
+                    ] 
+                ], 
+                "title" => "", 
+                "type" => "slider" 
+            ] 
+        ], 
+        [
               "slug" => "fixed_products", 
               "sort" => null, 
               "block_id" => 155712, 
@@ -332,45 +371,6 @@ function homePage() {
         [
             "slug" => "list_of_items", 
             "sort" => null, 
-            "block_id" => 718904, 
-            "settings" => [
-                "items" => [
-                    [
-                        "image" => "https://cdn.twsaa.com/home/23/27a0a324-e308-440e-a05f-64690299b948.png", 
-                        "name" => "أحمر الشفاه", 
-                        "link_type" => "category", 
-                        "category_id" => "2122", 
-                        "link" => "/المكياج" 
-                    ], 
-                    [
-                        "image" => "https://cdn.twsaa.com/home/23/6f09f49f-e2f6-4b86-86aa-68ca55595d1b.png", 
-                        "name" => "أقلام الكحل", 
-                        "link_type" => "category", 
-                        "category_id" => "2122", 
-                        "link" => "/المكياج" 
-                    ], 
-                    [
-                        "image" => "https://cdn.twsaa.com/home/23/2c1c0a95-c1cc-4918-b56f-f8ddf479032d.png", 
-                        "name" => "كونسيلر", 
-                        "link_type" => "category", 
-                        "category_id" => "2122", 
-                        "link" => "/المكياج" 
-                    ], 
-                    [
-                        "image" => "https://cdn.twsaa.com/home/23/d86d7b8a-2d4b-4e0f-95a6-5b2dc607ca70.png", 
-                        "name" => "ظلال عيون", 
-                        "link_type" => "category", 
-                        "category_id" => "2122", 
-                        "link" => "/المكياج" 
-                    ] 
-                ], 
-                "title" => "", 
-                "type" => "slider" 
-            ] 
-        ], 
-        [
-            "slug" => "list_of_items", 
-            "sort" => null, 
             "block_id" => 478402, 
             "settings" => [
             "items" => [
@@ -393,384 +393,11 @@ function homePage() {
             ] 
         ], 
         [
-            "slug" => "fixed_products", 
-            "sort" => null, 
-            "block_id" => 518164, 
-            "settings" => [
-                "list_type" => "category", 
-                "category_id" => "2175", 
-                "limit" => "12", 
-                "type" => "list", 
-                "link" => "/منتجات-يوسرين", 
-                'products' => 'getLatestProducts',
-                // "products" => [
-                //     [
-                //         "id" => 48755, 
-                //         "product_id" => 24624, 
-                //         "parent_id" => null, 
-                //         "sku" => "G2 5-1-3", 
-                //         "name" => "يوسيرين - كريم ليلي مضاد للتجاعيد غني بالريتينول ومساعد 48جرام", 
-                //         "url_key" => "g2-5-1-3", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48691, 
-                //         "product_id" => 24592, 
-                //         "parent_id" => null, 
-                //         "sku" => "EUC9853", 
-                //         "name" => "يوسيرين بيبي كريم للاطفال مع برو فيتامين ب5 وزبدة الشيا الطبيعية، 141 جم", 
-                //         "url_key" => "euc9853", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48753, 
-                //         "product_id" => 24623, 
-                //         "parent_id" => null, 
-                //         "sku" => "G2-8-3-9", 
-                //         "name" => "يوسرين - لوشن للبشرة الجافة والخشنة -500مل", 
-                //         "url_key" => "g2-8-3-9", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48261, 
-                //         "product_id" => 24375, 
-                //         "parent_id" => null, 
-                //         "sku" => "I3-4-2-1", 
-                //         "name" => "جليتز - اظافر صناعية لصق ذاتي لون فضي لماع - 10", 
-                //         "url_key" => "i3-4-2-1", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48693, 
-                //         "product_id" => 24593, 
-                //         "parent_id" => null, 
-                //         "sku" => "EUC3148", 
-                //         "name" => "يوسيرين - ماء ميسيلار مرطب 3 في 1، مركب من حمض الهيالورونيك، 200مل", 
-                //         "url_key" => "euc3148", 
-
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48793, 
-                //         "product_id" => 24643, 
-                //         "parent_id" => null, 
-                //         "sku" => "C3-5-2-4", 
-                //         "name" => "ميلي - قناع تقوية الشعر بأكليل الجبل والنعناع 340 جم", 
-                //         "url_key" => "c3-5-2-4", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48729, 
-                //         "product_id" => 24611, 
-                //         "parent_id" => null, 
-                //         "sku" => "P3-8-4-6", 
-                //         "name" => "يوسيرين - لوشن الترطيب اليومي خال من العطور - 500مل", 
-                //         "url_key" => "p3-8-4-6", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48761, 
-                //         "product_id" => 24627, 
-                //         "parent_id" => null, 
-                //         "sku" => "C2 4-4-4", 
-                //         "name" => "يوسرين -  زيت الاستحمام أتوبي كونترول أوميغا - 400مل", 
-                //         "url_key" => "c2-4-4-4", 
-
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48765, 
-                //         "product_id" => 24629, 
-                //         "parent_id" => null, 
-                //         "sku" => "J1 3-2-2", 
-                //         "name" => "يوسرين - إيفن بيغمنت بير فكتور كريم النهار للبشرة - 50 مل", 
-                //         "url_key" => "j1-3-2-2", 
-                //         "new" => null, 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48737, 
-                //         "product_id" => 24615, 
-                //         "parent_id" => null, 
-                //         "sku" => "P3-8-5-2", 
-                //         "name" => "يوسيرن - كريم ترطيب باليوريا 5٪ للأيدي", 
-                //         "url_key" => "p3-8-5-2", 
-
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48687, 
-                //         "product_id" => 24590, 
-                //         "parent_id" => null, 
-                //         "sku" => "EUC0148", 
-                //         "name" => "يوسيرين - جل تنظيف الوجه المرطب٢٠٠مل", 
-                //         "url_key" => "euc0148", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //         "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48789, 
-                //         "product_id" => 24641, 
-                //         "parent_id" => null, 
-                //         "sku" => "C3-5-5-7", 
-                //         "name" => "ميلي - بلسم مقوي للشعر باكليل الجبل والنعناع 355 مل", 
-                //         "url_key" => "c3-5-5-7", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ] 
-                // ] 
-            ] 
-        ], 
-        [
             "slug" => "wide_banner", 
             "sort" => null, 
             "block_id" => 298292, 
             "settings" => [
                 "image" => "https://cdn.twsaa.com/home/23/d081acbf-e5ab-4bce-b1c8-0bd9f906c081.png", 
-            ] 
-        ], 
-        [
-            "slug" => "fixed_products", 
-            "sort" => null, 
-            "block_id" => 271789, 
-            "settings" => [
-                "list_type" => "category", 
-                "category_id" => "2125", 
-                "limit" => "20", 
-                "type" => "list", 
-                "products_title" => "العدسات", 
-                "link" => "/العدسات", 
-                'products' => 'getLatestProducts',
-                // "products" => [
-                //     [
-                //         "id" => 48207, 
-                //         "product_id" => 24348, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-5-1", 
-                //         "name" => "دايا - عدسات لاصقة يومية آش 10 حبات", 
-                //         "url_key" => "l3-9-5-1", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48215, 
-                //         "product_id" => 24352, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-4-2", 
-                //         "name" => "دايا - عدسات لاصقة يومية مينت 10 حبات", 
-                //         "url_key" => "l3-9-4-2",                         
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48191, 
-                //         "product_id" => 24340, 
-                //         "parent_id" => null, 
-                //         "sku" => "J3-9-4-7", 
-                //         "name" => "دفرنت كلر - محلول عدسات متعدد الاغراض الكل في واحد 130مل", 
-                //         "url_key" => "j3-9-4-7", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48205, 
-                //         "product_id" => 24347, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-5-2", 
-                //         "name" => "دايا - عدسات لاصقة يومية انديقو 10 حبات",                                                                                                                                                                                                                                                                           "url_key" => "l3-9-5-2", 
-                //         "new" => null, 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48221, 
-                //         "product_id" => 24355, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-3-2-2", 
-                //         "name" => "عدسات لنس مي كنتور - contour", 
-                //         "url_key" => "l3-3-2-2", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48197, 
-                //         "product_id" => 24343, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-4-9", 
-                //         "name" => "عدسات ديفا - كريم Cream", 
-                //         "url_key" => "l3-9-4-9", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48227, 
-                //         "product_id" => 24358, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-3-2-1", 
-                //         "name" => "عدسات لنس مي تي - TEA", 
-                //         "url_key" => "l3-3-2-1", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48209, 
-                //         "product_id" => 24349, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-4-5", 
-                //         "name" => "دايا - عدسات لاصقة يومية جايد 10 حبات", 
-                //         "url_key" => "l3-9-4-5", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48219, 
-                //         "product_id" => 24354, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-2-5-1", 
-                //         "name" => "ديفا - محلول عدسات  طبي متعدد الأغراض 100 مل", 
-                //         "url_key" => "l3-2-5-1", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48193, 
-                //         "product_id" => 24341, 
-                //         "parent_id" => null, 
-                //         "sku" => "B3-5-4-4", 
-                //         "name" => "عدسات لنس مي ارابيا آي - Arabia Eye", 
-                //         "url_key" => "b3-5-4-4", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48195, 
-                //         "product_id" => 24342, 
-                //         "parent_id" => null, 
-                //         "sku" => "B3-5-4-3", 
-                //         "name" => "عدسات لنس مي دراما - Drama", 
-                //         "url_key" => "b3-5-4-3", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48211, 
-                //         "product_id" => 24350, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-4-4", 
-                //         "name" => "دايا - عدسات لاصقة يومية بيكان 10 حبات", 
-                //         "url_key" => "l3-9-4-4", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48203, 
-                //         "product_id" => 24346, 
-                //         "parent_id" => null, 
-                //         "sku" => "L3-9-4-6", 
-                //         "name" => "عدسات ديفا - لامير Lamir", 
-                //         "url_key" => "l3-9-4-6", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ], 
-                //     [
-                //         "id" => 48189, 
-                //         "product_id" => 24339, 
-                //         "parent_id" => null, 
-                //         "sku" => "C3-5-2-9", 
-                //         "name" => "عدسات لنس مي تان - TAN", 
-                //         "url_key" => "c3-5-2-9", 
-                //         "saleable" => 1, 
-                //         "html_price" => "<span class='price'>‏٣٦٧٫٣٥ ر.س.‏</span>", 
-                //         "product" => [
-                //             "base_image_url" => "https://cdn.twsaa.com/home/23/cd2eeaba-784a-4272-a3f7-3e78262846d0.png" 
-                //         ] 
-                //     ] 
-                // ] 
             ] 
         ], 
         [
@@ -825,16 +452,68 @@ function homePage() {
                         "description" => "", 
                         "logo" => "brand/131/logo/1d93f00a-e4c1-418d-8908-653a881d6c63.png", 
                         "banner" => "brand/131/banner/2617d5c3-aec8-42f6-80ed-c8f502662c14.txt", 
-                        "meta_title" => "Givenchy", 
-                        "meta_url" => "Givenchy", 
-                        "meta_description" => "", 
-                        "is_active" => 1, 
-                    ] 
-                ] 
-            ] 
-        ], 
+                        "meta_title" => "Givenchy",
+                        "meta_url" => "Givenchy",
+                        "meta_description" => "",
+                        "is_active" => 1,
+                    ],
+                    [
+                        "id" => 29,
+                        "name" => "roberto cavalli",
+                        "logo" => "brand/29/logo/574b9b2c-56ca-455e-9414-e6acad870078.png",
+                        "is_active" => 1,
+                    ],
+                    [
+                        "id" => 33,
+                        "name" => "valentino",
+                        "logo" => "brand/33/logo/6d49934c-e834-4a43-be1f-6f99b484ffed.jpg",
+                        "is_active" => 1,
+                    ],
+                    [
+                        "id" => 12,
+                        "name" => "اجمل للعطور",
+                        "logo" => "brand/12/logo/a5cfbaa2-26b1-48d2-b7cf-ba491b541195.png",
+                        "is_active" => 1,
+                    ]
+                ]
+            ]
+        ],
         [
-            "slug" => "customer_options", 
+            "slug" => "categories",
+            "sort" => null,
+            "block_id" => 662755,
+            "settings" => [
+                "categories_title" => "التصنيفات",
+                "categories" => [
+                    [
+                        "id" => 2122,
+                        "name" => "أحمر الشفاه",
+                        "slug" => "المكياج",
+                        "image" => "home/23/27a0a324-e308-440e-a05f-64690299b948.png"
+                    ],
+                    [
+                        "id" => 2122,
+                        "name" => "أقلام الكحل",
+                        "slug" => "المكياج",
+                        "image" => "home/23/6f09f49f-e2f6-4b86-86aa-68ca55595d1b.png"
+                    ],
+                    [
+                        "id" => 2122,
+                        "name" => "كونسيلر",
+                        "slug" => "المكياج",
+                        "image" => "home/23/2c1c0a95-c1cc-4918-b56f-f8ddf479032d.png"
+                    ],
+                    [
+                        "id" => 2122,
+                        "name" => "ظلال عيون",
+                        "slug" => "المكياج",
+                        "image" => "home/23/d86d7b8a-2d4b-4e0f-95a6-5b2dc607ca70.png"
+                    ]
+                ]
+            ]
+        ],
+        [
+            "slug" => "customer_options",
             "sort" => null, 
             "block_id" => 303733, 
             "settings" => [
@@ -852,12 +531,67 @@ function homePage() {
                         "type" => "store", 
                         "product_id" => null, 
                         "order_id" => 1693, 
-                        "customer_id" => 1, 
-                        "name" => "Demo User" 
-                    ] 
-                ] 
+                        "customer_id" => 1,
+                        "name" => "Demo User"
+                    ],
+                    [
+                        "id" => 229,
+                        "rating" => 5,
+                        "comment" => "تجربة رائعة، المنتجات أصلية والتوصيل كان سريع جداً. أنصح بالتعامل معهم.",
+                        "type" => "store",
+                        "name" => "سارة أحمد"
+                    ],
+                    [
+                        "id" => 230,
+                        "rating" => 4,
+                        "comment" => "خدمة عملاء ممتازة وتغليف مرتب. وصل الطلب خلال يومين.",
+                        "type" => "store",
+                        "name" => "محمد العتيبي"
+                    ],
+                    [
+                        "id" => 231,
+                        "rating" => 5,
+                        "comment" => "Great quality products and fast delivery. Will definitely order again!",
+                        "type" => "store",
+                        "name" => "Lina K."
+                    ],
+                    [
+                        "id" => 232,
+                        "rating" => 4,
+                        "comment" => "الأسعار مناسبة والعطور ثابتة. شكراً لكم على الاهتمام بالتفاصيل والهدية الصغيرة مع الطلب.",
+                        "type" => "store",
+                        "name" => "نورة"
+                    ]
+                ]
             ] 
         ], 
+        [
+            "slug" => "faq",
+            "sort" => null,
+            "block_id" => 700001,
+            "settings" => [
+                "title" => "الأسئلة الشائعة",
+                "sub_title" => "إجابات لأكثر الأسئلة تكراراً من عملائنا",
+                "items" => [
+                    [
+                        "faq_name" => "كم تستغرق مدة التوصيل؟",
+                        "faq_desc" => "يتم توصيل الطلبات داخل المدن الرئيسية خلال 1-3 أيام عمل، وللمناطق الأخرى خلال 3-5 أيام عمل."
+                    ],
+                    [
+                        "faq_name" => "هل المنتجات أصلية؟",
+                        "faq_desc" => "نعم، جميع منتجاتنا أصلية 100% ويتم توريدها من الوكلاء المعتمدين مباشرة."
+                    ],
+                    [
+                        "faq_name" => "ما هي سياسة الاسترجاع والاستبدال؟",
+                        "faq_desc" => "يمكنك استرجاع أو استبدال المنتج خلال 7 أيام من الاستلام بشرط أن يكون بحالته الأصلية وغير مستخدم.\nللتواصل مع خدمة العملاء استخدم صفحة اتصل بنا."
+                    ],
+                    [
+                        "faq_name" => "ما هي طرق الدفع المتاحة؟",
+                        "faq_desc" => "نوفر الدفع عبر مدى، فيزا، ماستركارد، Apple Pay، والدفع عند الاستلام."
+                    ]
+                ]
+            ]
+        ],
         [
             "slug" => "store_features", 
             "sort" => null, 

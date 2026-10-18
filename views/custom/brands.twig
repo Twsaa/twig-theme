@@ -1,29 +1,22 @@
-<div id="block{{ content['block_id'] }}">
-    {% if content['setting']['brands_title'] %}
-        <div class="s-block__title">
-            <div class="flex flex-col w-full">
-                <h2 class="w-full da-cp">{{ content['setting']['brands_title'] }}</h2>
-            </div>
-        </div>        
+<div id="block{{ content['block_id'] }}" class="brands-block">
+    {% if content['settings']['brands_title'] %}
+        <div class="text-center mb-5 section_title">
+            <h3 class="display-4 text-black bg-transparent">{{ content['settings']['brands_title'] }}</h3>
+        </div>
     {% endif %}
-    
-    <div id="slider{{ content['block_id'] }}" class="home-grid mb-20 owl-carousel">
+
+    <div id="slider{{ content['block_id'] }}" class="brands-slider mb-20 owl-carousel">
         {% for brand in content['settings']['brands'] %}
-            <div class="">
-                <div class="">
-                    <a href="">
-                        <div class="product-image">
-                            <img src="{{ storage_url ~ brand['logo'] }}"
-                                {# onerror="this['src']='{{ asset_url ~ (brand['logo']) }}'" #}
-                                 />
-                        </div>        
-                    </a>
-                </div>
-                <div class="text-center">
-                    <h3 class="text-lg">{{ brand['name'] }}</h3>
-                </div>
-            </div>
+            <a href="/brands/{{ brand['name'] }}/brand-{{ brand['id'] }}" class="brand-card" title="{{ brand['name'] }}">
+                <span class="brand-card__logo">
+                    {% if brand['logo'] %}
+                        <img src="{{ storage_url ~ brand['logo'] }}" alt="{{ brand['name'] }}" loading="lazy" />
+                    {% else %}
+                        <span class="brand-card__initial">{{ brand['name'] }}</span>
+                    {% endif %}
+                </span>
+                <span class="brand-card__name">{{ brand['name'] }}</span>
+            </a>
         {% endfor %}
-       
     </div>
 </div>
